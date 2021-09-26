@@ -1,0 +1,24 @@
+{
+  "name": "nurbanhoneyserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timinguniq/nurbanhoneyserver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timinguniq/nurbanhoneyserver/issues"
+  },
+  "homepage": "https://github.com/timinguniq/nurbanhoneyserver#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5"
+  }
+}
