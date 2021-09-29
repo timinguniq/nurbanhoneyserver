@@ -1,7 +1,7 @@
 const Appversion = require('../models').Appversion;
 
 exports.create = function create(version, update){
-    Appversion.create({
+    return Appversion.create({
         id: 0,
         appversion: version,
         isUpdate: update
@@ -17,7 +17,9 @@ exports.create = function create(version, update){
   }
 
 exports.read = function read(){
-    Appversion.findOne({})
+    return Appversion.findOne({
+        order: [['id', 'DESC']],
+    })
     /* 
     .then((result) => {
         //console.log("조회 성공 1: ", result);
@@ -44,7 +46,7 @@ exports.read = function read(){
     }
   
 exports.update = function update(id, version, update){
-    Appversion.update({appversion: version, isUpdate: update}, {where: {id: id}})
+    return Appversion.update({appversion: version, isUpdate: update}, {where: {id: id}})
     /*
     .then((result) => {
         console.log("수정 성공: ", result);
@@ -56,7 +58,7 @@ exports.update = function update(id, version, update){
 }
 
 exports.destory = function destory(id){
-    Appversion.destroy({where: {id: id}})
+    return Appversion.destroy({where: {id: id}})
     /*
     .then((result) => {
         console.log("삭제 성공: ", result);
