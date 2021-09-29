@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/appversion', (req, res) =>{
-    let appversion = await appversionDao.read()
+    let appversion = appversionDao.read()
 
     appversion.then((result) => {
         console.log(result);
@@ -30,7 +30,7 @@ app.get('/appversion', (req, res) =>{
 
 app.post('/appversion/create', (req, res) =>{
     let body = req.body
-    let appversionCreate = await appversionDao.create(body.appversion, body.isUpdate)
+    let appversionCreate = appversionDao.create(body.appversion, body.isUpdate)
     appversionCreate.then((result) => {
         console.log(result);
     });
