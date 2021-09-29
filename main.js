@@ -17,8 +17,8 @@ app.get('/', (req, res) => {
     res.send('Hello world1')
 });
 
-app.get('/appversion', async (req, res) =>{
-    let appversion = await appversionDao.read()
+app.get('/appversion', (req, res) =>{
+    let appversion = appversionDao.read()
 
     appversion.then((result) => {
         console.log(result);
@@ -28,9 +28,10 @@ app.get('/appversion', async (req, res) =>{
     });
 });
 
-app.post('/appversion/create', async (req, res) =>{
+app.post('/appversion/create', (req, res) =>{
     let body = req.body
-    let appversionCreate = await appversionDao.create(body.appversion, body.isUpdate)
+
+    let appversionCreate = appversionDao.create(body.appversion, body.isUpdate)
     appversionCreate.then((result) => {
         console.log(result);
     });
@@ -42,4 +43,4 @@ app.post('/appversion/create', async (req, res) =>{
 
 app.listen(80, function(){
     console.log('Example app listening on port 80!')
-});
+}

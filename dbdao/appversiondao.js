@@ -1,6 +1,6 @@
 const Appversion = require('../models').Appversion;
 
-exports.create = async function create(version, update){
+exports.create = function create(version, update){
     Appversion.create({
         id: 0,
         appversion: version,
@@ -16,7 +16,7 @@ exports.create = async function create(version, update){
     */ 
   }
 
-exports.read = async function read(){
+exports.read = function read(){
     Appversion.findOne({})
     /* 
     .then((result) => {
@@ -43,7 +43,7 @@ exports.read = async function read(){
     */
     }
   
-exports.update = async function update(id, version, update){
+exports.update = function update(id, version, update){
     Appversion.update({appversion: version, isUpdate: update}, {where: {id: id}})
     /*
     .then((result) => {
@@ -55,7 +55,7 @@ exports.update = async function update(id, version, update){
     */
 }
 
-exports.destory = async function destory(id){
+exports.destory = function destory(id){
     Appversion.destroy({where: {id: id}})
     /*
     .then((result) => {
