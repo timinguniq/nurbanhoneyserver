@@ -26,17 +26,22 @@ app.get('/appversion', async (req, res) =>{
         await appversionDao.read()
         .then((result) => {
             console.log(result)
-            let appversionObejct = new Object();
-            appversionObject.appversion = result.AppVersion.dataValues.appversion;
-            appversionObject.isUpdate = result.AppVersion.dataValues.isUpdate;
+            let appversionObject = new Object();
+            appversionObject.appversion = result.dataValues.appversion;
+            appversionObject.isUpdate = result.dataValues.isUpdate;
             let resultObject = new Object();
-            resultObejct.appversion_result = appversionObejct;
+            resultObject.appversion_result = appversionObject;
             res.json(JSON.stringify(resultObject));
         }).catch((err) => {
             console.log(err);
+            let resultObject = new Object();
+            resultObject.appversion_result = err;
+            res.json(JSON.stringify(resultObject));
         });
     }else{
-        res.json()
+        let resultObject = new Object();
+        resultObject.appversion_result = 'app name error';    
+        res.json(JSON.stringify(resultObject));
     }    
 });
 
@@ -45,8 +50,14 @@ app.post('/appversion/create', async (req, res) =>{
     await appversionDao.create(body.appversion, body.isUpdate)
     .then((result) => {
         console.log(result);
+        let resultObject = new Object();
+        resultObject.appversion_create_result = "ok";
+        res.json(JSON.stringify(resultObject));
     }).catch((err) => {
         console.log(err);
+        let resultObject = new Object();
+        resultObject.appversion_create_result = err;
+        res.json(JSON.stringify(resultObject));
     });
 });
 
