@@ -20,12 +20,24 @@ app.get('/', (req, res) => {
 });
 
 app.get('/appversion', async (req, res) =>{
-    await appversionDao.read()
-    .then((result) => {
-        console.log(result)
-    }).catch((err) => {
-        console.log(err);
-    });
+    let app = req.query.app
+    console.log(`app : ${app}`)
+    if(app === 'nurbanhoney'){
+        await appversionDao.read()
+        .then((result) => {
+            console.log(result)
+            let appversionObejct = new Object();
+            appversionObject.appversion = result.AppVersion.dataValues.appversion;
+            appversionObject.isUpdate = result.AppVersion.dataValues.isUpdate;
+            let resultObject = new Object();
+            resultObejct.appversion_result = appversionObejct;
+            res.json(JSON.stringify(resultObject));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }else{
+        res.json()
+    }    
 });
 
 app.post('/appversion/create', async (req, res) =>{
