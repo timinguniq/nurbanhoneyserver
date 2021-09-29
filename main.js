@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     res.send('Hello world1')
 });
 
-app.get('/appversion', (req, res) =>{
+app.get('/appversion', async (req, res) =>{
     let appversion = await appversionDao.read()
 
     appversion.then((result) => {
@@ -28,7 +28,7 @@ app.get('/appversion', (req, res) =>{
     });
 });
 
-app.post('/appversion/create', (req, res) =>{
+app.post('/appversion/create', async (req, res) =>{
     let body = req.body
     let appversionCreate = await appversionDao.create(body.appversion, body.isUpdate)
     appversionCreate.then((result) => {
