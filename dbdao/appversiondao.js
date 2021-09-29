@@ -1,7 +1,7 @@
 const Appversion = require('../models').Appversion;
 
-exports.create = function create(version, update){
-    Appversion.create({
+exports.create = async function create(version, update){
+    return Appversion.create({
         id: 0,
         appversion: version,
         isUpdate: update
@@ -16,8 +16,8 @@ exports.create = function create(version, update){
     */ 
   }
 
-exports.read = function read(){
-    Appversion.findOne({})
+exports.read = async function read(){
+    return Appversion.findOne({})
     /* 
     .then((result) => {
         //console.log("조회 성공 1: ", result);
