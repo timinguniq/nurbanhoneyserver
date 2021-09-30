@@ -22,32 +22,31 @@ router.post('/', async (req, res) => {
         expiresIn: '30d' // 유효기간
     })
 
+    let resultObejct = {};
     // 이메일이 있는지 DB에서 확인하는 코드
     await userDao.read(inputEmail)
     .then((result) => {
-        if(result.password === inputPassword){
-            res.cookie('user', token);
-            let resultObject = createJson("login_result", token);
-            res.json(JSON.stringify(resultObject))
-            return
+        if(result !== null){
+            if(result.password === inputPassword){
+                resultObject = createJson("login_result", token);
+            }
         }
-        // 데이터베이스에 생성 후 토큰 보내기
-        userDao.create(inputEmail, inputPassword)
-        .then((result) => {
-            console.log(`token : ${token}`);
-            res.cookie('user', token);
-            let resultObject = createJson("login_result", token);
-            res.json(JSON.stringify(resultObject))        
-        }).catch((err) => {
-            res.cookie('user', token);
-            let resultObject = createJson("login_result", err);
-            res.json(JSON.stringify(resultObject))
-        });
     }).catch((err) => {
-        res.cookie('user', token);
-        let resultObject = createJson("login_result", err);
-        res.json(JSON.stringify(resultObject))
+        resultObject = createJson("login_result", err);
     });
+
+    // 데이터베이스에 생성 후 토큰 보내기
+    await userDao.create(inputEmail, inputPassword)
+    .then((result) => {
+        if(result !== null){
+            resultObject = createJson("login_result", token);
+        }
+    }).catch((err) => {
+        resultObject = createJson("login_result", err);
+    });
+
+    res.json(JSON.stringify(resultObject))
+    
 });
 
 // TODO : 업데이트나 삭제 만들어야 될듯.
