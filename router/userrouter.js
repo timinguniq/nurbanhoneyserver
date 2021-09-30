@@ -35,18 +35,19 @@ router.post('/', async (req, res) => {
         resultObject = createJson("login_result", err);
     });
 
-    // 데이터베이스에 생성 후 토큰 보내기
-    await userDao.create(inputEmail, inputPassword)
-    .then((result) => {
-        if(result !== null){
-            resultObject = createJson("login_result", token);
-        }
-    }).catch((err) => {
-        resultObject = createJson("login_result", err);
-    });
+    if(resultObejct.login_result === null){
+        // 데이터베이스에 생성 후 토큰 보내기
+        await userDao.create(inputEmail, inputPassword)
+        .then((result) => {
+            if(result !== null){
+                resultObject = createJson("login_result", token);
+            }
+        }).catch((err) => {
+            resultObject = createJson("login_result", err);
+        });
+    }
 
     res.json(JSON.stringify(resultObject))
-    
 });
 
 // TODO : 업데이트나 삭제 만들어야 될듯.
