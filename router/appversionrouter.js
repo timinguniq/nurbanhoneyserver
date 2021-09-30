@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const appversionDao = require('../dbdao/appversiondao');
+var createJson = require('../utils/cretaejson');
 
 router.get('/', async (req, res) =>{
     let app = req.query.app
@@ -11,18 +13,15 @@ router.get('/', async (req, res) =>{
             let appversionObject = new Object();
             appversionObject.appversion = result.dataValues.appversion;
             appversionObject.isUpdate = result.dataValues.isUpdate;
-            let resultObject = new Object();
-            resultObject.appversion_result = appversionObject;
+            let resultObject = createJson("appversion_result", appversionObject);
             res.json(JSON.stringify(resultObject));
         }).catch((err) => {
             console.log(err);
-            let resultObject = new Object();
-            resultObject.appversion_result = err;
+            let resultObject = createJson("appversion_result", err);
             res.json(JSON.stringify(resultObject));
         });
     }else{
-        let resultObject = new Object();
-        resultObject.appversion_result = 'app name error';    
+        let resultObject = createJson("appversion_result", 'app name error');
         res.json(JSON.stringify(resultObject));
     }    
 });
@@ -32,13 +31,11 @@ router.post('/create', async (req, res) =>{
     await appversionDao.create(body.appversion, body.isUpdate)
     .then((result) => {
         console.log(result);
-        let resultObject = new Object();
-        resultObject.appversion_create_result = "ok";
+        let resultObject = createJson("appversion_create_result", "ok");
         res.json(JSON.stringify(resultObject));
     }).catch((err) => {
         console.log(err);
-        let resultObject = new Object();
-        resultObject.appversion_create_result = err;
+        let resultObject = createJson("appversion_create_result", err);
         res.json(JSON.stringify(resultObject));
     });
 });

@@ -2,11 +2,13 @@ var express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 const { sequelize } = require('./models');
-const appversionDao = require('./dbdao/appversiondao');
 var appversionRouter = require('./router/appversionrouter');
-//const Users = require('./models/Users');
 
 app.use(bodyParser.urlencoded({ extended: false}));
+// x-www-form-urlencoded를 파싱하기 위해서 아래를 확장해야 한다.
+app.use(express.urlencoded({
+    extended: true
+}));
 
 sequelize.sync({ force: false })
 .then(() => {
