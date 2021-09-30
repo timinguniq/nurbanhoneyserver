@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const appversionDao = require('../dbdao/appversiondao');
-var createJson = require('../utils/cretaejson');
+var createJson = require('../utils/createjson');
 
 router.get('/', async (req, res) =>{
-    let app = req.query.app
+    let app = req.query.app;
     console.log(`app : ${app}`)
     if(app === 'nurbanhoney'){
         await appversionDao.read()
