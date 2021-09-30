@@ -19,10 +19,10 @@ exports.create = function create(email, password){
   }*/
 }
 
-exports.read = function read(id){
+exports.read = function read(eamil){
     return User.findOne({
         where: {
-            id: id
+            email: email
         }
     })
 }
