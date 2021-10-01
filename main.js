@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 const { sequelize } = require('./models');
 var appversionRouter = require('./router/appversionrouter');
 var loginRouter = require('./router/loginrouter');
+var isValidToken = require('./utils/isvalidtoken');
 
 app.use(bodyParser.urlencoded({ extended: false}));
 // x-www-form-urlencoded를 파싱하기 위해서 아래를 확장해야 한다.
@@ -19,12 +20,27 @@ sequelize.sync({ force: false })
   console.error(err);
 });
 
+
 app.get('/', (req, res) => {
     res.send('Hello world1')
 });
 
 // appversion rounter
 app.use('/appversion', appversionRouter);
+
+// token valid
+app.use((req, res, next) =>{
+  // 나중에 테스트
+  let token = req.cookies.token;
+  if(isValidToken(token)){
+    // 토큰이 유효하다
+    next();
+  }else{
+    // 토큰이 안 유효하다
+    res.send("token not valid")
+  }
+});
+
 // user router
 app.use('/login', loginRouter);
 
