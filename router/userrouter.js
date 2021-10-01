@@ -23,19 +23,21 @@ router.post('/', async (req, res) => {
     })
 
     let resultObejct = {};
-    // 이메일이 있는지 DB에서 확인하는 코드
+    let isRead = false
+    // 이메일이 있는지 DB에서 확인하는 코드  
     await userDao.read(inputEmail)
     .then((result) => {
         if(result !== null){
             if(result.password === inputPassword){
                 resultObject = createJson("login_result", token);
+                isRead = true
             }
         }
     }).catch((err) => {
         resultObject = createJson("login_result", err);
     });
 
-    if(resultObejct.login_result === null){
+    if(!isRead){
         // 데이터베이스에 생성 후 토큰 보내기
         await userDao.create(inputEmail, inputPassword)
         .then((result) => {
@@ -46,7 +48,7 @@ router.post('/', async (req, res) => {
             resultObject = createJson("login_result", err);
         });
     }
-
+    
     res.json(JSON.stringify(resultObject))
 });
 
