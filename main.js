@@ -20,7 +20,6 @@ sequelize.sync({ force: false })
   console.error(err);
 });
 
-
 app.get('/', (req, res) => {
     res.send('Hello world1')
 });
@@ -28,10 +27,13 @@ app.get('/', (req, res) => {
 // appversion rounter
 app.use('/appversion', appversionRouter);
 
+// user router
+app.use('/login', loginRouter);
+
 // token valid
 app.use((req, res, next) =>{
   // 나중에 테스트
-  let token = req.cookies.token;
+  let token = req.headers.token;
   if(isValidToken(token)){
     // 토큰이 유효하다
     next();
@@ -41,8 +43,13 @@ app.use((req, res, next) =>{
   }
 });
 
-// user router
-app.use('/login', loginRouter);
+// 테스트 코드
+app.get('/login/test', (req, res) => {
+  let token = req.headers.token;
+  console.log(`token : ${token}`);
+  res.send(`token : ${token}`)
+});
+
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
