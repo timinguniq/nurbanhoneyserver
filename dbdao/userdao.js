@@ -19,17 +19,22 @@ exports.create = function create(email, password){
   }*/
 }
 
-exports.read = function read(eamil){
+exports.read = function read(inputEamil){
     return User.findOne({
         where: {
-            email: email
+            email: inputEamil
         }
     })
 }
   
-exports.update = function update(thumbnail, nickanme, description, insignia){
+// User content 업데이트
+exports.update = function update(id, thumbnail, nickanme, description, insignia){
     return User.update({thumbnail: thumbnail, nickname: nickanme, description: description, insignia: insignia}, {where: {id: id}})
+}
 
+// User LastLoginAt만 업데이트
+exports.updateLastTime = function update(id){
+    return User.update({lastLoginAt: Date.now()}, {where: {id: id}})
 }
 
 exports.destory = function destory(id){
