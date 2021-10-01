@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
             if(result.password === inputPassword){
                 resultObject = createJson("login_result", token);
             }else{
-                resultObject = createJson("login_result", "password_fail")
+                resultObject = createJson("login_result", "login_fail")
             }
         }
     }).catch((err) => {

@@ -2,6 +2,7 @@ var express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 const { sequelize } = require('./models');
+var createJson = require('./utils/createjson');
 var appversionRouter = require('./router/appversionrouter');
 var loginRouter = require('./router/loginrouter');
 var isValidToken = require('./utils/isvalidtoken');
@@ -39,7 +40,9 @@ app.use((req, res, next) =>{
     next();
   }else{
     // 토큰이 안 유효하다
-    res.send("token not valid")
+    let resultObject = {};
+    resultObject = createJson("server_error", "token_expired");
+    res.json(JSON.stringify(resultObject));
   }
 });
 
