@@ -7,7 +7,6 @@ let secretObj = require('../config/jwt');
 
 router.post('/', async (req, res) => {
     let inputEmail = req.body.email;
-    // TODO : 나중에 코드 고쳐야됨.
     let inputPassword = req.body.password;
     if(!inputEmail.includes("@")){
         inputPassword = "1111";
@@ -19,7 +18,7 @@ router.post('/', async (req, res) => {
     },
     secretObj.secret, // 비밀키
     {
-        expiresIn: '30d' // 유효기간
+        expiresIn: '2m' // 유효기간
     })
 
     let resultObejct = {};
@@ -28,9 +27,11 @@ router.post('/', async (req, res) => {
     await userDao.read(inputEmail)
     .then((result) => {
         if(result !== null){
+            isRead = true
             if(result.password === inputPassword){
                 resultObject = createJson("login_result", token);
-                isRead = true
+            }else{
+                resultObject = createJson("login_result", "password_fail")
             }
         }
     }).catch((err) => {
@@ -51,7 +52,5 @@ router.post('/', async (req, res) => {
     
     res.json(JSON.stringify(resultObject))
 });
-
-// TODO : 업데이트나 삭제 만들어야 될듯.
 
 module.exports = router;

@@ -3,7 +3,7 @@ const app = express();
 var bodyParser = require('body-parser');
 const { sequelize } = require('./models');
 var appversionRouter = require('./router/appversionrouter');
-var userRouter = require('./router/userrouter');
+var loginRouter = require('./router/loginrouter');
 
 app.use(bodyParser.urlencoded({ extended: false}));
 // x-www-form-urlencoded를 파싱하기 위해서 아래를 확장해야 한다.
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 // appversion rounter
 app.use('/appversion', appversionRouter);
 // user router
-app.use('/login', userRouter);
+app.use('/login', loginRouter);
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
