@@ -1,3 +1,4 @@
+// 앱 버전 테이블
 module.exports = (sequelize, DataTypes) => {
     const Appversion = sequelize.define("Appversion", {
       id: {
