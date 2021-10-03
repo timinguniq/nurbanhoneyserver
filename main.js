@@ -6,6 +6,8 @@ var createJson = require('./utils/createjson');
 var appversionRouter = require('./router/appversionrouter');
 var loginRouter = require('./router/loginrouter');
 var isValidToken = require('./utils/isvalidtoken');
+var tokenRouter = require('./router/tokenrouter');
+var nurbanboardRouter = require('./router/nurbanboardrouter');
 
 app.use(bodyParser.urlencoded({ extended: false}));
 // x-www-form-urlencoded를 파싱하기 위해서 아래를 확장해야 한다.
@@ -32,19 +34,7 @@ app.use('/appversion', appversionRouter);
 app.use('/login', loginRouter);
 
 // token valid
-app.use((req, res, next) =>{
-  // 나중에 테스트
-  let token = req.headers.token;
-  if(isValidToken(token)){
-    // 토큰이 유효하다
-    next();
-  }else{
-    // 토큰이 안 유효하다
-    let resultObject = {};
-    resultObject = createJson("server_error", "token_expired");
-    res.json(JSON.stringify(resultObject));
-  }
-});
+app.use('/', tokenRouter);
 
 // 테스트 코드
 app.get('/login/test', (req, res) => {
@@ -53,6 +43,8 @@ app.get('/login/test', (req, res) => {
   res.send(`token : ${token}`)
 });
 
+// nurbanboard router
+app.use('/nurbanboard', nurbanboardRouter);
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')

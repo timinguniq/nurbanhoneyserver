@@ -56,11 +56,11 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    Users.associate = models => {
+    User.associate = models => {
       /**
-       * Users안에 있는 "id값"을 "userId라는 컬럼 이름"으로 NurbanBoard모델에 새로운 컬럼으로 추가한다.
+       * User안에 있는 "id값"을 "userId라는 컬럼 이름"으로 NurbanBoard모델에 새로운 컬럼으로 추가한다.
        */      
-      Users.hasOne(models.NurbanBoard, {foreignKey: "userId", sourceKey: 'id'});
+      User.hasOne(models.NurbanBoard, {foreignKey: "userId", sourceKey: 'id'});
     };
     
     return User;
