@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     },
     secretObj.secret, // 비밀키
     {
-        expiresIn: '2m' // 유효기간
+        expiresIn: '5m' // 유효기간
     })
 
     let resultObejct = {};
