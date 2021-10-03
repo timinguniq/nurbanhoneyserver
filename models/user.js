@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING(100),
         allowNull: false,
+        unique: true,
         comment: "이메일 또는 간편 로그인 토큰",
       },
       password: {

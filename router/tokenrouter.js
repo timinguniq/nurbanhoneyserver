@@ -1,10 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var createJson = require('../utils/createjson');
+var isValidToken = require('../utils/isvalidtoken.js');
+
+let jwt = require('jsonwebtoken');
+let secretObj = require('../config/jwt');
+
 
 // token valid
 // 토큰 테스트
 router.use((req, res, next) => {
+    let decoded = jwt.verify(token, secretObj.secret);
+    console.log(`decoded : ${decoded}`);
+
     // 나중에 테스트
     let token = req.headers.token;
     if(isValidToken(token)){

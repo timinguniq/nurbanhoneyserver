@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
 
 // appversion rounter
 app.use('/appversion', appversionRouter);
-
 // user router
 app.use('/login', loginRouter);
 
@@ -42,7 +41,6 @@ app.get('/login/test', (req, res) => {
   console.log(`token : ${token}`);
   res.send(`token : ${token}`)
 });
-
 // nurbanboard router
 app.use('/nurbanboard', nurbanboardRouter);
 

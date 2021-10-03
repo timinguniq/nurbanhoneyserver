@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const nurbanboardDao = require('../dbdao/nurbanboarddao');
 var createJson = require('../utils/createjson');
+let jwt = require('jsonwebtoken');
+let secretObj = require('../config/jwt');
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -15,6 +17,10 @@ exports.create = function create(thumbnail, title, content, userId){
 // 글 생성 
 router.post('/create', async (req, res) => {
     let token = req.headers.token;
+
+    let decoded = jwt.verify(token, secretObj.secret);
+    console.log(`decoded : ${decoded}`);
+
     
     let thumbanil = req.body.thumbnail;
     let title = req.body.title;
