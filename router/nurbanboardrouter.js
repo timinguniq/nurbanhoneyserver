@@ -63,4 +63,27 @@ router.post('/create', async (req, res) => {
     });
 });
 
+// 글 상세 데이터 받아오는 메소드
+router.get('/detail', async (res, req) => {
+    let id = res.query.id;
+    
+    await nurbanboardDao.readForId(id)
+    .then((result) => {
+        let id = result.id;
+        let thumbanil = result.thumbanil;
+        let title = result.title;
+        let content = result.content;
+        let count = result.cout;
+        let commentCount = result.commentCount;
+        let likeCount = result.likeCount;
+        let dislikeCount = result.dislikeCount;
+        let updateAt = result.updateAt; 
+        
+    })
+    .catch((err) => {
+
+    })
+
+})
+
 module.exports = router;
