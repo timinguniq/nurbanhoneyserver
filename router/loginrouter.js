@@ -32,20 +32,23 @@ router.post('/', async (req, res) => {
             isRead = true;
             userId = result.id;            
             
-            if(result.password === inputPassword){                
-                tokenObject.token = token;
-                tokenObject.error = null;
-                resultObject = createJson("login_result", tokenObject);
+            if(result.password === inputPassword){
+                let nameList = ["token", "error"];
+                let valueList = [token, null];
+                tokenObject = createJson.multi(nameList, valueList);
+                resultObject = createJson.one("login_result", tokenObject);
             }else{
-                tokenObject.token = null;
-                tokenObject.error = "login_fail";
-                resultObject = createJson("login_result", tokenObject);
+                let nameList = ["token", "error"];
+                let valueList = [null, "login_fail"];
+                tokenObject = createJson.multi(nameList, valueList);
+                resultObject = createJson.one("login_result", tokenObject);
             }
         }        
     }).catch((err) => {
-        tokenObject.token = null;
-        tokenObject.error = err;
-        resultObject = createJson("login_result", tokenObject);
+        let nameList = ["token", "error"];
+        let valueList = [null, err];
+        tokenObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("login_result", tokenObject);
     });
 
     if(isRead){
@@ -63,14 +66,17 @@ router.post('/', async (req, res) => {
         await userDao.create(inputEmail, inputPassword)
         .then((result) => {
             if(result !== null){
-                tokenObject.token = token;
-                tokenObject.error = null;
-                resultObject = createJson("login_result", tokenObject);
+                
+                let nameList = ["token", "error"];
+                let valueList = [token, null];
+                tokenObject = createJson.multi(nameList, valueList);
+                resultObject = createJson.one("login_result", tokenObject);
             }
         }).catch((err) => {
-            tokenObject.token = null;
-            tokenObject.error = err;
-            resultObject = createJson("login_result", tokenObject);
+            let nameList = ["token", "error"];
+            let valueList = [null, err];
+            tokenObject = createJson.multi(nameList, valueList);
+            resultObject = createJson.one("login_result", tokenObject);
         });
     }    
     res.json(JSON.stringify(resultObject))

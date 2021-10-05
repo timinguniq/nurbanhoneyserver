@@ -29,25 +29,36 @@ router.post('/create', async (req, res) => {
     console.log(`decoded : ${decoded}`);
     let email = decoded.email;
 
+    let contentObejct = new Object();
+
     await userDao.read(email)
     .then((result) => {
         userId = result.id;
     }).catch((err) => {
         console.log(`create userDao err : ${err}`);
         let resultObject = {};
-        resultObject = createJson("nurbanboard_create_result", err);
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        contentObejct = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_create_result", contentObejct);
         res.json(JSON.stringify(resultObject));
     });
 
     await nurbanboardDao.create(thumbnail, title, content, userId)
     .then((result) => {
         let resultObject = {};
-        resultObject = createJson("nurbanboard_create_result", "ok");
+        let nameList = ["result", "error"];
+        let valueList = ["ok", null];
+        contentObejct = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_create_result", contentObejct);
         res.json(JSON.stringify(resultObject));
     }).catch((err) => {
         console.log(`create nurbanboardDao err : ${err}`);
         let resultObject = {};
-        resultObject = createJson("nurbanboard_create_result", err);
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        contentObejct = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_create_result", contentObejct);
         res.json(JSON.stringify(resultObject));
     });
 });

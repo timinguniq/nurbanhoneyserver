@@ -14,7 +14,11 @@ router.use((req, res, next) => {
     }else{
         // 토큰이 안 유효하다
         let resultObject = {};
-        resultObject = createJson("server_error", "token_expired");
+        let contentObejct = new Object();
+        let nameList = ["error"];
+        let valueList = ["token_expired"];
+        contentObejct = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("server_error", contentObejct);
         res.json(JSON.stringify(resultObject));
     }
 });

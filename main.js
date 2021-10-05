@@ -26,6 +26,24 @@ app.get('/', (req, res) => {
     res.send('Hello world1')
 });
 
+// token_expire 테스트 코드
+app.get('/token/error', (req, res) => {
+  let resultObject = {};
+  let tokenObject = new Object();
+  tokenObject.error = "token_expired"
+  resultObject = createJson("server_error", tokenObject);
+  res.json(JSON.stringify(resultObject));
+})
+
+app.post('/token/error', (req, res) => {
+  let resultObject = {};
+  let tokenObject = new Object();
+  tokenObject.error = "token_expired"
+  resultObject = createJson("server_error", tokenObject);
+  res.json(JSON.stringify(resultObject));
+})
+// 여기까지
+
 // appversion rounter
 app.use('/appversion', appversionRouter);
 // user router
