@@ -15,21 +15,22 @@ router.get('/', async (req, res) =>{
             let valueList = [result.dataValues.appversion, result.dataValues.isUpdate, null];
             appversionObject = createJson.multi(nameList, valueList);
             let resultObject = createJson.one("appversion_result", appversionObject);
-            res.json(JSON.stringify(resultObject));
+            resultObject.appversion_result = appversionObject;
+            res.json(resultObject);
         }).catch((err) => {
             console.log(err);
             let nameList = ["appversion", "isUpdate", "error"];
             let valueList = [null, null, err];
             appversionObject = createJson.multi(nameList, valueList);
             let resultObject = createJson.one("appversion_result", appversionObject);
-            res.json(JSON.stringify(resultObject));
+            res.json(resultObject);
         });
     }else{
         let nameList = ["appversion", "isUpdate", "error"];
         let valueList = [null, null, "app name error"];
         appversionObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("appversion_result", appversionObject);
-        res.json(JSON.stringify(resultObject));
+        res.json(resultObject);
     }    
 });
 
@@ -44,14 +45,14 @@ router.post('/create', async (req, res) =>{
         let valueList = ["ok", null];
         appversionCreateObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one([appversion_create_result], appversionCreateObject);
-        res.json(JSON.stringify(resultObject));
+        res.json(resultObject);
     }).catch((err) => {
         console.log(err);
         let nameList = ["result", "error"];
         let valueList = [null, err];
         appversionCreateObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("appversion_create_result", appversionCreateObject);
-        res.json(JSON.stringify(resultObject));
+        res.json(resultObject);
     });
 });
 

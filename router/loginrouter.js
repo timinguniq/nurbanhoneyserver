@@ -66,7 +66,6 @@ router.post('/', async (req, res) => {
         await userDao.create(inputEmail, inputPassword)
         .then((result) => {
             if(result !== null){
-                
                 let nameList = ["token", "error"];
                 let valueList = [token, null];
                 tokenObject = createJson.multi(nameList, valueList);
@@ -79,7 +78,7 @@ router.post('/', async (req, res) => {
             resultObject = createJson.one("login_result", tokenObject);
         });
     }    
-    res.json(JSON.stringify(resultObject))
+    res.json(resultObject);
 });
 
 module.exports = router;

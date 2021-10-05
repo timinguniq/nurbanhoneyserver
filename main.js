@@ -32,7 +32,7 @@ app.get('/token/error', (req, res) => {
   let tokenObject = new Object();
   tokenObject.error = "token_expired"
   resultObject = createJson.one("server_error", tokenObject);
-  res.json(JSON.stringify(resultObject));
+  res.json(resultObject);
 })
 
 app.post('/token/error', (req, res) => {
@@ -40,7 +40,7 @@ app.post('/token/error', (req, res) => {
   let tokenObject = new Object();
   tokenObject.error = "token_expired"
   resultObject = createJson.one("server_error", tokenObject);
-  res.json(JSON.stringify(resultObject));
+  res.json(resultObject);
 })
 // 여기까지
 

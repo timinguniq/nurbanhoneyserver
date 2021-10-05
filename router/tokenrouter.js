@@ -19,7 +19,7 @@ router.use((req, res, next) => {
         let valueList = ["token_expired"];
         contentObejct = createJson.multi(nameList, valueList);
         resultObject = createJson.one("server_error", contentObejct);
-        res.json(JSON.stringify(resultObject));
+        res.json(resultObject);
     }
 });
 
