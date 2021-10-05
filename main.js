@@ -5,7 +5,6 @@ const { sequelize } = require('./models');
 var createJson = require('./utils/createjson');
 var appversionRouter = require('./router/appversionrouter');
 var loginRouter = require('./router/loginrouter');
-var isValidToken = require('./utils/isvalidtoken');
 var tokenRouter = require('./router/tokenrouter');
 var nurbanboardRouter = require('./router/nurbanboardrouter');
 

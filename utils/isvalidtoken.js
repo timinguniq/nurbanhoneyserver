@@ -5,6 +5,7 @@ let secretObj = require('../config/jwt');
 module.exports = (token) => {
     try{
         let decoded = jwt.verify(token, secretObj.secret);
+
         if(decoded){
             // 권한이 있음.
             return true;

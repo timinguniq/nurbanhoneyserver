@@ -24,21 +24,28 @@ router.post('/', async (req, res) => {
     let resultObejct = {};
     let isRead = false
     let userId = 0
+    let tokenObject = new Object();
     // 이메일이 있는지 DB에서 확인하는 코드  
     await userDao.read(inputEmail)
     .then((result) => {
         if(result !== null){
             isRead = true;
-            userId = result.id;
+            userId = result.id;            
             
-            if(result.password === inputPassword){
-                resultObject = createJson("login_result", token);
+            if(result.password === inputPassword){                
+                tokenObject.token = token;
+                tokenObject.error = null;
+                resultObject = createJson("login_result", tokenObject);
             }else{
-                resultObject = createJson("login_result", "login_fail")
+                tokenObject.token = null;
+                tokenObject.error = "login_fail";
+                resultObject = createJson("login_result", tokenObject);
             }
         }        
     }).catch((err) => {
-        resultObject = createJson("login_result", err);
+        tokenObject.token = null;
+        tokenObject.error = err;
+        resultObject = createJson("login_result", tokenObject);
     });
 
     if(isRead){
@@ -56,10 +63,14 @@ router.post('/', async (req, res) => {
         await userDao.create(inputEmail, inputPassword)
         .then((result) => {
             if(result !== null){
-                resultObject = createJson("login_result", token);
+                tokenObject.token = token;
+                tokenObject.error = null;
+                resultObject = createJson("login_result", tokenObject);
             }
         }).catch((err) => {
-            resultObject = createJson("login_result", err);
+            tokenObject.token = null;
+            tokenObject.error = err;
+            resultObject = createJson("login_result", tokenObject);
         });
     }    
     res.json(JSON.stringify(resultObject))
