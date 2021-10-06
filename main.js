@@ -5,6 +5,7 @@ const { sequelize } = require('./models');
 var createJson = require('./utils/createjson');
 var appversionRouter = require('./router/appversionrouter');
 var loginRouter = require('./router/loginrouter');
+var tokenMidRouter = require('./router/tokenmidrouter');
 var tokenRouter = require('./router/tokenrouter');
 var nurbanboardRouter = require('./router/nurbanboardrouter');
 
@@ -48,16 +49,10 @@ app.post('/token/error', (req, res) => {
 app.use('/appversion', appversionRouter);
 // user router
 app.use('/login', loginRouter);
-
+// token router
+app.use('/token', tokenRouter);
 // token valid
-app.use('/', tokenRouter);
-
-// 테스트 코드
-app.get('/login/test', (req, res) => {
-  let token = req.headers.token;
-  console.log(`token : ${token}`);
-  res.send(`token : ${token}`)
-});
+app.use('/', tokenMidRouter);
 // nurbanboard router
 app.use('/nurbanboard', nurbanboardRouter);
 
