@@ -9,11 +9,11 @@ let kakakoAuth = require('../utils/kakaoauth');
 
 router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
-    let inputEmail = req.body.email;
+    let inputKey = req.body.key;
     let inputPassword = req.body.password;
     let resultObejct = {};
     let tokenObject = new Object();
-    if(!inputEmail.includes("@")){
+    if(!inputKey.includes("@")){
         inputPassword = "1111";
     }
 
@@ -23,13 +23,13 @@ router.post('/', async (req, res) => {
         let valueList = [null, "loginType_error"];
         tokenObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("login_result", tokenObject);        
-        res.json();
+        res.json(resultObject);
         return res.end();
     }
 
     // 로그인 타입이 카카오일 때 처리
     if(inputLoginType === "kakao"){
-        if(!await kakakoAuth(inputEmail)){
+        if(!await kakakoAuth(inputKey)){
             // 카카오 토큰이 유효하지 않다.
             let nameList = ["token", "error"];
             let valueList = [null, "kakao_auth_error"];
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
     
     // token 만드는 코드
     let token = jwt.sign({
-        email: inputEmail // 토근의 내용(payload)
+        key: inputKey // 토근의 내용(payload)
     },
     secretObj.secret, // 비밀키
     {
@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
     let isRead = false
     let userId = 0
     // 이메일이 있는지 DB에서 확인하는 코드  
-    await userDao.read(inputEmail)
+    await userDao.read(inputKey)
     .then((result) => {
         if(result !== null){
             isRead = true;
@@ -95,7 +95,7 @@ router.post('/', async (req, res) => {
     }else{
         // User 데이터가 존재하지 않는다면.
         // 데이터베이스에 생성 후 토큰 보내기
-        await userDao.create(inputLoginType, inputEmail, inputPassword)
+        await userDao.create(inputLoginType, inputKey, inputPassword)
         .then((result) => {
             if(result !== null){
                 let nameList = ["token", "error"];

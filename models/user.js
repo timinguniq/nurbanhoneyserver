@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         comment: "login Type(kakao, google, email",
       },
-      email: {
+      key: {
         type: DataTypes.STRING(100),
         allowNull: false,
         unique: true,
