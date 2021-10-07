@@ -8,6 +8,7 @@ var axios = require('axios');
 let kakakoAuth = require('../utils/kakaoauth');
 
 router.post('/', async (req, res) => {
+    let inputLoginType = req.body.loginType;
     let inputEmail = req.body.email;
     let inputPassword = req.body.password;
     let resultObejct = {};
@@ -16,12 +17,33 @@ router.post('/', async (req, res) => {
         inputPassword = "1111";
     }
 
-    if(!kakakoAuth(inputEmail)){
-        // 카카오 토큰이 유효하지 않다.
+    // 로그인 타입 확인하는 코드
+    if(inputLoginType !== "kakao" && inputLoginType !== "google" && inputLoginType !== "email"){
         let nameList = ["token", "error"];
-        let valueList = [null, "kakao_not_auth"];
+        let valueList = [null, "loginType_error"];
         tokenObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("login_result", tokenObject);
+        resultObject = createJson.one("login_result", tokenObject);        
+        res.json();
+        return res.end();
+    }
+
+    // 로그인 타입이 카카오일 때 처리
+    if(inputLoginType === "kakao"){
+        if(!await kakakoAuth(inputEmail)){
+            // 카카오 토큰이 유효하지 않다.
+            let nameList = ["token", "error"];
+            let valueList = [null, "kakao_auth_error"];
+            tokenObject = createJson.multi(nameList, valueList);
+            resultObject = createJson.one("login_result", tokenObject);
+            res.json(resultObject);
+            return res.end()
+        }
+    }else if(inputLoginType === "google"){
+        // TODO
+
+    }else if(inputLoginType === "email"){
+        // TODO 
+        
     }
     
     // token 만드는 코드
@@ -73,7 +95,7 @@ router.post('/', async (req, res) => {
     }else{
         // User 데이터가 존재하지 않는다면.
         // 데이터베이스에 생성 후 토큰 보내기
-        await userDao.create(inputEmail, inputPassword)
+        await userDao.create(inputLoginType, inputEmail, inputPassword)
         .then((result) => {
             if(result !== null){
                 let nameList = ["token", "error"];

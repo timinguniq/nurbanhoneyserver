@@ -4,7 +4,6 @@ var axios = require('axios');
 module.exports = async(kakaoToken) => {
     try{
         // 카카오 토큰이 유효하다.
-
         let kakao_profile = await axios.get("https://kapi.kakao.com/v2/user/me", {
             headers:{
                 Authorization: 'Bearer ' + kakaoToken,

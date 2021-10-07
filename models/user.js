@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         comment: "id",
       },
+      loginType: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+        comment: "login Type(kakao, google, email",
+      },
       email: {
         type: DataTypes.STRING(100),
         allowNull: false,

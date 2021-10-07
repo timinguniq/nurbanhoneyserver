@@ -1,8 +1,9 @@
 const User = require('../models').User;
 
-exports.create = function create(email, password){
+exports.create = function create(loginType, email, password){
     return User.create({
         id: 0,
+        loginType: loginType,
         email: email,
         password: password,
         lastLoginAt: Date.now()
