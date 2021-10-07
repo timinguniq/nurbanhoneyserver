@@ -20,10 +20,10 @@ exports.create = function create(loginType, key, password){
   }*/
 }
 
-exports.read = function read(inputEamil){
+exports.read = function read(inputKey){
     return User.findOne({
         where: {
-            email: inputEamil
+            key: inputKey
         }
     })
 }

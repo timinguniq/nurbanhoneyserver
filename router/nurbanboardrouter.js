@@ -3,8 +3,7 @@ var router = express.Router();
 const nurbanboardDao = require('../dbdao/nurbanboarddao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
-let jwt = require('jsonwebtoken');
-let secretObj = require('../config/jwt');
+var extractKey = require('../utils/extractkey');
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -25,13 +24,12 @@ router.post('/create', async (req, res) => {
 
     let token = req.headers.token;
 
-    let decoded = jwt.verify(token, secretObj.secret);
-    console.log(`decoded : ${decoded}`);
-    let email = decoded.email;
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
 
     let contentObejct = new Object();
 
-    await userDao.read(email)
+    await userDao.read(key)
     .then((result) => {
         userId = result.id;
     }).catch((err) => {

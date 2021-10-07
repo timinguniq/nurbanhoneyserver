@@ -2,10 +2,9 @@ var express = require('express');
 var router = express.Router();
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
-let jwt = require('jsonwebtoken');
-let secretObj = require('../config/jwt');
 var axios = require('axios');
 let kakakoAuth = require('../utils/kakaoauth');
+let createJwtToken = require('../utils/createjwttoken')
 
 router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
@@ -47,13 +46,7 @@ router.post('/', async (req, res) => {
     }
     
     // token 만드는 코드
-    let token = jwt.sign({
-        key: inputKey // 토근의 내용(payload)
-    },
-    secretObj.secret, // 비밀키
-    {
-        expiresIn: '5m' // 유효기간
-    })
+    let token = createJwtToken(inputKey);
 
     let isRead = false
     let userId = 0
