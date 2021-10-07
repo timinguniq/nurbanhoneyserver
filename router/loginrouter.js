@@ -4,6 +4,7 @@ const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 let jwt = require('jsonwebtoken');
 let secretObj = require('../config/jwt');
+var axios = require('axios');
 
 router.post('/', async (req, res) => {
     let inputEmail = req.body.email;
@@ -11,6 +12,15 @@ router.post('/', async (req, res) => {
     if(!inputEmail.includes("@")){
         inputPassword = "1111";
     }
+
+    let kakao_profile = await axios.get("https://kap.kakao.com/v2/user/me", {
+        headers:{
+            Authorization: 'Bearer ' + inputEmail,
+            'Content-Type': 'application/json'
+        }
+    });  
+
+    console.log(kakao_profile);
     
     // token 만드는 코드
     let token = jwt.sign({
