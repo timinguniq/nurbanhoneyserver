@@ -5,22 +5,24 @@ var createJson = require('../utils/createjson');
 let jwt = require('jsonwebtoken');
 let secretObj = require('../config/jwt');
 var axios = require('axios');
+let kakakoAuth = require('../utils/kakaoauth');
 
 router.post('/', async (req, res) => {
     let inputEmail = req.body.email;
     let inputPassword = req.body.password;
+    let resultObejct = {};
+    let tokenObject = new Object();
     if(!inputEmail.includes("@")){
         inputPassword = "1111";
     }
 
-    let kakao_profile = await axios.get("https://kap.kakao.com/v2/user/me", {
-        headers:{
-            Authorization: 'Bearer ' + inputEmail,
-            'Content-Type': 'application/json'
-        }
-    });  
-
-    console.log(kakao_profile);
+    if(!kakakoAuth(inputEmail)){
+        // 카카오 토큰이 유효하지 않다.
+        let nameList = ["token", "error"];
+        let valueList = [null, "kakao_not_auth"];
+        tokenObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("login_result", tokenObject);
+    }
     
     // token 만드는 코드
     let token = jwt.sign({
@@ -31,10 +33,8 @@ router.post('/', async (req, res) => {
         expiresIn: '5m' // 유효기간
     })
 
-    let resultObejct = {};
     let isRead = false
     let userId = 0
-    let tokenObject = new Object();
     // 이메일이 있는지 DB에서 확인하는 코드  
     await userDao.read(inputEmail)
     .then((result) => {

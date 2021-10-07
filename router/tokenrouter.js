@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var createJson = require('../utils/createjson');
 var isValidToken = require('../utils/isvalidtoken.js');
-var axios = require('axios');
 const userDao = require('../dbdao/userdao');
 
 // token valid
