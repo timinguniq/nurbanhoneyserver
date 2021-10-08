@@ -39,9 +39,10 @@ exports.readForUserId = function read(userId){
     })
 }
 
-// 글을 id로 갯수 가져오기
+// 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
 exports.readCount = async function read(offset, limit = 10){
     const { count, rows } = await NurbanBoard.findAndCountAll({
+        attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         offset: Number(offset),
         limit: Number(limit)
     })    
