@@ -39,6 +39,15 @@ exports.readForUserId = function read(userId){
     })
 }
 
+// 글을 id로 갯수 가져오기
+exports.readCount = async function read(offset){
+    const { count, rows } = await NurbanBoard.findAndCountAll({
+        offset: offset,
+        limit: 10
+    })    
+    return {count, rows}
+}
+
 // NurbanBoard content 업데이트
 exports.updateContent = function update(id, thumbnail, title, content){
     return NurbanBoard.update({thumbanil: thumbnail, title: title, content: content}, {where: {id: id}})
