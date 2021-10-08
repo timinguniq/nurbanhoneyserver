@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
     // 토큰에서 키 값 추출
     let key = extractKey(token);
 
-    let contentObejct = new Object();
+    let contentObject = new Object();
     // key 값으로 User 테이블의 id 값 받아오기
     await userDao.read(key)
     .then((result) => {
@@ -39,8 +39,8 @@ router.post('/create', async (req, res) => {
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = [null, err];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_create_result", contentObejct);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_create_result", contentObject);
         res.json(resultObject);
     });
 
@@ -50,23 +50,23 @@ router.post('/create', async (req, res) => {
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = ["ok", null];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_create_result", contentObejct);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_create_result", contentObject);
         res.json(resultObject);
     }).catch((err) => {
         console.log(`create nurbanboardDao err : ${err}`);
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = [null, err];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_create_result", contentObejct);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_create_result", contentObject);
         res.json(resultObject);
     });
 });
 
 // 글 상세 데이터 받아오는 메소드
-router.get('/detail', async (res, req) => {
-    let id = res.query.id;
+router.get('/detail', async (req, res) => {
+    let id = req.query.id;
     
     // id 값으로 데이터 읽기
     await nurbanboardDao.readForId(id)
@@ -84,22 +84,22 @@ router.get('/detail', async (res, req) => {
         let resultObject = {};
         let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", "error"];
         let valueList = [id, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, null];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_detail_result", contentObejct);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
     })
     .catch((err) => {
         let resultObject = {};
         let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", "error"];
         let valueList = [null, null, null, null, null, null, null, null, null, "article is not exist"];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_detail_result", contentObejct);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
     })
 })
 
 // 글 리스트 데이터 받아오는 메소드
-router.get('/list', async(res, req) => {
+router.get('/list', async (req, res) => {
     let offset = req.query.offset;
     // 썸네일, 제목, 댓글 개수
     /*
@@ -118,14 +118,21 @@ router.get('/list', async(res, req) => {
     var sJson = JSON.stringify(aJsonArray);
     */
     
-    await nurbanboardDao.readCount(offset)
+    await nurbanboardDao.readCount(offset, limit)
     .then((result) => {
-        console.log(`result.count : ${result.count}`);
-        console.log(`result.rows : ${result.rows}`);
-        
+        // 데이터 베이스 총 카운터 수
+        let contentTotalCount = result.count
+        // 데이터 리스트 오브젝트        
+        let contentObjectArray = result.rows;
+        let resultObject = createJson.one("nurbanboard_list_result", contentObjectArray);
+        res.json(resultObject);
     })
     .catch((err) => {
         console.log(`err : ${err}`);
+        let contentObject = new Object();
+        contentObject.error = err;
+        let resultObject = createJson.one("nurbanboard_list_result", contentObject);
+        res.json(resultObject);    
     })
    
     

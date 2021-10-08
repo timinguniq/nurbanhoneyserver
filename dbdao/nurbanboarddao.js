@@ -40,10 +40,10 @@ exports.readForUserId = function read(userId){
 }
 
 // 글을 id로 갯수 가져오기
-exports.readCount = async function read(offset){
+exports.readCount = async function read(offset, limit = 10){
     const { count, rows } = await NurbanBoard.findAndCountAll({
-        offset: offset,
-        limit: 10
+        offset: Number(offset),
+        limit: Number(limit)
     })    
     return {count, rows}
 }
