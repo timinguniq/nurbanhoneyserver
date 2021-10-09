@@ -48,6 +48,7 @@ router.post('/create', async (req, res) => {
     // 너반꿀 게시판 글 작성
     await nurbanboardDao.create(thumbnail, title, content, userId)
     .then((result) => {
+        console.log(`create : ${result}`);
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = ["ok", null];
@@ -127,21 +128,28 @@ router.get('/list', async (req, res) => {
 router.patch('/revise', async (req, res) => {
     let id = req.query.id
     // 나중에 thumbanil 처리해줘야됨.
-    let thumbnail = req.body.thumbnail;
-    let title = req.body.title;
-    let content = req.body.content;
+    let thumbnail = req.query.thumbnail;
+    let title = req.query.title;
+    let content = req.query.content;
     
     await nurbanboardDao.updateContent(id, thumbnail, title, content)
     .then((result) => {
+        // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
-        res.end()
+        let nameList = ["result", "error"];
+        let valueList = [result, null];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_revise_result", contentObject);
+        res.json(resultObject);
     })
     .catch((err) => {
         console.log(`patch err : ${result}`)
-        res.end()
-    });
-    
-
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_revise_result", contentObject);
+        res.json(resultObject);
+    });    
 });
 
 
