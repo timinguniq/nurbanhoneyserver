@@ -1,3 +1,4 @@
+const { application } = require('express');
 var express = require('express');
 var router = express.Router();
 const nurbanboardDao = require('../dbdao/nurbanboarddao');
@@ -101,23 +102,9 @@ router.get('/detail', async (req, res) => {
 // 글 리스트 데이터 받아오는 메소드
 router.get('/list', async (req, res) => {
     let offset = req.query.offset;
+    let limit = req.query.limit;
+    
     // 썸네일, 제목, 댓글 개수
-    /*
-    var aJsonArray = new Array();
-    var aJson = new Object();
-
-    aJson.korName = "1";
-    aJson.engName = "shoveIMan";
-    
-    aJsonArray.push(aJson);
-
-    aJson.korName = "2";
-    aJson.engName = "sapMan";
-    
-    aJsonArray.push(aJson);
-    var sJson = JSON.stringify(aJsonArray);
-    */
-    
     await nurbanboardDao.readCount(offset, limit)
     .then((result) => {
         // 데이터 베이스 총 카운터 수
@@ -134,8 +121,28 @@ router.get('/list', async (req, res) => {
         let resultObject = createJson.one("nurbanboard_list_result", contentObject);
         res.json(resultObject);    
     })
-   
-    
 });
+
+// 글 수정 관련 통신 메소드
+router.patch('/revise', async (req, res) => {
+    let id = req.query.id
+    // 나중에 thumbanil 처리해줘야됨.
+    let thumbnail = req.body.thumbnail;
+    let title = req.body.title;
+    let content = req.body.content;
+    
+    await nurbanboardDao.updateContent(id, thumbnail, title, content)
+    .then((result) => {
+        console.log(`patch result : ${result}`)
+        res.end()
+    })
+    .catch((err) => {
+        console.log(`patch err : ${result}`)
+        res.end()
+    });
+    
+
+});
+
 
 module.exports = router;
