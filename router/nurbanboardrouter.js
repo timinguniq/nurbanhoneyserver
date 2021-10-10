@@ -15,10 +15,10 @@ exports.create = function create(thumbnail, title, content, userId){
         content: content,
         userId: userId
     })
-*/
+*/ 
 
 // 글 생성 
-router.post('/create', async (req, res) => {
+router.post('/', async (req, res) => {
     // TODO : thumbnail 처리 해야 됨.
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
@@ -67,7 +67,7 @@ router.post('/create', async (req, res) => {
 });
 
 // 글 상세 데이터 받아오는 메소드
-router.get('/detail', async (req, res) => {
+router.get('/', async (req, res) => {
     let id = req.query.id;
     
     // id 값으로 데이터 읽기
@@ -101,7 +101,7 @@ router.get('/detail', async (req, res) => {
 })
 
 // 글 리스트 데이터 받아오는 메소드
-router.get('/list', async (req, res) => {
+router.get('/', async (req, res) => {
     let offset = req.query.offset;
     let limit = req.query.limit;
     
@@ -125,8 +125,8 @@ router.get('/list', async (req, res) => {
 });
 
 // 글 수정 관련 통신 메소드
-router.patch('/revise', async (req, res) => {
-    let id = req.query.id
+router.patch('/', async (req, res) => {
+    let id = req.query.id;
     // 나중에 thumbanil 처리해줘야됨.
     let thumbnail = req.query.thumbnail;
     let title = req.query.title;
@@ -152,5 +152,28 @@ router.patch('/revise', async (req, res) => {
     });    
 });
 
+// 글 삭제 관련 통신 메소드
+router.delete('/', async (req, res) => {
+    let id = req.query.id;
+    
+    await nurbanboardDao.destory(id)
+    .then((result) => {
+        // result 1이면 성공 0이면 실패
+        console.log(`delete result : ${result}`)
+        let nameList = ["result", "error"];
+        let valueList = [result, null];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_delete_result", contentObject);
+        res.json(resultObject);
+    })
+    .catch((err) => {
+        console.log(`delete err : ${err}`)
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_delete_result", contentObject);
+        res.json(resultObject);
+    });
+});
 
 module.exports = router;
