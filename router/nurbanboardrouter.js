@@ -176,4 +176,10 @@ router.delete('/', async (req, res) => {
     });
 });
 
+// 글 관련 이미지 업로드
+router.post('/upload/image', async (req, res) => {
+    let imageFile = req.body.image;
+    console.log(imageFile.name);
+});
+
 module.exports = router;
