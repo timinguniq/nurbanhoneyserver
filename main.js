@@ -1,6 +1,8 @@
 var express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer();
 const { sequelize } = require('./models');
 var createJson = require('./utils/createjson');
 var appversionRouter = require('./router/appversionrouter');
@@ -9,11 +11,15 @@ var tokenMidRouter = require('./router/tokenmidrouter');
 var tokenRouter = require('./router/tokenrouter');
 var nurbanboardRouter = require('./router/nurbanboardrouter');
 
-app.use(bodyParser.urlencoded({ extended: false}));
+// for parsing application/json
+app.use(express.json());
 // x-www-form-urlencoded를 파싱하기 위해서 아래를 확장해야 한다.
 app.use(express.urlencoded({
     extended: true
 }));
+// for parsing multipart/form-data
+app.use(upload.array('image')); 
+app.use(express.static('public'));
 
 sequelize.sync({ force: false })
 .then(() => {

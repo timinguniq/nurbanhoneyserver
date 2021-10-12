@@ -178,8 +178,10 @@ router.delete('/', async (req, res) => {
 
 // 글 관련 이미지 업로드
 router.post('/upload/image', async (req, res) => {
-    let imageFile = req.body.image;
-    console.log(imageFile.name);
+    let imageFile = req.files;
+    let articleId = req.body.id;
+    console.log(`articleId : ${articleId}`)
+    console.log(imageFile[0]);
 });
 
 module.exports = router;
