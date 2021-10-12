@@ -5,7 +5,14 @@ const nurbanboardDao = require('../dbdao/nurbanboarddao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
+let awsObj = require('../config/aws.js');
+let AWS = require('aws-sdk');
 
+AWS.config.update({
+    region: awsObj.region,
+    accessKeyId: awsObj.accessKeyId,
+    secretAccessKey: awsObj.secretAccessKey
+});
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -180,8 +187,21 @@ router.delete('/', async (req, res) => {
 router.post('/upload/image', async (req, res) => {
     let imageFile = req.files;
     let articleId = req.body.id;
-    console.log(`articleId : ${articleId}`)
-    console.log(imageFile[0]);
+    console.log(`articleId : ${articleId}`);
+    console.log(imageFile[0].originalname);
+    let imageFileNameSize = imageFile[0].originalname.split('\\').length;
+    let imageFileName = imageFile[0].originalname.split('\\')[imageFileNameSize];
+    console.log(`imageFileName : ${imageFileName}`);
+
+    /*
+    let s3 = new AWS.S3();
+    let param = {
+        'Bucket' : 'nurbanboard',
+        'Key' : `/${articleId}/${imageFile[0]}`
+    }
+    */
+
+
 });
 
 module.exports = router;
