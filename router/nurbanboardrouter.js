@@ -194,13 +194,21 @@ router.post('/upload/image', async (req, res) => {
     let imageFileName = JSON.stringify(imageFile[0]).originalname.split('\\')[imageFileNameSize-1];
     console.log(`imageFileName : ${imageFileName}`);
 
-    /*
+    
     let s3 = new AWS.S3();
     let param = {
         'Bucket' : 'nurbanboard',
-        'Key' : `/${articleId}/${imageFile[0]}`
+        'Key' : `/${articleId}/${imageFileName}`,
+        'ACL' : 'public-read',
+        'Body' : imageFile[0],
+        'ContentType' : 'image/png'
     }
-    */
+
+    s3.upload(param, (err, data) => {
+        console.log(`s3.upload err : ${err}`);
+        console.log(`s3.upload data : ${data}`);
+    });
+    
 
 
 });
