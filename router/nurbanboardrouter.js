@@ -188,9 +188,10 @@ router.post('/upload/image', async (req, res) => {
     let imageFile = req.files;
     let articleId = req.body.id;
     console.log(`articleId : ${articleId}`);
-    console.log(imageFile[0].originalname);
-    let imageFileNameSize = imageFile[0].originalname.split('\\').length;
-    let imageFileName = imageFile[0].originalname.split('\\')[imageFileNameSize];
+    console.log('imageFile[0].originalname : ' + imageFile[0].originalname);
+    console.log('imageFile[0] : ' + JSON.stringify(imageFile[0]));
+    let imageFileNameSize = JSON.stringify(imageFile[0]).originalname.split('\\').length;
+    let imageFileName = JSON.stringify(imageFile[0]).originalname.split('\\')[imageFileNameSize-1];
     console.log(`imageFileName : ${imageFileName}`);
 
     /*
