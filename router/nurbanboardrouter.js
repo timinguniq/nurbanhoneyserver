@@ -203,15 +203,24 @@ router.post('/upload/image', async (req, res) => {
         'ContentType' : 'image/png'
     }
 
-    s3.upload(param, (err, data) => {
-        console.log(`s3.upload err : ${err}`);
-        console.log(`s3.upload data : ${JSON.stringify(data)}`);
-        let location = data.Location;
-        console.log(`location : ${location}`)
-        
+    s3.upload(param, (err, data) => {     
+        if(err === null){
+            // 에러가 있음
+            let nameList = ["result", "error"];
+            let valueList = [null, err];
+            let contentObject = createJson.multi(nameList, valueList);
+            let resultObject = createJson.one("nurbanboard_image_result", contentObject);
+            res.json(resultObject);
+        }else{
+            // 에러가 없음
+            let location = data.Location;
+            let nameList = ["result", "error"];
+            let valueList = [location, null];
+            let contentObject = createJson.multi(nameList, valueList);
+            let resultObject = createJson.one("nurbanboard_image_result", contentObject);
+            res.json(resultObject);
+        }
     });
-
-
 });
 
 module.exports = router;
