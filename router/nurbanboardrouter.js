@@ -51,6 +51,7 @@ router.post('/', async (req, res) => {
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_create_result", contentObject);
         res.json(resultObject);
+        return res.end();
     });
 
     // 너반꿀 게시판 글 작성
@@ -75,9 +76,9 @@ router.post('/', async (req, res) => {
 });
 
 // 글 상세 데이터 받아오는 메소드
-router.get('/', async (req, res) => {
+router.get('/detail', async (req, res) => {
     let id = req.query.id;
-    
+
     // id 값으로 데이터 읽기
     await nurbanboardDao.readForId(id)
     .then((result) => {
@@ -106,6 +107,17 @@ router.get('/', async (req, res) => {
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
     })
+  
+    // 조회수 카운트 플러스하는 코드
+    // TODO
+    await nurbanboardDao.updateCount(count)
+    .then((result) => {
+            
+    })
+    .catch((err) => {
+
+    });
+
 })
 
 // 글 리스트 데이터 받아오는 메소드
@@ -204,7 +216,7 @@ router.post('/upload/image', async (req, res) => {
     }
 
     s3.upload(param, (err, data) => {     
-        if(err === null){
+        if(err !== null){
             // 에러가 있음
             let nameList = ["result", "error"];
             let valueList = [null, err];
