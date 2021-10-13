@@ -112,7 +112,7 @@ router.get('/detail', async (req, res) => {
   
     // 조회수 카운트 플러스하는 코드
     // TODO
-    await nurbanboardDao.updateCount(++articleCount)
+    await nurbanboardDao.updateCount(id, ++articleCount)
     .then((result) => {
         console.log(`nurbanboard detail result : ${result}`);        
     })
@@ -134,6 +134,8 @@ router.get('/', async (req, res) => {
         let contentTotalCount = result.count
         // 데이터 리스트 오브젝트        
         let contentObjectArray = result.rows;
+
+        console.log(`result.rows : ${result.rows}`);
         let resultObject = createJson.one("nurbanboard_list_result", contentObjectArray);
         res.json(resultObject);
     })

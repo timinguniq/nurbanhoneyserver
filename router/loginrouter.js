@@ -37,13 +37,20 @@ router.post('/', async (req, res) => {
             res.json(resultObject);
             return res.end()
         }
+
+        inputKey = "K-" + inputKey;
     }else if(inputLoginType === "google"){
         // TODO
 
+
+        inputKey = "G-" + inputKey;
     }else if(inputLoginType === "email"){
         // TODO 
         
+
+        inputKey = "E-" + inputKey;
     }
+
     
     // token 만드는 코드
     let token = createJwtToken(inputKey);
