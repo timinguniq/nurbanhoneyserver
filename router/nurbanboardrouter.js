@@ -79,6 +79,7 @@ router.post('/', async (req, res) => {
 router.get('/detail', async (req, res) => {
     let id = req.query.id;
 
+    let articleCount = 0
     // id 값으로 데이터 읽기
     await nurbanboardDao.readForId(id)
     .then((result) => {
@@ -87,6 +88,7 @@ router.get('/detail', async (req, res) => {
         let title = result.title;
         let content = result.content;
         let count = result.cout;
+        articleCount = count;
         let commentCount = result.commentCount;
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
@@ -110,12 +112,12 @@ router.get('/detail', async (req, res) => {
   
     // 조회수 카운트 플러스하는 코드
     // TODO
-    await nurbanboardDao.updateCount(count)
+    await nurbanboardDao.updateCount(++articleCount)
     .then((result) => {
-            
+        console.log(`nurbanboard detail result : ${result}`);        
     })
     .catch((err) => {
-
+        console.log(`nurbanboard detail err : ${err}`);
     });
 
 })

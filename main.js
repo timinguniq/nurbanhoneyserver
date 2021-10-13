@@ -54,7 +54,7 @@ app.post('/token/error', (req, res) => {
 // 여기까지
 
 // 임의의 데이터 값 넣는 통신
-app.post('/nurbanboard/insertTempData', (req, res) => {
+app.post('/nurbanboard/insertTempData', async (req, res) => {
   var dataList = [];
   for(let i = 1 ; i < 21 ; i++){
     var tempData = {
@@ -65,8 +65,9 @@ app.post('/nurbanboard/insertTempData', (req, res) => {
     }
     dataList.push(tempData);
   }
+
   for(var ele in dataList){
-    await nurbanboardDao.create(ele.thumbnail, ele.title, ele.content, ele.userId)
+    await nurbanboardDao.create(ele.thumbnail, ele, ele, 1)
     .then((result) => {
       console.log(`result : ${result}`);
     })
@@ -74,6 +75,7 @@ app.post('/nurbanboard/insertTempData', (req, res) => {
       console.log(`err : ${err}`);
     });
   }
+  res.end()
 })
 
 // appversion rounter

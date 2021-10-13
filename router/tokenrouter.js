@@ -7,7 +7,7 @@ let extractKey = require('../utils/extractkey');
 const userDao = require('../dbdao/userdao');
 
 // token valid
-router.post('/exaim', async (req, res) => {
+router.post('/exam', async (req, res) => {
     let token = req.body.token;
     
     let resultObject = {};
