@@ -7,6 +7,7 @@ var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 let awsObj = require('../config/aws.js');
 let AWS = require('aws-sdk');
+let fs = require('fs');
 
 AWS.config.update({
     region: awsObj.region,
@@ -187,28 +188,28 @@ router.delete('/', async (req, res) => {
 router.post('/upload/image', async (req, res) => {
     let imageFile = req.files;
     let articleId = req.body.id;
-    console.log(`articleId : ${articleId}`);
-    console.log('imageFile[0].originalname : ' + imageFile[0].originalname);
-    console.log('imageFile[0] : ' + JSON.stringify(imageFile[0]));
-    let imageFileNameSize = JSON.stringify(imageFile[0]).originalname.split('\\').length;
-    let imageFileName = JSON.stringify(imageFile[0]).originalname.split('\\')[imageFileNameSize-1];
-    console.log(`imageFileName : ${imageFileName}`);
-
     
-    let s3 = new AWS.S3();
+    let imageFileNameSize = JSON.stringify(imageFile[0].originalname).split('\\').length;
+    let imageFileName = JSON.stringify(imageFile[0].originalname).split('\\')[imageFileNameSize-1];
+    
+    let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
+    let bodyBuffer = new Buffer.from(bufferObj.data);  
+    let s3 = new AWS.S3(); 
     let param = {
-        'Bucket' : 'nurbanboard',
-        'Key' : `/${articleId}/${imageFileName}`,
+        'Bucket' : awsObj.s3nurbanboardname,
+        'Key' : `${articleId}/${imageFileName}`,
         'ACL' : 'public-read',
-        'Body' : imageFile[0],
+        'Body' : bodyBuffer,
         'ContentType' : 'image/png'
     }
 
     s3.upload(param, (err, data) => {
         console.log(`s3.upload err : ${err}`);
-        console.log(`s3.upload data : ${data}`);
+        console.log(`s3.upload data : ${JSON.stringify(data)}`);
+        let location = data.Location;
+        console.log(`location : ${location}`)
+        
     });
-    
 
 
 });
