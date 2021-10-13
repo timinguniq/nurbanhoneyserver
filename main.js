@@ -10,6 +10,8 @@ var loginRouter = require('./router/loginrouter');
 var tokenMidRouter = require('./router/tokenmidrouter');
 var tokenRouter = require('./router/tokenrouter');
 var nurbanboardRouter = require('./router/nurbanboardrouter');
+const nurbanboardDao = require('./dbdao/nurbanboarddao');
+
 
 // for parsing application/json
 app.use(express.json());
@@ -50,6 +52,29 @@ app.post('/token/error', (req, res) => {
   res.json(resultObject);
 })
 // 여기까지
+
+// 임의의 데이터 값 넣는 통신
+app.post('/nurbanboard/insertTempData', (req, res) => {
+  var dataList = [];
+  for(let i = 1 ; i < 21 ; i++){
+    var tempData = {
+      'thumbnail' : null,
+      'title' : String(i),
+      'content' : String(i),
+      'userId' : 1
+    }
+    dataList.push(tempData);
+  }
+  for(var ele in dataList){
+    await nurbanboardDao.create(ele.thumbnail, ele.title, ele.content, ele.userId)
+    .then((result) => {
+      console.log(`result : ${result}`);
+    })
+    .catch((err) => {
+      console.log(`err : ${err}`);
+    });
+  }
+})
 
 // appversion rounter
 app.use('/appversion', appversionRouter);
