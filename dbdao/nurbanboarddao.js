@@ -24,8 +24,23 @@ exports.create = function create(thumbnail, title, content, userId){
 }
 
 // 글 id로 검색
+/* 예제 코드로 남겨놓음
 exports.readForId = function read(id){
     return NurbanBoard.findOne({
+        where: {
+            id: id 
+        }
+    })
+}
+*/
+
+// 글 id로 검색
+exports.readForId = function read(id){
+    return NurbanBoard.findOne({
+        include:[
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'thumbnail', 'nickname', 'insignia']}
+        ],
         where: {
             id: id 
         }
@@ -46,7 +61,7 @@ exports.readCount = async function read(offset = 0, limit = 10){
     const { count, rows } = await NurbanBoard.findAndCountAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'thumbnail', 'nickname', 'insignia' ]}
+            {model: User, attributes: [['id', 'userId'], ['thumbnail', 'profile'], 'nickname', 'insignia' ]}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         offset: Number(offset),

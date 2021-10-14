@@ -93,17 +93,24 @@ router.get('/detail', async (req, res) => {
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let updateAt = result.updateAt; 
-        
+        let profile = result.User.thumbnail;
+        let nickname = result.User.nickname;
+        let insignia = result.User.insignia;
+
         let resultObject = {};
-        let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", "error"];
-        let valueList = [id, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, null];
+        let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+                "profile", "nickname", "insignia", "error"];
+        let valueList = [id, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, 
+                profile, nickname, insignia, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
     }catch(err){
         let resultObject = {};
-        let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", "error"];
-        let valueList = [null, null, null, null, null, null, null, null, null, "article is not exist"];
+        let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+                "profile", "nickname", "insignia", "error"];
+        let valueList = [null, null, null, null, null, null, null, null, null, 
+                null, null, null, "article is not exist"];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
