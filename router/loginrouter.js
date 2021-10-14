@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
     let inputKey = req.body.key;
     let inputPassword = req.body.password;
-    let resultObejct = {};
+    let resultObject = {};
     let tokenObject = new Object();
     if(!inputKey.includes("@")){
         inputPassword = "1111";
@@ -50,7 +50,6 @@ router.post('/', async (req, res) => {
 
         inputKey = "E-" + inputKey;
     }
-
     
     // token 만드는 코드
     let token = createJwtToken(inputKey);
@@ -58,8 +57,9 @@ router.post('/', async (req, res) => {
     let isRead = false
     let userId = 0
     // 이메일이 있는지 DB에서 확인하는 코드  
-    await userDao.read(inputKey)
-    .then((result) => {
+    try{
+        let result = await userDao.read(inputKey);
+        console.log(`result : ${result}`);
         if(result !== null){
             isRead = true;
             userId = result.id;            
@@ -75,40 +75,40 @@ router.post('/', async (req, res) => {
                 tokenObject = createJson.multi(nameList, valueList);
                 resultObject = createJson.one("login_result", tokenObject);
             }
-        }        
-    }).catch((err) => {
+        }
+    }catch(err){
         let nameList = ["token", "error"];
         let valueList = [null, err];
         tokenObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("login_result", tokenObject);
-    });
+    }
 
     if(isRead){
         // User 데이터가 존재했다면
         // User LastLoginAt Update
-        await userDao.updateLastTime(result.id)
-        .then((result) => {
+        try{
+            let result = await userDao.updateLastTime(result.id);
             console.log(`updateLastTime result : ${result}`)
-        }).catch((err) => {
+        }catch(err){
             console.log(`updateLastTime err : ${err}`)
-        });
+        }
     }else{
         // User 데이터가 존재하지 않는다면.
         // 데이터베이스에 생성 후 토큰 보내기
-        await userDao.create(inputLoginType, inputKey, inputPassword)
-        .then((result) => {
+        try{
+            let result = await userDao.create(inputLoginType, inputKey, inputPassword);
             if(result !== null){
                 let nameList = ["token", "error"];
                 let valueList = [token, null];
                 tokenObject = createJson.multi(nameList, valueList);
                 resultObject = createJson.one("login_result", tokenObject);
             }
-        }).catch((err) => {
+        }catch(err){
             let nameList = ["token", "error"];
             let valueList = [null, err];
             tokenObject = createJson.multi(nameList, valueList);
             resultObject = createJson.one("login_result", tokenObject);
-        });
+        }
     }    
     res.json(resultObject);
 });

@@ -39,12 +39,13 @@ router.post('/', async (req, res) => {
     let key = extractKey(token);
 
     let contentObject = new Object();
+    let resultObject = new Object();
     // key 값으로 User 테이블의 id 값 받아오기
-    await userDao.read(key)
-    .then((result) => {
+    try{
+        let result = await userDao.read(key);
         userId = result.id;
-    }).catch((err) => {
-        console.log(`create userDao err : ${err}`);
+    }catch(err){
+        console.log(`userDao err : ${err}`);
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = [null, err];
@@ -52,27 +53,26 @@ router.post('/', async (req, res) => {
         resultObject = createJson.one("nurbanboard_create_result", contentObject);
         res.json(resultObject);
         return res.end();
-    });
+    }
 
     // 너반꿀 게시판 글 작성
-    await nurbanboardDao.create(thumbnail, title, content, userId)
-    .then((result) => {
+    try{
+        let result = await nurbanboardDao.create(thumbnail, title, content, userId);
         console.log(`create : ${result}`);
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = ["ok", null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_create_result", contentObject);
-        res.json(resultObject);
-    }).catch((err) => {
+    }catch(err){
         console.log(`create nurbanboardDao err : ${err}`);
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = [null, err];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_create_result", contentObject);
-        res.json(resultObject);
-    });
+    }
+    res.json(resultObject);
 });
 
 // 글 상세 데이터 받아오는 메소드
@@ -81,8 +81,8 @@ router.get('/detail', async (req, res) => {
 
     let articleCount = 0
     // id 값으로 데이터 읽기
-    await nurbanboardDao.readForId(id)
-    .then((result) => {
+    try{
+        let result = await nurbanboardDao.readForId(id);
         let id = result.id;
         let thumbanil = result.thumbanil;
         let title = result.title;
@@ -100,25 +100,22 @@ router.get('/detail', async (req, res) => {
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
-    })
-    .catch((err) => {
+    }catch(err){
         let resultObject = {};
         let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", "error"];
         let valueList = [null, null, null, null, null, null, null, null, null, "article is not exist"];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
-    })
+    }
   
     // 조회수 카운트 플러스하는 코드
-    // TODO
-    await nurbanboardDao.updateCount(id, ++articleCount)
-    .then((result) => {
-        console.log(`nurbanboard detail result : ${result}`);        
-    })
-    .catch((err) => {
-        console.log(`nurbanboard detail err : ${err}`);
-    });
+    try{
+        let result = await nurbanboardDao.updateCount(id, ++articleCount);
+        console.log(`nurbanboard detail updateCount result : ${result}`);  
+    }catch(err){
+        console.log(`nurbanboard detail updateCount err : ${err}`);
+    }
 
 })
 
@@ -126,38 +123,39 @@ router.get('/detail', async (req, res) => {
 router.get('/', async (req, res) => {
     let offset = req.query.offset;
     let limit = req.query.limit;
-    
+
+    let resultObject = new Object();
     // 썸네일, 제목, 댓글 개수
-    await nurbanboardDao.readCount(offset, limit)
-    .then((result) => {
+    try{
+        let result = await nurbanboardDao.readCount(offset, limit);
         // 데이터 베이스 총 카운터 수
         let contentTotalCount = result.count
         // 데이터 리스트 오브젝트        
         let contentObjectArray = result.rows;
-
+ 
         console.log(`result.rows : ${result.rows}`);
-        let resultObject = createJson.one("nurbanboard_list_result", contentObjectArray);
-        res.json(resultObject);
-    })
-    .catch((err) => {
+        resultObject = createJson.one("nurbanboard_list_result", contentObjectArray);
+    }catch(err){
         console.log(`err : ${err}`);
         let contentObject = new Object();
         contentObject.error = err;
-        let resultObject = createJson.one("nurbanboard_list_result", contentObject);
-        res.json(resultObject);    
-    })
+        resultObject = createJson.one("nurbanboard_list_result", contentObject);
+    }
+    res.json(resultObject);
 });
 
 // 글 수정 관련 통신 메소드
 router.patch('/', async (req, res) => {
+    // TODO : 여기서부터 await 작업
+
     let id = req.query.id;
     // 나중에 thumbanil 처리해줘야됨.
     let thumbnail = req.query.thumbnail;
     let title = req.query.title;
     let content = req.query.content;
     
-    await nurbanboardDao.updateContent(id, thumbnail, title, content)
-    .then((result) => {
+    try{
+        let result = await nurbanboardDao.updateContent(id, thumbnail, title, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         let nameList = ["result", "error"];
@@ -165,23 +163,22 @@ router.patch('/', async (req, res) => {
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbanboard_revise_result", contentObject);
         res.json(resultObject);
-    })
-    .catch((err) => {
+    }catch(err){
         console.log(`patch err : ${result}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbanboard_revise_result", contentObject);
         res.json(resultObject);
-    });    
+    }
 });
 
 // 글 삭제 관련 통신 메소드
 router.delete('/', async (req, res) => {
     let id = req.query.id;
     
-    await nurbanboardDao.destory(id)
-    .then((result) => {
+    try{
+        let result = await nurbanboardDao.destory(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
         let nameList = ["result", "error"];
@@ -189,15 +186,14 @@ router.delete('/', async (req, res) => {
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbanboard_delete_result", contentObject);
         res.json(resultObject);
-    })
-    .catch((err) => {
+    }catch(err){
         console.log(`delete err : ${err}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbanboard_delete_result", contentObject);
         res.json(resultObject);
-    });
+    }
 });
 
 // 글 관련 이미지 업로드

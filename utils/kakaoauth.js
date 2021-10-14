@@ -1,7 +1,7 @@
 var axios = require('axios');
 
 // 카카오 토큰 인증 메소드
-module.exports = async(kakaoToken) => {
+module.exports = async (kakaoToken) => {
     try{
         // 카카오 토큰이 유효하다.
         let kakao_profile = await axios.get("https://kapi.kakao.com/v2/user/me", {

@@ -67,13 +67,12 @@ app.post('/nurbanboard/insertTempData', async (req, res) => {
   }
 
   for(var ele in dataList){
-    await nurbanboardDao.create(ele.thumbnail, ele, ele, 1)
-    .then((result) => {
+    try{
+      let result = await nurbanboardDao.create(ele.thumbnail, ele, ele, 1);
       console.log(`result : ${result}`);
-    })
-    .catch((err) => {
+    }catch(err){
       console.log(`err : ${err}`);
-    });
+    }
   }
   res.end()
 })
