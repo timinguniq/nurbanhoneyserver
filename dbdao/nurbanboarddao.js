@@ -39,7 +39,7 @@ exports.readForId = function read(id){
     return NurbanBoard.findOne({
         include:[
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'thumbnail', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
         ],
         where: {
             id: id 
@@ -61,7 +61,7 @@ exports.readCount = async function read(offset = 0, limit = 10){
     const { count, rows } = await NurbanBoard.findAndCountAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], ['thumbnail', 'profile'], 'nickname', 'insignia' ]}
+            {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         offset: Number(offset),

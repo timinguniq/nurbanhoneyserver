@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         comment: "비밀번호",
       },
-      thumbnail: {
+      profile: {
         type: DataTypes.STRING(100),
         allowNull: false,
         defaultValue: "https://nurbannoneyprofile.s3.ap-northeast-2.amazonaws.com/default.png",

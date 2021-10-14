@@ -87,13 +87,13 @@ router.get('/detail', async (req, res) => {
         let thumbanil = result.thumbanil;
         let title = result.title;
         let content = result.content;
-        let count = result.cout;
+        let count = result.count;
         articleCount = count;
         let commentCount = result.commentCount;
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let updateAt = result.updateAt; 
-        let profile = result.User.thumbnail;
+        let profile = result.User.profile;
         let nickname = result.User.nickname;
         let insignia = result.User.insignia;
 
