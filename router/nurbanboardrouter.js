@@ -199,24 +199,6 @@ router.delete('/', async (req, res) => {
 
     // s3에 글 이미지 삭제하기
     s3delete(awsObj.s3nurbanboardname, id)
-    
-    /*        
-    let s3 = new AWS.S3();
-    var params = {  
-        'Bucket' : awsObj.s3nurbanboardname, 
-        'Key' : `${id}/` 
-    };
-
-    s3.deleteObject(params, (err, data) => {
-        if (err){
-            // error
-            console.log(err, err.stack);
-        } else{
-            // deleted
-            console.log(data);
-        }     
-    });
-    */
 });
 
 // 글 관련 이미지 업로드
@@ -231,39 +213,10 @@ router.post('/upload/image', async (req, res) => {
     let bodyBuffer = new Buffer.from(bufferObj.data);  
 
     // s3에 파일 업로드 하는 메소드
-    let resultObject = s3upload(articleId, imageFileName, bodyBuffer);
-    res.json(resultObject);
-
-/*
-    let s3 = new AWS.S3();
-    let param = {
-        'Bucket' : awsObj.s3nurbanboardname,
-        'Key' : `${articleId}/${imageFileName}`,
-        'ACL' : 'public-read',
-        'Body' : bodyBuffer,
-        'ContentType' : 'image/png'
-    }
-
-    s3.upload(param, (err, data) => {     
-        if(err !== null){
-            // 에러가 있음
-            let nameList = ["result", "error"];
-            let valueList = [null, err];
-            let contentObject = createJson.multi(nameList, valueList);
-            let resultObject = createJson.one("nurbanboard_image_result", contentObject);
-            res.json(resultObject);
-        }else{
-            // 에러가 없음
-            let location = data.Location;
-            let nameList = ["result", "error"];
-            let valueList = [location, null];
-            let contentObject = createJson.multi(nameList, valueList);
-            let resultObject = createJson.one("nurbanboard_image_result", contentObject);
-            res.json(resultObject);
-        }
+    s3upload(articleId, imageFileName, bodyBuffer, (resultObject) => {
+        res.json(resultObject);
     });
-    */
-    
+   
 });
 
 module.exports = router;

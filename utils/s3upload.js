@@ -9,7 +9,7 @@ AWS.config.update({
 });
 
 // s3에 파일 업로드 하는 메소드
-module.exports = (articleId, imageFileName, bodyBuffer) => {
+module.exports =  async (articleId, imageFileName, bodyBuffer, callback) => {
     let s3 = new AWS.S3();
     let param = {
         'Bucket' : awsObj.s3nurbanboardname,
@@ -19,14 +19,14 @@ module.exports = (articleId, imageFileName, bodyBuffer) => {
         'ContentType' : 'image/png'
     }
 
-    s3.upload(param, (err, data) => {
+    await s3.upload(param, (err, data) => {
         if(err !== null){
             // 에러가 있음
             let nameList = ["result", "error"];
             let valueList = [null, err];
             let contentObject = createJson.multi(nameList, valueList);
             let resultObject = createJson.one("nurbanboard_image_result", contentObject);
-            return resultObject
+            return callback(resultObject)
         }else{
             // 에러가 없음
             let location = data.Location;
@@ -34,7 +34,7 @@ module.exports = (articleId, imageFileName, bodyBuffer) => {
             let valueList = [location, null];
             let contentObject = createJson.multi(nameList, valueList);
             let resultObject = createJson.one("nurbanboard_image_result", contentObject);
-            return resultObject
+            return callback(resultObject)
         }
     });
 }
