@@ -5,15 +5,7 @@ const nurbanboardDao = require('../dbdao/nurbanboarddao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
-let awsObj = require('../config/aws.js');
-let AWS = require('aws-sdk');
-let fs = require('fs');
-
-AWS.config.update({
-    region: awsObj.region,
-    accessKeyId: awsObj.accessKeyId,
-    secretAccessKey: awsObj.secretAccessKey
-});
+var s3upload = require('../utils/s3upload');
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -183,7 +175,7 @@ router.patch('/', async (req, res) => {
 // 글 삭제 관련 통신 메소드
 router.delete('/', async (req, res) => {
     let id = req.query.id;
-    
+
     try{
         let result = await nurbanboardDao.destory(id);
         // result 1이면 성공 0이면 실패
@@ -207,8 +199,8 @@ router.delete('/', async (req, res) => {
     let s3 = new AWS.S3();
 
     var params = {  
-        Bucket: awsObj.s3nurbanboardname, 
-        Key: `${id}/` 
+        'Bucket' : awsObj.s3nurbanboardname, 
+        'Key' : `${id}/` 
     };
 
     s3.deleteObject(params, (err, data) => {
@@ -232,6 +224,12 @@ router.post('/upload/image', async (req, res) => {
     
     let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
     let bodyBuffer = new Buffer.from(bufferObj.data);  
+
+    // s3에 파일 업로드 하는 메소드
+    let resultObject = s3upload(articleId, imageFileName, bodyBuffer);
+    res.json(resultObject);
+
+/*
     let s3 = new AWS.S3();
     let param = {
         'Bucket' : awsObj.s3nurbanboardname,
@@ -259,6 +257,8 @@ router.post('/upload/image', async (req, res) => {
             res.json(resultObject);
         }
     });
+    */
+    
 });
 
 module.exports = router;
