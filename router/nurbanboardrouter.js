@@ -200,7 +200,26 @@ router.delete('/', async (req, res) => {
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbanboard_delete_result", contentObject);
         res.json(resultObject);
+        return res.end();
     }
+
+    // s3에 글 이미지 삭제하기
+    let s3 = new AWS.S3();
+
+    var params = {  
+        Bucket: awsObj.s3nurbanboardname, 
+        Key: `${id}/` 
+    };
+
+    s3.deleteObject(params, (err, data) => {
+        if (err){
+            // error
+            console.log(err, err.stack);
+        } else{
+            // deleted
+            console.log(data);
+        }     
+    });
 });
 
 // 글 관련 이미지 업로드
@@ -213,7 +232,7 @@ router.post('/upload/image', async (req, res) => {
     
     let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
     let bodyBuffer = new Buffer.from(bufferObj.data);  
-    let s3 = new AWS.S3(); 
+    let s3 = new AWS.S3();
     let param = {
         'Bucket' : awsObj.s3nurbanboardname,
         'Key' : `${articleId}/${imageFileName}`,
