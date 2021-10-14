@@ -8,6 +8,7 @@ router.get('/', async (req, res) =>{
     console.log(`app : ${app}`)
     let appversionObject = new Object();
     if(app === 'nurbanhoney'){
+        /*
         await appversionDao.read()
         .then((result) => {
             console.log(result)
@@ -25,6 +26,25 @@ router.get('/', async (req, res) =>{
             let resultObject = createJson.one("appversion_result", appversionObject);
             res.json(resultObject);
         });
+        */
+        try{
+            const result = await appversionDao.read()
+            console.log(`result : ${result}`)
+            let nameList = ["appversion", "isUpdate", "error"];
+            let valueList = [result.dataValues.appversion, result.dataValues.isUpdate, null];
+            appversionObject = createJson.multi(nameList, valueList);
+            let resultObject = createJson.one("appversion_result", appversionObject);
+            resultObject.appversion_result = appversionObject;
+            res.json(resultObject);
+        
+        }catch(err){
+            console.log(err);
+            let nameList = ["appversion", "isUpdate", "error"];
+            let valueList = [null, null, err];
+            appversionObject = createJson.multi(nameList, valueList);
+            let resultObject = createJson.one("appversion_result", appversionObject);
+            res.json(resultObject);
+        }
     }else{
         let nameList = ["appversion", "isUpdate", "error"];
         let valueList = [null, null, "app name error"];

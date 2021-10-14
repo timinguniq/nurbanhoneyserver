@@ -45,7 +45,8 @@ exports.readForUserId = function read(userId){
 exports.readCount = async function read(offset = 0, limit = 10){
     const { count, rows } = await NurbanBoard.findAndCountAll({
         include: [
-            {model: User}
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'thumbnail', 'nickname', 'insignia' ]}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         offset: Number(offset),
