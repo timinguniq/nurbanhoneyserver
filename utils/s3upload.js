@@ -1,5 +1,6 @@
 let awsObj = require('../config/aws.js');
 let AWS = require('aws-sdk');
+let createJson = require('../utils/createjson');
 
 AWS.config.update({
     region: awsObj.region,

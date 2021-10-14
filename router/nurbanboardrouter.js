@@ -6,6 +6,8 @@ const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var s3upload = require('../utils/s3upload');
+var s3delete = require('../utils/s3delete');
+let awsObj = require('../config/aws.js');
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -196,8 +198,12 @@ router.delete('/', async (req, res) => {
     }
 
     // s3에 글 이미지 삭제하기
-    let s3 = new AWS.S3();
+    s3delete(awsObj.s3nurbanboardname, (err) => {
+        console.log(`err : ${err}`);
+    })   
 
+    /*        
+    let s3 = new AWS.S3();
     var params = {  
         'Bucket' : awsObj.s3nurbanboardname, 
         'Key' : `${id}/` 
@@ -212,6 +218,7 @@ router.delete('/', async (req, res) => {
             console.log(data);
         }     
     });
+    */
 });
 
 // 글 관련 이미지 업로드
