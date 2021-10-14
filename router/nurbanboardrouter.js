@@ -198,10 +198,8 @@ router.delete('/', async (req, res) => {
     }
 
     // s3에 글 이미지 삭제하기
-    s3delete(awsObj.s3nurbanboardname, (err) => {
-        console.log(`err : ${err}`);
-    })   
-
+    s3delete(awsObj.s3nurbanboardname, id)
+    
     /*        
     let s3 = new AWS.S3();
     var params = {  
