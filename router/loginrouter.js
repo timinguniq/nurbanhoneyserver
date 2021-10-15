@@ -94,9 +94,20 @@ router.post('/', async (req, res) => {
         }
     }else{
         // User 데이터가 존재하지 않는다면.
+        // user DB의 카운터 수 가져오기
+        let userCount = 0
+        try{
+            let result = await userDao.readCount();
+            console.log(result.dataValues.n_ids)
+            userCount = result.dataValues.n_ids;
+        }catch(err){
+            console.log(err);
+        }
+
         // 데이터베이스에 생성 후 토큰 보내기
         try{
-            let result = await userDao.create(inputLoginType, inputKey, inputPassword);
+            let nickname = "honey" + userCount;
+            let result = await userDao.create(inputLoginType, inputKey, inputPassword, nickname);
             if(result !== null){
                 let nameList = ["token", "error"];
                 let valueList = [token, null];
@@ -109,7 +120,7 @@ router.post('/', async (req, res) => {
             tokenObject = createJson.multi(nameList, valueList);
             resultObject = createJson.one("login_result", tokenObject);
         }
-    }    
+    }
     res.json(resultObject);
 });
 

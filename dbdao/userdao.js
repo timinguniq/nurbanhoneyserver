@@ -1,11 +1,12 @@
 const User = require('../models').User;
 
-exports.create = function create(loginType, key, password){
+exports.create = function create(loginType, key, password, nickname){
     return User.create({
         id: 0,
         loginType: loginType,
         key: key,
         password: password,
+        nickname: nickname,
         lastLoginAt: Date.now()
     })
 /*
@@ -25,7 +26,15 @@ exports.read = function read(inputKey){
         where: {
             key: inputKey
         }
-    })
+    });
+}
+
+exports.readCount = function read(){
+    return User.findAll({
+        attributes: [
+            [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
+        ] 
+    });
 }
   
 // User content 업데이트

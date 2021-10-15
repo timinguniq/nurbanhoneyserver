@@ -43,9 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: "프로필 설명",
       },
       insignia: {
-        type: DataTypes.ARRAY(DataTypes.ENUM({
-          values: ['Insignia_1', 'Insignia_2', 'Insignia_3', 'Insignia_4', 'Insignia_5']
-        })),
+        type: DataTypes.JSON,
         allowNull: true,
         comment: "휘장",
       },
