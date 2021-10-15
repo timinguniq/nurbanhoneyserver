@@ -12,7 +12,6 @@ var tokenRouter = require('./router/tokenrouter');
 var nurbanboardRouter = require('./router/nurbanboardrouter');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
 
-
 // for parsing application/json
 app.use(express.json());
 // x-www-form-urlencoded를 파싱하기 위해서 아래를 확장해야 한다.

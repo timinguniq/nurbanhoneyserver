@@ -62,6 +62,11 @@ module.exports = (sequelize, DataTypes) => {
        */      
        // userId 칼럼은 작성자의 User id값
        NurbanBoard.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+
+      /**
+       * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanComment모델에 새로운 컬럼으로 추가한다.
+       */      
+       NurbanBoard.hasOne(models.NurbanComment, {foreignKey: "articleId", sourceKey: 'id'});
     };
     
     return NurbanBoard;

@@ -2,9 +2,8 @@ var express = require('express');
 var router = express.Router();
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
-var axios = require('axios');
 let kakakoAuth = require('../utils/kakaoauth');
-let createJwtToken = require('../utils/createjwttoken')
+let createJwtToken = require('../utils/createjwttoken');
 
 router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
@@ -106,7 +105,7 @@ router.post('/', async (req, res) => {
 
         // 데이터베이스에 생성 후 토큰 보내기
         try{
-            let nickname = "honey" + userCount;
+            let nickname = "너반꿀" + userCount;
             let result = await userDao.create(inputLoginType, inputKey, inputPassword, nickname);
             if(result !== null){
                 let nameList = ["token", "error"];

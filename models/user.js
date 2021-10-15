@@ -65,6 +65,8 @@ module.exports = (sequelize, DataTypes) => {
        * User안에 있는 "id값"을 "userId라는 컬럼 이름"으로 NurbanBoard모델에 새로운 컬럼으로 추가한다.
        */      
       User.hasOne(models.NurbanBoard, {foreignKey: "userId", sourceKey: 'id'});
+
+      User.hasOne(models.NurbanComment, {foreignKey: "userId", sourceKey: 'id'});
     };
     
     return User;
