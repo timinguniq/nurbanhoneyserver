@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       nickname: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        defaultValue: "nurbanhoney",
+        unique: true,
         comment: "닉네임",
       },
       description: {
@@ -43,9 +43,9 @@ module.exports = (sequelize, DataTypes) => {
         comment: "프로필 설명",
       },
       insignia: {
-        type: DataTypes.ENUM({
+        type: DataTypes.ARRAY(DataTypes.ENUM({
           values: ['Insignia_1', 'Insignia_2', 'Insignia_3', 'Insignia_4', 'Insignia_5']
-        }),
+        })),
         allowNull: true,
         comment: "휘장",
       },
