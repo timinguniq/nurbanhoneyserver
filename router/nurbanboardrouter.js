@@ -1,7 +1,7 @@
 const { application } = require('express');
 var express = require('express');
 var router = express.Router();
-const nurbanboardDao = require('../dbdao/nurbanboarddao');
+const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
 
     // 너반꿀 게시판 글 작성
     try{
-        let result = await nurbanboardDao.create(thumbnail, title, content, userId);
+        let result = await nurbanBoardDao.create(thumbnail, title, content, userId);
         console.log(`create : ${result}`);
         let resultObject = {};
         let nameList = ["result", "error"];
@@ -76,7 +76,7 @@ router.get('/detail', async (req, res) => {
     let articleCount = 0
     // id 값으로 데이터 읽기
     try{
-        let result = await nurbanboardDao.readForId(id);
+        let result = await nurbanBoardDao.readForId(id);
         let id = result.id;
         let thumbanil = result.thumbanil;
         let title = result.title;
@@ -112,7 +112,7 @@ router.get('/detail', async (req, res) => {
   
     // 조회수 카운트 플러스하는 코드
     try{
-        let result = await nurbanboardDao.updateCount(id, ++articleCount);
+        let result = await nurbanBoardDao.updateCount(id, ++articleCount);
         console.log(`nurbanboard detail updateCount result : ${result}`);  
     }catch(err){
         console.log(`nurbanboard detail updateCount err : ${err}`);
@@ -156,7 +156,7 @@ router.patch('/', async (req, res) => {
     let content = req.query.content;
     
     try{
-        let result = await nurbanboardDao.updateContent(id, thumbnail, title, content);
+        let result = await nurbanBoardDao.updateContent(id, thumbnail, title, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         let nameList = ["result", "error"];
@@ -179,7 +179,7 @@ router.delete('/', async (req, res) => {
     let id = req.query.id;
 
     try{
-        let result = await nurbanboardDao.destory(id);
+        let result = await nurbanBoardDao.destory(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
         let nameList = ["result", "error"];

@@ -9,7 +9,8 @@ var appversionRouter = require('./router/appversionrouter');
 var loginRouter = require('./router/loginrouter');
 var tokenMidRouter = require('./router/tokenmidrouter');
 var tokenRouter = require('./router/tokenrouter');
-var nurbanboardRouter = require('./router/nurbanboardrouter');
+var nurbanBoardRouter = require('./router/nurbanboardrouter');
+var nurbanCommentRouter = require('./router/nurbancommentrouter');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
 
 // for parsing application/json
@@ -85,7 +86,10 @@ app.use('/token', tokenRouter);
 // token valid
 app.use('/', tokenMidRouter);
 // nurbanboard router
-app.use('/nurbanboard', nurbanboardRouter);
+app.use('/nurbanboard', nurbanBoardRouter);
+// nurbancomment router
+app.use('/nurbancomment', nurbanCommentRouter);
+
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
