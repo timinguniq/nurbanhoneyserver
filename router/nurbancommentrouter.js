@@ -23,16 +23,24 @@ router.post('/', async (req, res) => {
     // userId 추출하기
     try{
         let result = await userDao.read(key);
-        console.log(`post result : ${result}`);
+        console.log(`post result : ${JSON.stringify(result)}`);
         userId = result.id
+    }catch(err){
+        console.log(`post error : ${err}`);
+    }
+
+    // commentCount 추출하기
+    try{
+        let result = await nurbanBoardDao.readForId(articleId);
+        console.log(`post result nurbanBoardDao : ${JSON.stringify(result)}`);
         commentCount = result.commentCount;
     }catch(err){
-        console.log(`post error : ${error}`);
+        console.log(`post error nurbanBoardDao : ${err}`);    
     }
     
     let contentObject = new Object();
     let resultObject = new Object();
-    
+
     // 댓글 생성하는 코드
     try{
         let result = await nurbanCommentDao.create(content, articleId, userId);
