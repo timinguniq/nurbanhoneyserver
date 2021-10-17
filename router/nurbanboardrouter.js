@@ -127,7 +127,7 @@ router.get('/', async (req, res) => {
     let resultObject = new Object();
     // 썸네일, 제목, 댓글 개수
     try{
-        let result = await nurbanboardDao.readCount(offset, limit);
+        let result = await nurbanBoardDao.readCount(offset, limit);
         // 데이터 베이스 총 카운터 수
         let contentTotalCount = result.count
         // 데이터 리스트 오브젝트        
@@ -157,12 +157,12 @@ router.patch('/', async (req, res) => {
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         let nameList = ["result", "error"];
-        let valueList = [result, null];
+        let valueList = [result[0], null];
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbanboard_revise_result", contentObject);
         res.json(resultObject);
     }catch(err){
-        console.log(`patch err : ${result}`)
+        console.log(`patch err : ${err}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
         let contentObject = createJson.multi(nameList, valueList);

@@ -68,6 +68,16 @@ module.exports = (sequelize, DataTypes) => {
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanComment모델에 새로운 컬럼으로 추가한다.
        */      
        NurbanBoard.hasOne(models.NurbanComment, {foreignKey: "articleId", sourceKey: 'id'});
+
+      /**
+       * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanLike모델에 새로운 컬럼으로 추가한다.
+       */      
+       NurbanBoard.hasOne(models.NurbanLike, {foreignKey: "articleId", sourceKey: 'id'});
+
+      /**
+       * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanDislike모델에 새로운 컬럼으로 추가한다.
+       */      
+       NurbanBoard.hasOne(models.NurbanDislike, {foreignKey: "articleId", sourceKey: 'id'});
     };
     
     return NurbanBoard;

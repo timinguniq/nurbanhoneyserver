@@ -112,7 +112,7 @@ router.patch('/', async (req, res) => {
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         let nameList = ["result", "error"];
-        let valueList = [result, null];
+        let valueList = [result[0], null];
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
         res.json(resultObject);

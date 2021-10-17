@@ -67,7 +67,11 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.NurbanBoard, {foreignKey: "userId", sourceKey: 'id'});
 
       User.hasOne(models.NurbanComment, {foreignKey: "userId", sourceKey: 'id'});
-    };
+
+      User.hasOne(models.NurbanLike, {foreignKey: "userId", sourceKey: 'id'});
     
+      User.hasOne(models.NurbanDislike, {foreignKey: "userId", sourceKey: 'id'});
+    };
+        
     return User;
   };
