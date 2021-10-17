@@ -79,6 +79,7 @@ router.post('/', async (req, res) => {
 
 // 댓글 리스트 읽기
 router.get('/', async (req, res) => {
+    let articleId = req.query.articleId
     let offset = req.query.offset;
     let limit = req.query.limit;
 
@@ -86,7 +87,7 @@ router.get('/', async (req, res) => {
 
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
-        let result = await nurbanCommentDao.readCount(offset, limit);
+        let result = await nurbanCommentDao.readCount(articleId, offset, limit);
         // 데이터 베이스 총 카운터 수
         let contentTotalCount = result.count
         // 데이터 리스트 오브젝트        
@@ -101,6 +102,30 @@ router.get('/', async (req, res) => {
         resultObject = createJson.one("nurbancomment_list_result", contentObject);
     }
     res.json(resultObject);
+});
+
+// 댓글 수정
+router.patch('/', async (req, res) => {
+    let id = req.query.id;
+    let content = req.query.content;
+    
+    try{
+        let result = await nurbanCommentDao.updateContent(id, content);
+        // result 1이면 성공 0이면 실패
+        console.log(`patch result : ${result}`)
+        let nameList = ["result", "error"];
+        let valueList = [result, null];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
+        res.json(resultObject);
+    }catch(err){
+        console.log(`patch err : ${result}`)
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
+        res.json(resultObject);
+    }
 });
 
 

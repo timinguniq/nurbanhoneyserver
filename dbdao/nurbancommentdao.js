@@ -11,7 +11,7 @@ exports.create = function create(content, articleId, userId){
 }
  
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.readCount = async function read(offset = 0, limit = 10){
+exports.readCount = async function read(articleId, offset = 0, limit = 10){
     const { count, rows } = await NurbanComment.findAndCountAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -19,7 +19,10 @@ exports.readCount = async function read(offset = 0, limit = 10){
         ],
         attributes: ['id', 'content', 'articleId'],
         offset: Number(offset),
-        limit: Number(limit)
+        limit: Number(limit),
+        where: {
+            articleId: articleId
+        }
     })
     return {count, rows}
 }
