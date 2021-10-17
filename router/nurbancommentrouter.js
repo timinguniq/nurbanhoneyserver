@@ -1,4 +1,3 @@
-const { application } = require('express');
 var express = require('express');
 var router = express.Router();
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
@@ -6,7 +5,6 @@ const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
-
 
 // 댓글 생성
 router.post('/', async (req, res) => {
@@ -125,6 +123,30 @@ router.patch('/', async (req, res) => {
         let contentObject = createJson.multi(nameList, valueList);
         let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
         res.json(resultObject);
+    }
+});
+
+// 댓글 삭제
+router.delete('/', async (req, res) => {
+    let id = req.query.id;
+
+    try{
+        let result = await nurbanCommentDao.destory(id);
+        // result 1이면 성공 0이면 실패
+        console.log(`delete result : ${result}`)
+        let nameList = ["result", "error"];
+        let valueList = [result, null];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
+        res.json(resultObject);
+    }catch(err){
+        console.log(`delete err : ${err}`)
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
+        res.json(resultObject);
+        return res.end();
     }
 });
 

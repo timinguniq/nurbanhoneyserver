@@ -1,4 +1,3 @@
-const { application } = require('express');
 var express = require('express');
 var router = express.Router();
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
@@ -147,8 +146,6 @@ router.get('/', async (req, res) => {
 
 // 글 수정 관련 통신 메소드
 router.patch('/', async (req, res) => {
-    // TODO : 여기서부터 await 작업
-
     let id = req.query.id;
     // 나중에 thumbanil 처리해줘야됨.
     let thumbnail = req.query.thumbnail;
