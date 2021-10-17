@@ -32,4 +32,4 @@ exports.updateContent = function update(id, content){
 // 댓글 삭제
 exports.destory = function destory(id){
     return NurbanComment.destroy({where: {id: id}})
-} 
+}

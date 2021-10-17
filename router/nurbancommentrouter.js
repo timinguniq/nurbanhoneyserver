@@ -62,7 +62,7 @@ router.post('/', async (req, res) => {
     // 너반꿀 게시판 테이블에 commentCount 증가하는 코드
     try{
         console.log(`commentCount : ${commentCount}`);
-        let result = await nurbanBoardDao.updateCommentCount(articleId, commentCount)
+        let result = await nurbanBoardDao.updateCommentCount(articleId, ++commentCount)
         console.log(`commentCount result : ${result}`)    
     }catch(err){
         console.log(`post create comment update result err : ${err}`);
@@ -79,7 +79,28 @@ router.post('/', async (req, res) => {
 
 // 댓글 리스트 읽기
 router.get('/', async (req, res) => {
+    let offset = req.query.offset;
+    let limit = req.query.limit;
 
+    let resultObject = new Object();
+
+    // 컨텐츠, 글id, userId, profile, nickname, insignia
+    try{
+        let result = await nurbanCommentDao.readCount(offset, limit);
+        // 데이터 베이스 총 카운터 수
+        let contentTotalCount = result.count
+        // 데이터 리스트 오브젝트        
+        let contentObjectArray = result.rows;
+ 
+        console.log(`result.rows : ${result.rows}`);
+        resultObject = createJson.one("nurbancomment_list_result", contentObjectArray);
+    }catch(err){
+        console.log(`err : ${err}`);
+        let contentObject = new Object();
+        contentObject.error = err;
+        resultObject = createJson.one("nurbancomment_list_result", contentObject);
+    }
+    res.json(resultObject);
 });
 
 
