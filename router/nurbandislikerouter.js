@@ -7,7 +7,7 @@ var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
 
-// 댓글 생성
+// 싫어요 생성
 router.post('/', async (req, res) => {
     let articleId = req.body.articleId;
     let userId = "";
@@ -27,10 +27,12 @@ router.post('/', async (req, res) => {
     let contentObject = new Object();
     let resultObject = new Object();
     
+    // 싫어요를 삭제하는 코드
+    await nurbanDislikeDao.destoryUserId(articleId, userId);
     // 좋아요를 삭제하는 코드
-    
+    await nurbanLikeDao.destoryUserId(articleId, userId);
 
-    // 좋아요를 생성하는 코드
+    // 싫어요를 생성하는 코드
     try{
         let result = await nurbanDislikeDao.create(articleId, userId);
         console.log(`post create result : ${result}`);
@@ -48,97 +50,124 @@ router.post('/', async (req, res) => {
         return res.end();
     }
 
-    // 너반꿀 게시판 테이블에 commentCount 증가하는 코드
+    // 기사의 싫어요 카운터 수 가져오기
+    let dislikeCount = 0
     try{
-        console.log(`commentCount : ${commentCount}`);
-        let result = await nurbanBoardDao.updateCommentCount(articleId, ++commentCount)
-        console.log(`commentCount result : ${result}`)    
+        let result = await nurbanDislikeDao.readCount(articleId);
+        console.log(result.dataValues.n_ids)
+        dislikeCount = result.dataValues.n_ids;
     }catch(err){
-        console.log(`post create comment update result err : ${err}`);
+        console.log(err);
+    }
+
+    // 기사의 좋아요 카우터 수 가져오기
+    let likeCount = 0
+    try{
+        let result = await nurbanLikeDao.readCount(articleId);
+        console.log(result.dataValues.n_ids)
+        likeCount = result.dataValues.n_ids;
+    }catch(err){
+        console.log(err);
+    }
+
+    // 너반꿀 게시판 테이블에 disLikeCount 증가하는 코드
+    try{
+        if(dislikeCount !== 0){
+            let result = await nurbanBoardDao.updateDislikeCount(articleId, dislikeCount);
+        }        
+    }catch(err){
         let nameList = ["result", "error"];
         let valueList = [null, err];
         contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_create_result", contentObject);
+        resultObject = createJson.one("nurbandislike_create_result", contentObject);
         res.json(resultObject);
-        return res.end();
+        return res.end();   
     }
-    res.json(resultObject);
-});
 
-
-// 댓글 리스트 읽기
-router.get('/', async (req, res) => {
-    let articleId = req.query.articleId
-    let offset = req.query.offset;
-    let limit = req.query.limit;
-
-    let resultObject = new Object();
-
-    // 컨텐츠, 글id, userId, profile, nickname, insignia
+    // 너반꿀 게시판 테이블에 likeCount 증가하는 코드
     try{
-        let result = await nurbanCommentDao.readCount(articleId, offset, limit);
-        // 데이터 베이스 총 카운터 수
-        let contentTotalCount = result.count
-        // 데이터 리스트 오브젝트        
-        let contentObjectArray = result.rows;
- 
-        console.log(`result.rows : ${result.rows}`);
-        resultObject = createJson.one("nurbancomment_list_result", contentObjectArray);
+        if(likeCount !== 0){
+            let result = await nurbanBoardDao.updateLikeCount(articleId, likeCount);
+        }        
     }catch(err){
-        console.log(`err : ${err}`);
-        let contentObject = new Object();
-        contentObject.error = err;
-        resultObject = createJson.one("nurbancomment_list_result", contentObject);
-    }
-    res.json(resultObject);
-});
-
-// 댓글 수정
-router.patch('/', async (req, res) => {
-    let id = req.query.id;
-    let content = req.query.content;
-    
-    try{
-        let result = await nurbanCommentDao.updateContent(id, content);
-        // result 1이면 성공 0이면 실패
-        console.log(`patch result : ${result}`)
-        let nameList = ["result", "error"];
-        let valueList = [result[0], null];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
-        res.json(resultObject);
-    }catch(err){
-        console.log(`patch err : ${result}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbandislike_create_result", contentObject);
         res.json(resultObject);
+        return res.end();   
     }
+
+    res.json(resultObject);
 });
 
-// 댓글 삭제
+// 싫어요 삭제
 router.delete('/', async (req, res) => {
-    let id = req.query.id;
+    let articleId = req.body.articleId;
+    let userId = "";
+
+    let token = req.headers.token;
+
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
+
+    // 키값으로 userId값 가져오기
+    userId = extractUserId(key);
+
+    if(userId === ""){
+        console.log("userId error")
+    }
+
+    let contentObject = new Object();
+    let resultObject = new Object();
 
     try{
-        let result = await nurbanCommentDao.destory(id);
+        let result = await nurbanDislikeDao.destoryUserId(articleId, userId);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
         let nameList = ["result", "error"];
         let valueList = [result, null];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
-        res.json(resultObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbandislike_delete_result", contentObject);
     }catch(err){
         console.log(`delete err : ${err}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbandislike_delete_result", contentObject);
         res.json(resultObject);
         return res.end();
     }
+
+    // 기사의 싫어요 카운터 수 가져오기
+    let dislikeCount = 0
+    try{
+        let result = await nurbanDislikeDao.readCount(articleId);
+        console.log(result.dataValues.n_ids)
+        dislikeCount = result.dataValues.n_ids;
+    }catch(err){
+        console.log(err);
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbandislike_delete_result", contentObject);
+        res.json(resultObject);
+        return res.end();   
+    }
+
+    // 너반꿀 게시판 테이블에 disLikeCount 증가하는 코드
+    try{
+        let result = await nurbanBoardDao.updateDislikeCount(articleId, dislikeCount);
+    }catch(err){
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbandislike_delete_result", contentObject);
+        res.json(resultObject);
+        return res.end();   
+    }
+
+    res.json(resultObject);
 });
 
 module.exports = router;

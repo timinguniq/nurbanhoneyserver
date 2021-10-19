@@ -18,6 +18,18 @@ exports.read = function read(userId){
     });
 }
 
+// read count
+exports.readCount = function read(articleId){
+    return NurbanDislike.findAll({
+        attributes: [
+            [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
+        ],
+        where: {
+            articleId: articleId
+        }
+    });
+}
+
 // update 
 exports.update = function update(id){
     return NurbanDislike.update({where: {id: id}})
@@ -28,7 +40,7 @@ exports.destory = function destory(id){
     return NurbanDislike.destroy({where: {id: id}})
 }
 
-// destroy userId
-exports.destoryUserId = function destroy(userId){
-    return NurbanDislike.destroy({where: {userId: userId}})
+// destroy articleId userId
+exports.destoryUserId = function destroy(articleId, userId){
+    return NurbanDislike.destroy({where: {articleId: articleId, userId: userId}})
 }
