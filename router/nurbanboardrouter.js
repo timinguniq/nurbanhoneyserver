@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
+const nurbanLikeDao = require('../dbdao/nurbanlikedao');
+const nurbanDislikeDao = require('../dbdao/nurbandislikedao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
@@ -86,9 +88,30 @@ router.get('/detail', async (req, res) => {
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let updateAt = result.updateAt;
+        let userId = result.User.userId;
         let profile = result.User.profile;
         let nickname = result.User.nickname;
         let insignia = result.User.insignia;
+
+        let myRating = new Object();
+        let like = '';
+        let dislike = '';
+        // 좋아요 데이터 받아오는 코드
+        try{
+            like = await nurbanLikeDao.read(id, userId);
+            console.log("like result", like);
+        }catch(err){
+            console.log("like err", err);
+        }
+        // 싫어요 데이터 받아오는 코드
+        try{
+            dislike = await nurbanDislikeDao.read(id, userId);
+            console.log("dislike result", dislike);
+        }catch(err){
+            console.log("dislike err", err);
+        }
+
+        //myRating = creat
 
         let resultObject = {};
         let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 

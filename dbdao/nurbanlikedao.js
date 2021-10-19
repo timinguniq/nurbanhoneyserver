@@ -1,4 +1,5 @@
 const NurbanLike = require('../models').NurbanLike;
+const { sequelize } = require('../models');
 
 // create
 exports.create = function create(articleId, userId){
@@ -10,10 +11,23 @@ exports.create = function create(articleId, userId){
 }
  
 // read
-exports.read = function read(userId){
+exports.read = function read(articleId, userId){
     return NurbanLike.findOne({
         where: {
+            articleId: articleId,
             userId: userId
+        }
+    });
+}
+
+// read count
+exports.readCount = function read(articleId){
+    return NurbanLike.findAll({
+        attributes: [
+            [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
+        ],
+        where: {
+            articleId: articleId
         }
     });
 }
@@ -28,7 +42,7 @@ exports.destory = function destory(id){
     return NurbanLike.destroy({where: {id: id}})
 }
 
-// destroy userId
-exports.destoryUserId = function destroy(userId){
-    return NurbanLike.destroy({where: {userId: userId}})
+// destroy articleId userId
+exports.destoryUserId = function destroy(articleId, userId){
+    return NurbanLike.destroy({where: {articleId: articleId, userId: userId}})
 }

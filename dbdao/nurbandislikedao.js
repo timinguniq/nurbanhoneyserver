@@ -1,4 +1,5 @@
 const NurbanDislike = require('../models').NurbanDislike;
+const { sequelize } = require('../models');
 
 // create
 exports.create = function create(articleId, userId){
