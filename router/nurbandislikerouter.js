@@ -1,57 +1,49 @@
 var express = require('express');
 var router = express.Router();
-const nurbanCommentDao = require('../dbdao/nurbancommentdao');
+const nurbanDislikeDao = require('../dbdao/nurbandislikedao');
+const nurbanLikeDao = require('../dbdao/nurbanlikedao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
-const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
 
 // 댓글 생성
 router.post('/', async (req, res) => {
-    let content = req.body.content;
-    let userId = '';
     let articleId = req.body.articleId;
-    let commentCount = 0;
+    let userId = "";
 
     let token = req.headers.token;
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
 
-    // 키값으로 userId 값 얻어내기 
+    // 키값으로 userId값 가져오기
     userId = extractUserId(key);
 
     if(userId === ""){
-        console.log(`user Id error`);
-    }
-
-    // commentCount 추출하기
-    try{
-        let result = await nurbanBoardDao.readForId(articleId);
-        console.log(`post result nurbanBoardDao : ${JSON.stringify(result)}`);
-        commentCount = result.commentCount;
-    }catch(err){
-        console.log(`post error nurbanBoardDao : ${err}`);    
+        console.log("userId error")
     }
     
     let contentObject = new Object();
     let resultObject = new Object();
+    
+    // 좋아요를 삭제하는 코드
+    
 
-    // 댓글 생성하는 코드
+    // 좋아요를 생성하는 코드
     try{
-        let result = await nurbanCommentDao.create(content, articleId, userId);
+        let result = await nurbanDislikeDao.create(articleId, userId);
         console.log(`post create result : ${result}`);
         let nameList = ["result", "error"];
         let valueList = [result, null];
         contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_create_result", contentObject);
+        resultObject = createJson.one("nurbandislike_create_result", contentObject);
     }catch(err){
         console.log(`post create result err : ${err}`);
         let nameList = ["result", "error"];
         let valueList = [null, err];
         contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_create_result", contentObject);
+        resultObject = createJson.one("nurbandislike_create_result", contentObject);
         res.json(resultObject);
         return res.end();
     }

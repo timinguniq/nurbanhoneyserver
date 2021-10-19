@@ -4,6 +4,7 @@ const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 let kakakoAuth = require('../utils/kakaoauth');
 let createJwtToken = require('../utils/createjwttoken');
+const kakaoauth = require('../utils/kakaoauth');
 
 router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
@@ -27,7 +28,8 @@ router.post('/', async (req, res) => {
 
     // 로그인 타입이 카카오일 때 처리
     if(inputLoginType === "kakao"){
-        if(!await kakakoAuth(inputKey)){
+        let kakaoProfileId = await kakaoauth(input)
+        if(!kakaoProfileId){
             // 카카오 토큰이 유효하지 않다.
             let nameList = ["token", "error"];
             let valueList = [null, "kakao_auth_error"];
@@ -37,7 +39,7 @@ router.post('/', async (req, res) => {
             return res.end()
         }
 
-        inputKey = "K-" + inputKey;
+        inputKey = "K-" + kakaoProfileId;
     }else if(inputLoginType === "google"){
         // TODO
 
