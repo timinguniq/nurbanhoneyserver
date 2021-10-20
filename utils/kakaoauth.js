@@ -12,7 +12,7 @@ module.exports = async (kakaoToken) => {
         });
 
         if(kakao_profile.data.id !== null){
-            return true;
+            return kakao_profile.data.id;
         }else{
             return false
         }

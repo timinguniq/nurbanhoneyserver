@@ -18,15 +18,15 @@ exports.create = function create(thumbnail, title, content, userId){
         content: content,
         userId: userId
     })
-*/ 
+*/
 
 // 글 생성 
 router.post('/', async (req, res) => {
+    let uuid = req.body.uuid;
     // TODO : thumbnail 처리 해야 됨.
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
     let content = req.body.content;
-    let uuid = req.body.uuid;
     let userId = '';
 
     let token = req.headers.token;
