@@ -80,6 +80,7 @@ router.get('/detail', async (req, res) => {
     try{
         let result = await nurbanBoardDao.readForId(id);
         let articleId = result.id;
+        let uuid = result.uuid;
         let thumbanil = result.thumbanil;
         let title = result.title;
         let content = result.content;
@@ -119,18 +120,18 @@ router.get('/detail', async (req, res) => {
         //myRating = creat
 
         let resultObject = {};
-        let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+        let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
                 "profile", "nickname", "insignia", "myRating", "error"];
-        let valueList = [articleId, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, 
+        let valueList = [articleId, uuid, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, 
                 profile, nickname, insignia, myRating, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
     }catch(err){
         let resultObject = {};
-        let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+        let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
                 "profile", "nickname", "insignia", "error"];
-        let valueList = [null, null, null, null, null, null, null, null, null, 
+        let valueList = [null, null, null, null, null, null, null, null, null, null, 
                 null, null, null, "article is not exist"];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
@@ -202,6 +203,7 @@ router.patch('/', async (req, res) => {
 // 글 삭제 관련 통신 메소드
 router.delete('/', async (req, res) => {
     let id = req.query.id;
+    let uuid = req.query.uuid;
 
     try{
         let result = await nurbanBoardDao.destory(id);
@@ -223,7 +225,7 @@ router.delete('/', async (req, res) => {
     }
 
     // s3에 글 이미지 삭제하기
-    s3delete(awsObj.s3nurbanboardname, id)
+    s3delete(awsObj.s3nurbanboardname, uuid)
 });
 
 // 글 관련 이미지 업로드
