@@ -11,9 +11,10 @@ exports.create = function create(articleId, userId){
 }
  
 // read
-exports.read = function read(userId){
+exports.read = function read(articleId, userId){
     return NurbanDislike.findOne({
         where: {
+            articleId: articleId,
             userId: userId
         }
     });

@@ -158,7 +158,7 @@ router.delete('/', async (req, res) => {
     // 너반꿀 게시판 테이블에 likeCount 감소하는 코드
     try{
         if(likeCount !== -1){
-            let result = await nurbanBoardDao.updateLikeCount(articleId, dislikeCount);
+            let result = await nurbanBoardDao.updateLikeCount(articleId, likeCount);
         }
     }catch(err){
         let nameList = ["result", "error"];

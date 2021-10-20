@@ -26,6 +26,7 @@ router.post('/', async (req, res) => {
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
     let content = req.body.content;
+    let uuid = req.body.uuid;
     let userId = '';
 
     let token = req.headers.token;
@@ -52,7 +53,7 @@ router.post('/', async (req, res) => {
 
     // 너반꿀 게시판 글 작성
     try{
-        let result = await nurbanBoardDao.create(thumbnail, title, content, userId);
+        let result = await nurbanBoardDao.create(uuid, thumbnail, title, content, userId);
         console.log(`create : ${result}`);
         let resultObject = {};
         let nameList = ["result", "error"];
@@ -78,7 +79,7 @@ router.get('/detail', async (req, res) => {
     // id 값으로 데이터 읽기
     try{
         let result = await nurbanBoardDao.readForId(id);
-        let id = result.id;
+        let articleId = result.id;
         let thumbanil = result.thumbanil;
         let title = result.title;
         let content = result.content;
@@ -92,21 +93,25 @@ router.get('/detail', async (req, res) => {
         let profile = result.User.profile;
         let nickname = result.User.nickname;
         let insignia = result.User.insignia;
+        let myRating = null;
 
-        let myRating = new Object();
-        let like = '';
-        let dislike = '';
         // 좋아요 데이터 받아오는 코드
         try{
-            like = await nurbanLikeDao.read(id, userId);
+            like = await nurbanLikeDao.read(articleId, userId);
             console.log("like result", like);
+            if(like !== null){
+                myRating = 'like'; 
+            }
         }catch(err){
             console.log("like err", err);
         }
         // 싫어요 데이터 받아오는 코드
         try{
-            dislike = await nurbanDislikeDao.read(id, userId);
+            dislike = await nurbanDislikeDao.read(articleId, userId);
             console.log("dislike result", dislike);
+            if(dislike !== null){
+                myRating = 'dislike';
+            }
         }catch(err){
             console.log("dislike err", err);
         }
@@ -115,9 +120,9 @@ router.get('/detail', async (req, res) => {
 
         let resultObject = {};
         let nameList = ["id", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
-                "profile", "nickname", "insignia", "error"];
-        let valueList = [id, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, 
-                profile, nickname, insignia, null];
+                "profile", "nickname", "insignia", "myRating", "error"];
+        let valueList = [articleId, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, 
+                profile, nickname, insignia, myRating, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
@@ -224,7 +229,7 @@ router.delete('/', async (req, res) => {
 // 글 관련 이미지 업로드
 router.post('/upload/image', async (req, res) => {
     let imageFile = req.files;
-    let articleId = req.body.id;
+    let uuid = req.body.uuid;
     
     let imageFileNameSize = JSON.stringify(imageFile[0].originalname).split('\\').length;
     let imageFileName = JSON.stringify(imageFile[0].originalname).split('\\')[imageFileNameSize-1];
@@ -233,7 +238,7 @@ router.post('/upload/image', async (req, res) => {
     let bodyBuffer = new Buffer.from(bufferObj.data);  
 
     // s3에 파일 업로드 하는 메소드
-    s3upload(articleId, imageFileName, bodyBuffer, (resultObject) => {
+    s3upload(uuid, imageFileName, bodyBuffer, (resultObject) => {
         res.json(resultObject);
     });
    

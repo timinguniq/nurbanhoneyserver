@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         comment: "id",
       },
+      uuid: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        comment: "이미지 uuid",
+      },
       thumbnail: {
         type: DataTypes.STRING(100),
         allowNull: true,

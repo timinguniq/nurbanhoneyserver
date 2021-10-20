@@ -140,7 +140,7 @@ router.delete('/', async (req, res) => {
     }
 
     // 기사의 싫어요 카운터 수 가져오기
-    let dislikeCount = 0
+    let dislikeCount = -1
     try{
         let result = await nurbanDislikeDao.readCount(articleId);
         //console.log(result.dataValues.n_ids)
@@ -157,7 +157,9 @@ router.delete('/', async (req, res) => {
 
     // 너반꿀 게시판 테이블에 disLikeCount 감소하는 코드
     try{
-        let result = await nurbanBoardDao.updateDislikeCount(articleId, dislikeCount);
+        if(dislikeCount !== -1){
+            let result = await nurbanBoardDao.updateDislikeCount(articleId, dislikeCount);
+        }
     }catch(err){
         let nameList = ["result", "error"];
         let valueList = [null, err];

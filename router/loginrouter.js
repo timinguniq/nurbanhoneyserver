@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 
     // 로그인 타입이 카카오일 때 처리
     if(inputLoginType === "kakao"){
-        let kakaoProfileId = await kakaoauth(input)
+        let kakaoProfileId = await kakaoauth(inputKey);
         if(!kakaoProfileId){
             // 카카오 토큰이 유효하지 않다.
             let nameList = ["token", "error"];
@@ -88,7 +88,7 @@ router.post('/', async (req, res) => {
         // User 데이터가 존재했다면
         // User LastLoginAt Update
         try{
-            let result = await userDao.updateLastTime(result.id);
+            let result = await userDao.updateLastTime(userId);
             console.log(`updateLastTime result : ${result}`)
         }catch(err){
             console.log(`updateLastTime err : ${err}`)

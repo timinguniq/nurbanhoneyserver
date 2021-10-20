@@ -1,9 +1,10 @@
 const NurbanBoard = require('../models').NurbanBoard;
 const User = require('../models').User;
 
-exports.create = function create(thumbnail, title, content, userId){
+exports.create = function create(uuid, thumbnail, title, content, userId){
     return NurbanBoard.create({
         id: 0,
+        uuid: uuid,
         thumbnail: thumbnail,
         title: title,
         content: content,
