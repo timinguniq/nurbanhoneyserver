@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
             let nickname = "너반꿀" + userCount;
             let result = await userDao.create(inputLoginType, inputKey, inputPassword, nickname);
             if(result !== null){
-                let nameList = ["token", "userId","error"];
+                let nameList = ["token", "userId", "error"];
                 let valueList = [token, userId, null];
                 tokenObject = createJson.multi(nameList, valueList);
                 resultObject = createJson.one("login_result", tokenObject);
