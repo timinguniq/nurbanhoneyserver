@@ -43,6 +43,11 @@ exports.update = function update(id, thumbnail, nickanme, description, insignia)
     return User.update({thumbnail: thumbnail, nickname: nickanme, description: description, insignia: insignia}, {where: {id: id}})
 }
 
+// User nickname 업데이트
+exports.updateNickname = function update(key, nickanme){
+    return User.update({nickname: nickanme}, {where: {key: key}})
+}
+
 // User LastLoginAt만 업데이트
 exports.updateLastTime = function update(id){
     return User.update({lastLoginAt: Date.now()}, {where: {id: id}})

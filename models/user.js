@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: "프로필 설명",
       },
       point: {
-        type: DataTypes.INTERGER,
+        type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
         allowNull: false,
         comment: "포인트 (글쓰기나 베팅을 통한 포인트 적립)",

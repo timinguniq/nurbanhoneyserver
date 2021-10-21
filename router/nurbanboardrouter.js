@@ -175,11 +175,11 @@ router.get('/', async (req, res) => {
 
 // 글 수정 관련 통신 메소드
 router.patch('/', async (req, res) => {
-    let id = req.query.id;
+    let id = req.body.id;
     // 나중에 thumbanil 처리해줘야됨.
-    let thumbnail = req.query.thumbnail;
-    let title = req.query.title;
-    let content = req.query.content;
+    let thumbnail = req.body.thumbnail;
+    let title = req.body.title;
+    let content = req.body.content;
     
     try{
         let result = await nurbanBoardDao.updateContent(id, thumbnail, title, content);
@@ -225,7 +225,7 @@ router.delete('/', async (req, res) => {
     }
 
     // s3에 글 이미지 삭제하기
-    s3delete(awsObj.s3nurbanboardname, uuid)
+    s3delete(awsObj.s3nurbanboardname, uuid);
 });
 
 // 글 관련 이미지 업로드
