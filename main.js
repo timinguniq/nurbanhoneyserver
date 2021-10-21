@@ -13,6 +13,8 @@ var nurbanBoardRouter = require('./router/nurbanboardrouter');
 var nurbanCommentRouter = require('./router/nurbancommentrouter');
 var nurbanLikeRouter = require('./router/nurbanlikerouter');
 var nurbanDislikeRouter = require('./router/nurbandislikerouter');
+
+var profileRouter = require('./router/profilerouter');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
 
 // for parsing application/json
@@ -95,6 +97,10 @@ app.use('/nurbancomment', nurbanCommentRouter);
 app.use('/nurbanlike', nurbanLikeRouter);
 // nurbandislike router
 app.use('/nurbandislike', nurbanDislikeRouter);
+
+
+// profile
+app.use('/profile', profileRouter);
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
