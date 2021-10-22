@@ -9,11 +9,11 @@ AWS.config.update({
 });
 
 // s3에 파일 업로드 하는 메소드
-module.exports =  async (uuid, imageFileName, bodyBuffer, callback) => {
+module.exports = async (bucketName, folderName, imageFileName, bodyBuffer, callback) => {
     let s3 = new AWS.S3();
     let param = {
-        'Bucket' : awsObj.s3nurbanboardname,
-        'Key' : `${uuid}/${imageFileName}`,
+        'Bucket' : bucketName,
+        'Key' : `${folderName}/${imageFileName}`,
         'ACL' : 'public-read',
         'Body' : bodyBuffer,
         'ContentType' : 'image/png'

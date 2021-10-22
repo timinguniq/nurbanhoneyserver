@@ -9,6 +9,7 @@ var extractKey = require('../utils/extractkey');
 var s3upload = require('../utils/s3upload');
 var s3delete = require('../utils/s3delete');
 let awsObj = require('../config/aws.js');
+
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -240,7 +241,7 @@ router.post('/upload/image', async (req, res) => {
     let bodyBuffer = new Buffer.from(bufferObj.data);  
 
     // s3에 파일 업로드 하는 메소드
-    s3upload(uuid, imageFileName, bodyBuffer, (resultObject) => {
+    s3upload(awsObj.s3nurbanboardname, uuid, imageFileName, bodyBuffer, (resultObject) => {
         res.json(resultObject);
     });
    
