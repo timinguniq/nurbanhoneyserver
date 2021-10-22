@@ -4,6 +4,8 @@ const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
+var s3upload = require('../utils/s3upload');
+let awsObj = require('../config/aws.js');
 
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
@@ -42,7 +44,7 @@ router.get('/', async (req, res) => {
 });
 
 // 프로필 이미지 변경 통신
-router.post('/', async (req, res) => {
+router.post('/image', async (req, res) => {
     let imageFile = req.files;
     let token = req.headers.token;
 
@@ -56,9 +58,10 @@ router.post('/', async (req, res) => {
     
     let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
     let bodyBuffer = new Buffer.from(bufferObj.data);  
+    let resultString = "profile_image_result";
 
     // s3에 파일 업로드 하는 메소드
-    s3upload(awsObj.s3nurbanhoneyprofilename, userId, imageFileName, bodyBuffer, (resultObject) => {
+    s3upload(awsObj.s3nurbanhoneyprofilename, userId, imageFileName, bodyBuffer, resultString, (resultObject) => {
         res.json(resultObject);
     });
 });

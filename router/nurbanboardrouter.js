@@ -239,9 +239,10 @@ router.post('/upload/image', async (req, res) => {
     
     let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
     let bodyBuffer = new Buffer.from(bufferObj.data);  
+    let resultString = "nurbanboard_image_result";
 
     // s3에 파일 업로드 하는 메소드
-    s3upload(awsObj.s3nurbanboardname, uuid, imageFileName, bodyBuffer, (resultObject) => {
+    s3upload(awsObj.s3nurbanboardname, uuid, imageFileName, bodyBuffer, resultString, (resultObject) => {
         res.json(resultObject);
     });
    
