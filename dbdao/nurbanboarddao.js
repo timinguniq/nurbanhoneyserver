@@ -65,8 +65,9 @@ exports.readCount = async function read(offset = 0, limit = 10){
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         offset: Number(offset),
-        limit: Number(limit)
-    })    
+        limit: Number(limit),
+        order: [['id', 'DESC']]
+    })
     return {count, rows}
 }
 

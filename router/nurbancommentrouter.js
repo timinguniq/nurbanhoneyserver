@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     let key = extractKey(token);
 
     // 키값으로 userId 값 얻어내기 
-    userId = extractUserId(key);
+    userId = await extractUserId(key);
 
     if(userId === ""){
         console.log(`user Id error`);
@@ -103,8 +103,8 @@ router.get('/', async (req, res) => {
 
 // 댓글 수정
 router.patch('/', async (req, res) => {
-    let id = req.query.id;
-    let content = req.query.content;
+    let id = req.body.id;
+    let content = req.body.content;
     
     try{
         let result = await nurbanCommentDao.updateContent(id, content);

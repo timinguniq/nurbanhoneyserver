@@ -24,7 +24,6 @@ exports.create = function create(thumbnail, title, content, userId){
 // 글 생성 
 router.post('/', async (req, res) => {
     let uuid = req.body.uuid;
-    // TODO : thumbnail 처리 해야 됨.
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
     let content = req.body.content;
@@ -118,8 +117,6 @@ router.get('/detail', async (req, res) => {
             console.log("dislike err", err);
         }
 
-        //myRating = creat
-
         let resultObject = {};
         let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
                 "profile", "nickname", "insignia", "myRating", "error"];
@@ -160,9 +157,9 @@ router.get('/', async (req, res) => {
         let result = await nurbanBoardDao.readCount(offset, limit);
         // 데이터 베이스 총 카운터 수
         let contentTotalCount = result.count
-        // 데이터 리스트 오브젝트        
+        // 데이터 리스트 오브젝트
         let contentObjectArray = result.rows;
- 
+
         console.log(`result.rows : ${result.rows}`);
         resultObject = createJson.one("nurbanboard_list_result", contentObjectArray);
     }catch(err){
@@ -231,11 +228,11 @@ router.delete('/', async (req, res) => {
 
 // 글 관련 이미지 업로드
 router.post('/upload/image', async (req, res) => {
-    let imageFile = req.files;
+    let imageFiles = req.files;
     let uuid = req.body.uuid;
     
     // 에러 처리
-    if(imageFile === undefined){
+    if(imageFiles === undefined){
         let nameList = ["result", "error"];
         let valueList = [null, "imageFile is undefined"];
         let contentObject = createJson.multi(nameList, valueList);
@@ -249,10 +246,10 @@ router.post('/upload/image', async (req, res) => {
         res.json(resultObject);
     }
 
-    let imageFileNameSize = JSON.stringify(imageFile[0].originalname).split('\\').length;
-    let imageFileName = JSON.stringify(imageFile[0].originalname).split('\\')[imageFileNameSize-1];
+    let imageFileNameSize = JSON.stringify(imageFiles[0].originalname).split('\\').length;
+    let imageFileName = JSON.stringify(imageFiles[0].originalname).split('\\')[imageFileNameSize-1];
     
-    let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
+    let bufferObj = JSON.parse(JSON.stringify(imageFiles[0].buffer));
     let bodyBuffer = new Buffer.from(bufferObj.data);  
     let resultString = "nurbanboard_image_result";
 
@@ -260,7 +257,28 @@ router.post('/upload/image', async (req, res) => {
     s3upload(awsObj.s3nurbanboardname, uuid, imageFileName, bodyBuffer, resultString, (resultObject) => {
         res.json(resultObject);
     });
-   
+});
+
+// 글 관련 이미지 삭제하는 통신
+router.delete('/upload/image', async (req, res) => {
+    let uuid = req.query.uuid;
+    
+    try{
+        // s3에 글 이미지 삭제하기
+        let result = await s3delete(awsObj.s3nurbanboardname, uuid);
+
+        let nameList = ["result", "error"];
+        let valueList = ["ok", null];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_image_delete_result", contentObject);
+        res.json(resultObject);
+    }catch(err){
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_image_delete_result", contentObject);
+        res.json(resultObject);
+    }    
 });
 
 module.exports = router;
