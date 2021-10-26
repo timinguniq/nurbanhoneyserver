@@ -159,9 +159,15 @@ router.get('/', async (req, res) => {
         let contentTotalCount = result.count
         // 데이터 리스트 오브젝트
         let contentObjectArray = result.rows;
+        
+        let contentObejctList = [];
+
+        for(var i = 0 ; i < contentObjectArray.length ; i++){
+            contentObjectList.push[contentObjectArray.dataValues];
+        }
 
         console.log(`result.rows : ${result.rows}`);
-        resultObject = createJson.one("nurbanboard_list_result", contentObjectArray);
+        resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
         let contentObject = new Object();
