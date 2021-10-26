@@ -234,6 +234,21 @@ router.post('/upload/image', async (req, res) => {
     let imageFile = req.files;
     let uuid = req.body.uuid;
     
+    // 에러 처리
+    if(imageFile === undefined){
+        let nameList = ["result", "error"];
+        let valueList = [null, "imageFile is undefined"];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_image_result", contentObject);
+        res.json(resultObject);
+    }else if(uuid === undefined){
+        let nameList = ["result", "error"];
+        let valueList = [null, "uuid is undefined"];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbanboard_image_result", contentObject);    
+        res.json(resultObject);
+    }
+
     let imageFileNameSize = JSON.stringify(imageFile[0].originalname).split('\\').length;
     let imageFileName = JSON.stringify(imageFile[0].originalname).split('\\')[imageFileNameSize-1];
     

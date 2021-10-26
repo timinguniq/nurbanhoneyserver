@@ -58,12 +58,52 @@ router.post('/image', async (req, res) => {
     
     let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
     let bodyBuffer = new Buffer.from(bufferObj.data);  
-    let resultString = "profile_image_result";
+    let resultString = "profile_image_revise_result";
 
     // s3에 파일 업로드 하는 메소드
-    s3upload(awsObj.s3nurbanhoneyprofilename, userId, imageFileName, bodyBuffer, resultString, (resultObject) => {
-        res.json(resultObject);
+    s3upload(awsObj.s3nurbanhoneyprofilename, userId, imageFileName, bodyBuffer, resultString, async (resultObject) => {
+        let profileUrl = resultObject.profile_image_revise_result.result;
+        console.log(`profileUrl : ${profileUrl}`);
+        try{
+            let result = await userDao.updateProfile(key, profileUrl);
+            // result 1이면 성공 0이면 실패
+            console.log(`s3upload result : ${result}`)
+            res.json(resultObject);
+        }catch(err){
+            console.log(`s3upload err : ${err}`)
+            let nameList = ["result", "error"];
+            let valueList = [null, err];
+            let contentObject = createJson.multi(nameList, valueList);
+            let resultObject = createJson.one("profile_image_revise_result", contentObject);
+            res.json(resultObject);
+        }
     });
+});
+
+// 프로필 이미지 디폴트 이미지로 변경
+router.patch('/image', async (req, res) => {
+    let token = req.headers.token;
+
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
+   
+    let profileUrl = awsObj.s3nurbanhoneyprofiledefaultimage;
+
+    try{
+        let result = await userDao.updateProfile(key, profileUrl);
+        // result 1이면 성공 0이면 실패
+        let nameList = ["result", "error"];
+        let valueList = [result, null];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("profile_image_default_result", contentObject);
+        res.json(resultObject);
+    }catch(err){
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("profile_image_default_result", contentObject);
+        res.json(resultObject);
+    }
 });
 
 // 닉네임 변경 통신
