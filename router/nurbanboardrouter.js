@@ -163,8 +163,10 @@ router.get('/', async (req, res) => {
         let contentObejctList = [];
 
         for(var i = 0 ; i < contentObjectArray.length ; i++){
-            contentObjectList.push[contentObjectArray.dataValues];
+            contentObjectList.push(contentObjectArray.dataValues);
         }
+
+        console.log("contentObjectArrayList", contentObejctList);
 
         console.log(`result.rows : ${result.rows}`);
         resultObject = createJson.one("nurbanboard_list_result", contentObjectList);

@@ -164,4 +164,30 @@ router.patch('/description', async (req, res) => {
     res.json(resultObject);
 });
 
+// 회원탈퇴
+router.delete('/withdrawal', async (req, res) => {
+    let id = req.query.id;
+
+    let contentObject = new Object();
+    let resultObject = new Object();
+    
+    try{
+        let result = await userDao.destory(id);
+        // result 1이면 성공 0이면 실패
+        let nameList = ["result", "error"];
+        let valueList = [result, null];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_withdrawal_result", contentObject);
+    }catch(err){
+        console.log(`withdrawal err : ${err}`)
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_withdrawal_result", contentObject);
+    }
+    res.json(resultObject);
+
+})
+
+
 module.exports = router;
