@@ -1,5 +1,6 @@
 const NurbanBoard = require('../models').NurbanBoard;
 const User = require('../models').User;
+const { sequelize } = require('../models');
 
 exports.create = function create(uuid, thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -57,8 +58,8 @@ exports.readForUserId = function read(userId){
 }
 
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.read = async function read(offset, limit){
-    const { count, rows } = await NurbanBoard.findAndCountAll({
+exports.read = function read(offset, limit){
+    return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
@@ -68,29 +69,27 @@ exports.read = async function read(offset, limit){
         limit: Number(limit),
         order: [['id', 'DESC']]
     })
-    return {count, rows}
 }
 
 // 조회수 순으로 데이터 가져오기
-exports.readCount = async function read(offset, limit){
-    const { count, rows } = await NurbanBoard.findAndCountAll({
+exports.readCount = function read(offset, limit){
+    return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         where: {
-            createAt: {
+            createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
-                [Op.lt]: new Date(),
-                [Op.gt]: new Date(new Date() - 1000 * 60 * 24 * 30)
+                [sequelize.lte]: new Date(),
+                [sequelize.gte]: new Date(new Date() - 1000 * 60 * 24 * 30)
             }
         },
         offset: Number(offset),
         limit: Number(limit),
-        order: [['id', 'DESC'], ['count', 'DESC']]
+        order: [['count', 'DESC'], ['id', 'DESC']]
     })
-    return {count, rows}
 }
 
 // NurbanBoard content 업데이트

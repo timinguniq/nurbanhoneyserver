@@ -156,11 +156,12 @@ router.get('/', async (req, res) => {
     // 썸네일, 제목, 댓글 개수
     try{
         let result;
-        if(flag === constObj.defaultOrder){
+        let iFlag = Number(flag);
+        if(iFlag === constObj.defaultOrder){
             result = await nurbanBoardDao.read(offset, limit);
-        }else if(flag === constObj.countOrder){
+        }else if(iFlag === constObj.countOrder){
             result = await nurbanBoardDao.readCount(offset, limit);
-        }else if(flag === constObj.likeCountOrder){
+        }else if(iFlag === constObj.likeCountOrder){
             //result = await nurbanBoardDao.
         }else{
             // 에러
@@ -170,16 +171,12 @@ router.get('/', async (req, res) => {
             res.json(resultObject);
             return res.end()
         }
-        let result = await nurbanBoardDao.read(offset, limit);
-        // 데이터 베이스 총 카운터 수
-        let contentTotalCount = result.count
-        // 데이터 리스트 오브젝트
-        let contentObjectArray = result.rows;
-        
+        console.log("result", result);
+
         let contentObjectList = [];
 
-        for(var i = 0 ; i < contentObjectArray.length ; i++){
-            contentObjectList.push(contentObjectArray.dataValues);
+        for(var i = 0 ; i < result.length ; i++){
+            contentObjectList.push(result.dataValues);
         }
 
         console.log("contentObjectArrayList", contentObjectList);
