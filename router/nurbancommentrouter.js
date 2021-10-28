@@ -85,13 +85,8 @@ router.get('/', async (req, res) => {
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
         let result = await nurbanCommentDao.readCount(articleId, offset, limit);
-        // 데이터 베이스 총 카운터 수
-        let contentTotalCount = result.count
-        // 데이터 리스트 오브젝트        
-        let contentObjectArray = result.rows;
  
-        console.log(`result.rows : ${result.rows}`);
-        resultObject = createJson.one("nurbancomment_list_result", contentObjectArray);
+        resultObject = createJson.one("nurbancomment_list_result", result);
     }catch(err){
         console.log(`err : ${err}`);
         let contentObject = new Object();

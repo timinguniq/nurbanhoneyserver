@@ -162,7 +162,7 @@ router.get('/', async (req, res) => {
         }else if(iFlag === constObj.countOrder){
             result = await nurbanBoardDao.readCount(offset, limit);
         }else if(iFlag === constObj.likeCountOrder){
-            //result = await nurbanBoardDao.
+            result = await nurbanBoardDao.readLikeCount(offset, limit);
         }else{
             // 에러
             let contentObject = new Object();
@@ -176,7 +176,7 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
-            contentObjectList.push(result.dataValues);
+            contentObjectList.push(result[i].dataValues);
         }
 
         console.log("contentObjectArrayList", contentObjectList);

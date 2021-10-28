@@ -1,6 +1,6 @@
 const NurbanBoard = require('../models').NurbanBoard;
 const User = require('../models').User;
-const { sequelize } = require('../models');
+const { Op } = require("sequelize");
 
 exports.create = function create(uuid, thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -82,8 +82,8 @@ exports.readCount = function read(offset, limit){
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
-                [sequelize.lte]: new Date(),
-                [sequelize.gte]: new Date(new Date() - 1000 * 60 * 24 * 30)
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
             }
         },
         offset: Number(offset),
@@ -91,6 +91,28 @@ exports.readCount = function read(offset, limit){
         order: [['count', 'DESC'], ['id', 'DESC']]
     })
 }
+
+// 좋아요 순으로 데이터 가져오기
+exports.readLikeCount = function read(offset, limit){
+    return NurbanBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            }
+        },
+        offset: Number(offset),
+        limit: Number(limit),
+        order: [['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+}
+
 
 // NurbanBoard content 업데이트
 exports.updateContent = function update(id, thumbnail, title, content){
