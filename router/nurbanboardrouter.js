@@ -8,8 +8,8 @@ var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var s3upload = require('../utils/s3upload');
 var s3delete = require('../utils/s3delete');
-let awsObj = require('../config/aws.js');
-
+let awsObj = require('../config/aws');
+let constObj = require('../config/const');
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -148,35 +148,52 @@ router.get('/detail', async (req, res) => {
 
 // 글 리스트 데이터 받아오는 메소드
 router.get('/', async (req, res) => {
+    let flag = req.query.flag;
     let offset = req.query.offset;
-    let limit = req.query.limit;
+    let limit = req.query.limit;    
 
     let resultObject = new Object();
     // 썸네일, 제목, 댓글 개수
     try{
-        let result = await nurbanBoardDao.readCount(offset, limit);
+        let result;
+        if(flag === constObj.defaultOrder){
+            result = await nurbanBoardDao.read(offset, limit);
+        }else if(flag === constObj.countOrder){
+            result = await nurbanBoardDao.readCount(offset, limit);
+        }else if(flag === constObj.likeCountOrder){
+            //result = await nurbanBoardDao.
+        }else{
+            // 에러
+            let contentObject = new Object();
+            contentObject.error = "flag is not correct";
+            resultObject = createJson.one("nurbanboard_list_result", contentObject);
+            res.json(resultObject);
+            return res.end()
+        }
+        let result = await nurbanBoardDao.read(offset, limit);
         // 데이터 베이스 총 카운터 수
         let contentTotalCount = result.count
         // 데이터 리스트 오브젝트
         let contentObjectArray = result.rows;
         
-        let contentObejctList = [];
+        let contentObjectList = [];
 
         for(var i = 0 ; i < contentObjectArray.length ; i++){
             contentObjectList.push(contentObjectArray.dataValues);
         }
 
-        console.log("contentObjectArrayList", contentObejctList);
+        console.log("contentObjectArrayList", contentObjectList);
 
-        console.log(`result.rows : ${result.rows}`);
-        resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
+        //console.log(`result.rows : ${result.rows}`);
+        //resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
+        res.json(contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
         let contentObject = new Object();
         contentObject.error = err;
         resultObject = createJson.one("nurbanboard_list_result", contentObject);
+        res.json(resultObject);
     }
-    res.json(resultObject);
 });
 
 // 글 수정 관련 통신 메소드

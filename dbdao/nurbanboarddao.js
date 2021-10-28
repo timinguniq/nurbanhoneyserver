@@ -57,7 +57,7 @@ exports.readForUserId = function read(userId){
 }
 
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.readCount = async function read(offset, limit){
+exports.read = async function read(offset, limit){
     const { count, rows } = await NurbanBoard.findAndCountAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -67,6 +67,28 @@ exports.readCount = async function read(offset, limit){
         offset: Number(offset),
         limit: Number(limit),
         order: [['id', 'DESC']]
+    })
+    return {count, rows}
+}
+
+// 조회수 순으로 데이터 가져오기
+exports.readCount = async function read(offset, limit){
+    const { count, rows } = await NurbanBoard.findAndCountAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount'],
+        where: {
+            createAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lt]: new Date(),
+                [Op.gt]: new Date(new Date() - 1000 * 60 * 24 * 30)
+            }
+        },
+        offset: Number(offset),
+        limit: Number(limit),
+        order: [['id', 'DESC'], ['count', 'DESC']]
     })
     return {count, rows}
 }

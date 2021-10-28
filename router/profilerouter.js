@@ -186,7 +186,6 @@ router.delete('/withdrawal', async (req, res) => {
         resultObject = createJson.one("profile_withdrawal_result", contentObject);
     }
     res.json(resultObject);
-
 })
 
 
