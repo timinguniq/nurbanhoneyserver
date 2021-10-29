@@ -48,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         comment: "포인트 (글쓰기나 베팅을 통한 포인트 적립)",
       },
+      badge: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+        comment: "배지 이미지 주소(URL)"
+      },
       insignia: {
         type: DataTypes.JSON,
         allowNull: true,
