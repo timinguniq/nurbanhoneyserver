@@ -2,10 +2,21 @@ var express = require('express');
 var router = express.Router();
 const appversionDao = require('../dbdao/appversiondao');
 var createJson = require('../utils/createjson');
+var inputErrorHandler = require('../utils/inputerrorhandler');
 
-router.get('/', async (req, res) =>{
+
+router.get('/', async (req, res) => {
     let app = req.query.app;
     console.log(`app : ${app}`)
+    let inputArray = [app];
+    
+    if(inputErrorHandler(inputArray)){
+        let nameList = ["appversion", "isUpdate", "error"];
+        let valueList = [null, null, "input is null"];
+        appversionObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("appversion_result", appversionObject); 
+    }
+
     let appversionObject = new Object();
     let resultObject = new Object
     if(app === 'nurbanhoney'){
@@ -13,7 +24,7 @@ router.get('/', async (req, res) =>{
             // DB에서 데이터 읽기
             const result = await appversionDao.read()
             console.log(`result : ${result}`)
-            if(reulst === null){
+            if(result === null){
                 let nameList = ["appversion", "isUpdate", "error"];
                 let valueList = [null, null, "db is null"];
                 appversionObject = createJson.multi(nameList, valueList);

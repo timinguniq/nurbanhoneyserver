@@ -12,6 +12,7 @@ router.post('/', async (req, res) => {
     let inputPassword = req.body.password;
     let resultObject = {};
     let tokenObject = new Object();
+    
     if(!inputKey.includes("@")){
         inputPassword = "1111";
     }
