@@ -2,12 +2,13 @@ const NurbanBoard = require('../models').NurbanBoard;
 const User = require('../models').User;
 const { Op } = require("sequelize");
 
-exports.create = function create(uuid, thumbnail, title, content, userId){
+exports.create = function create(uuid, thumbnail, title, lossPrice, content, userId){
     return NurbanBoard.create({
         id: 0,
         uuid: uuid,
         thumbnail: thumbnail,
         title: title,
+        lossPrice: lossPrice,
         content: content,
         userId: userId
     })

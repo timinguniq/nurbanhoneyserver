@@ -26,6 +26,7 @@ router.post('/', async (req, res) => {
     let uuid = req.body.uuid;
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
+    let lossPrice = req.body.lossPrice;
     let content = req.body.content;
     let userId = '';
 
@@ -53,7 +54,7 @@ router.post('/', async (req, res) => {
 
     // 너반꿀 게시판 글 작성
     try{
-        let result = await nurbanBoardDao.create(uuid, thumbnail, title, content, userId);
+        let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossPrice, content, userId);
         console.log(`create : ${result}`);
         let resultObject = {};
         let nameList = ["result", "error"];
