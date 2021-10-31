@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         comment: "제목",
       },
+      lossPrice: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        defaultValue: 0,
+        comment: "손실액",
+      },
       content: {
         type: DataTypes.TEXT,
         allowNull: false,
