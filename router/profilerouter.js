@@ -23,19 +23,19 @@ router.get('/', async (req, res) => {
         console.log("result", result);
         let id = result.id;
         let loginType = result.loginType;
-        let profile = result.profile;
+        let badge = result.badge;
         let nickname = result.nickname;
         let description = result.description;
         let point = result.point;
         let insignia = result.insignia;
 
-        let nameList = ["id", "loginType", "profile", "nickname", "description", "point", "insignia", "error"];
-        let valueList = [id, loginType, profile, nickname, description, point, insignia, null];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia", "error"];
+        let valueList = [id, loginType, badge, nickname, description, point, insignia, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_result", contentObject);
     }catch(err){
         console.log("err", err);
-        let nameList = ["id", "loginType", "profile", "nickname", "description", "point", "insignia", "error"];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia", "error"];
         let valueList = [null, null, null, null, null, null, null, err];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_result", contentObject);
@@ -43,8 +43,9 @@ router.get('/', async (req, res) => {
     res.json(resultObject);
 });
 
-// 프로필 이미지 변경 통신
-router.post('/image', async (req, res) => {
+// 배지 이미지 변경 통신
+router.post('/badge', async (req, res) => {
+    // TODO : 처음 다시 만들어야 됨.
     let imageFile = req.files;
     let token = req.headers.token;
 
@@ -80,42 +81,27 @@ router.post('/image', async (req, res) => {
     });
 });
 
-// 프로필 이미지 디폴트 이미지로 변경
-router.patch('/image', async (req, res) => {
-    let token = req.headers.token;
-
-    // 토큰에서 키 값 추출
-    let key = extractKey(token);
-   
-    let profileUrl = awsObj.s3nurbanhoneyprofiledefaultimage;
-
-    try{
-        let result = await userDao.updateProfile(key, profileUrl);
-        // result 1이면 성공 0이면 실패
-        let nameList = ["result", "error"];
-        let valueList = [result, null];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("profile_image_default_result", contentObject);
-        res.json(resultObject);
-    }catch(err){
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("profile_image_default_result", contentObject);
-        res.json(resultObject);
-    }
-});
-
 // 닉네임 변경 통신
 router.patch('/nickname', async (req, res) => {
     let changeNickname = req.body.nickname;
     let token = req.headers.token;
 
-    // 토큰에서 키 값 추출
-    let key = extractKey(token);
-
     let contentObject = new Object();
     let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [changeNickname];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_nickname_revise_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
+
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
     
     try{
         let result = await userDao.updateNickname(key, changeNickname);
@@ -145,6 +131,17 @@ router.patch('/description', async (req, res) => {
 
     let contentObject = new Object();
     let resultObject = new Object();
+
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [changeDescription];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_description_revise_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
     
     try{
         let result = await userDao.updateDescription(key, changeDescription);
@@ -171,6 +168,17 @@ router.delete('/withdrawal', async (req, res) => {
     let contentObject = new Object();
     let resultObject = new Object();
     
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [id];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_withdrawal_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
+
     try{
         let result = await userDao.destory(id);
         // result 1이면 성공 0이면 실패

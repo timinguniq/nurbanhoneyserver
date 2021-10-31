@@ -6,6 +6,7 @@ const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
+let inputErrorHandler = require('../utils/inputerrorhandler');
 
 // 댓글 생성
 router.post('/', async (req, res) => {
@@ -14,6 +15,20 @@ router.post('/', async (req, res) => {
     let articleId = req.body.articleId;
     let commentCount = 0;
 
+    let contentObject = new Object();
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [content, articleId];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbancomment_create_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
+    
     let token = req.headers.token;
 
     // 토큰에서 키 값 추출
@@ -35,8 +50,6 @@ router.post('/', async (req, res) => {
         console.log(`post error nurbanBoardDao : ${err}`);    
     }
     
-    let contentObject = new Object();
-    let resultObject = new Object();
 
     // 댓글 생성하는 코드
     try{
@@ -80,16 +93,31 @@ router.get('/', async (req, res) => {
     let offset = req.query.offset;
     let limit = req.query.limit;
 
+    let contentObject = new Object();
     let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [articleId, offset, limit];
+    if(await inputErrorHandler(inputArray)){
+        contentObject.error = "input is null";
+        resultObject = createJson.one("nurbancomment_list_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
 
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
         let result = await nurbanCommentDao.readCount(articleId, offset, limit);
  
-        resultObject = createJson.one("nurbancomment_list_result", result);
+        let contentObjectList = [];
+
+        for(var i = 0 ; i < result.length ; i++){
+            contentObjectList.push(result[i].dataValues);
+        }
+        
+        resultObject = createJson.one("nurbancomment_list_result", contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
-        let contentObject = new Object();
         contentObject.error = err;
         resultObject = createJson.one("nurbancomment_list_result", contentObject);
     }
@@ -101,21 +129,35 @@ router.patch('/', async (req, res) => {
     let id = req.body.id;
     let content = req.body.content;
     
+    let contentObject = new Object();
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [id, content];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbancomment_revise_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
+
     try{
         let result = await nurbanCommentDao.updateContent(id, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         let nameList = ["result", "error"];
         let valueList = [result[0], null];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbancomment_revise_result", contentObject);
         res.json(resultObject);
     }catch(err){
         console.log(`patch err : ${result}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_revise_result", contentObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbancomment_revise_result", contentObject);
         res.json(resultObject);
     }
 });
@@ -123,6 +165,20 @@ router.patch('/', async (req, res) => {
 // 댓글 삭제
 router.delete('/', async (req, res) => {
     let id = req.query.id;
+
+    let contentObject = new Object();
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [id];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        let contentObject = createJson.multi(nameList, valueList);
+        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
 
     try{
         let result = await nurbanCommentDao.destory(id);

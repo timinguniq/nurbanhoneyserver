@@ -5,6 +5,8 @@ var createJson = require('../utils/createjson');
 let kakakoAuth = require('../utils/kakaoauth');
 let createJwtToken = require('../utils/createjwttoken');
 const kakaoauth = require('../utils/kakaoauth');
+let inputErrorHandler = require('../utils/inputerrorhandler');
+
 
 router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
@@ -12,7 +14,18 @@ router.post('/', async (req, res) => {
     let inputPassword = req.body.password;
     let resultObject = {};
     let tokenObject = new Object();
-    
+
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [inputKey];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["token", "error"];
+        let valueList = [null, "input is null"];
+        tokenObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("login_result", tokenObject);        
+        res.json(resultObject);
+        return res.end();
+    }
+
     if(!inputKey.includes("@")){
         inputPassword = "1111";
     }

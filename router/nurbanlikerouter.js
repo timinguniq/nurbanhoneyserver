@@ -6,11 +6,26 @@ const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
+let inputErrorHandler = require('../utils/inputerrorhandler');
 
 // 좋아요 생성
 router.post('/', async (req, res) => {
     let articleId = req.body.articleId;
     let userId = "";
+
+    let contentObject = new Object();
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [articleId];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanlike_create_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
 
     let token = req.headers.token;
 
@@ -23,10 +38,7 @@ router.post('/', async (req, res) => {
     if(userId === ""){
         console.log("userId error")
     }
-    
-    let contentObject = new Object();
-    let resultObject = new Object();
-    
+        
     // 싫어요를 삭제하는 코드
     await nurbanDislikeDao.destoryUserId(articleId, userId);
     // 좋아요를 삭제하는 코드
@@ -106,6 +118,20 @@ router.delete('/', async (req, res) => {
     let articleId = req.query.articleId;
     let userId = "";
 
+    let contentObject = new Object();
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [articleId];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbanlike_delete_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
+
     let token = req.headers.token;
 
     // 토큰에서 키 값 추출
@@ -117,9 +143,6 @@ router.delete('/', async (req, res) => {
     if(userId === ""){
         console.log("userId error")
     }
-
-    let contentObject = new Object();
-    let resultObject = new Object();
 
     try{
         let result = await nurbanLikeDao.destoryUserId(articleId, userId);

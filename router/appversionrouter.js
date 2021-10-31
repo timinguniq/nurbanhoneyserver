@@ -9,16 +9,20 @@ router.get('/', async (req, res) => {
     let app = req.query.app;
     console.log(`app : ${app}`)
     let inputArray = [app];
-    
-    if(inputErrorHandler(inputArray)){
+
+    let appversionObject = new Object();
+    let resultObject = new Object
+
+    // 필수 input 값이 null이거나 undefined면 에러
+    if(await inputErrorHandler(inputArray)){
         let nameList = ["appversion", "isUpdate", "error"];
         let valueList = [null, null, "input is null"];
         appversionObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("appversion_result", appversionObject); 
+        res.json(resultObject);
+        return res.end();
     }
 
-    let appversionObject = new Object();
-    let resultObject = new Object
     if(app === 'nurbanhoney'){
         try{
             // DB에서 데이터 읽기
