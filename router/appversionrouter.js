@@ -13,10 +13,17 @@ router.get('/', async (req, res) =>{
             // DB에서 데이터 읽기
             const result = await appversionDao.read()
             console.log(`result : ${result}`)
-            let nameList = ["appversion", "isUpdate", "error"];
-            let valueList = [result.dataValues.appversion, result.dataValues.isUpdate, null];
-            appversionObject = createJson.multi(nameList, valueList);
-            resultObject = createJson.one("appversion_result", appversionObject);
+            if(reulst === null){
+                let nameList = ["appversion", "isUpdate", "error"];
+                let valueList = [null, null, "db is null"];
+                appversionObject = createJson.multi(nameList, valueList);
+                resultObject = createJson.one("appversion_result", appversionObject);    
+            }else{
+                let nameList = ["appversion", "isUpdate", "error"];
+                let valueList = [result.dataValues.appversion, result.dataValues.isUpdate, null];
+                appversionObject = createJson.multi(nameList, valueList);
+                resultObject = createJson.one("appversion_result", appversionObject);    
+            }
         }catch(err){
             console.log(err);
             let nameList = ["appversion", "isUpdate", "error"];
