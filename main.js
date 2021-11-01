@@ -15,7 +15,7 @@ var nurbanLikeRouter = require('./router/nurbanlikerouter');
 var nurbanDislikeRouter = require('./router/nurbandislikerouter');
 var profileRouter = require('./router/profilerouter');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
-const uuidV4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 
 // for parsing application/json
@@ -61,10 +61,9 @@ app.post('/token/error', (req, res) => {
 // 임의의 데이터 값 넣는 통신
 app.post('/nurbanboard/insertTempData', async (req, res) => {
   var dataList = [];
-  create(uuid, thumbnail, title, lossPrice, content, userId)
   for(let i = 1 ; i < 21 ; i++){
     var tempData = {
-      'uuid' : uuidV4(),
+      'uuid' : uuidv4(),
       'thumbnail' : null,
       'title' : String(i),
       'lossPrice' : i,
@@ -73,16 +72,17 @@ app.post('/nurbanboard/insertTempData', async (req, res) => {
     }
     dataList.push(tempData);
   }
-
-  for(var ele in dataList){
+  
+  for(var j = 0 ; j < dataList.length ; j++){
     try{
-      let result = await nurbanboardDao.create(ele.uuidm, ele.thumbnail, ele.title, ele.lossPrice, ele.content, 1);
+      let result = await nurbanboardDao.create(dataList[j].uuid, dataList[j].thumbnail,
+              dataList[j].title, dataList[j].lossPrice, dataList[j].content, 1);
       console.log(`result : ${result}`);
     }catch(err){
       console.log(`err : ${err}`);
     }
   }
-  res.end()
+  res.end();
 })
 
 // appversion rounter
