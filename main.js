@@ -13,9 +13,10 @@ var nurbanBoardRouter = require('./router/nurbanboardrouter');
 var nurbanCommentRouter = require('./router/nurbancommentrouter');
 var nurbanLikeRouter = require('./router/nurbanlikerouter');
 var nurbanDislikeRouter = require('./router/nurbandislikerouter');
-
 var profileRouter = require('./router/profilerouter');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
+const uuidV4 = require('uuid/v4');
+
 
 // for parsing application/json
 app.use(express.json());
@@ -60,10 +61,13 @@ app.post('/token/error', (req, res) => {
 // 임의의 데이터 값 넣는 통신
 app.post('/nurbanboard/insertTempData', async (req, res) => {
   var dataList = [];
+  create(uuid, thumbnail, title, lossPrice, content, userId)
   for(let i = 1 ; i < 21 ; i++){
     var tempData = {
+      'uuid' : uuidV4(),
       'thumbnail' : null,
       'title' : String(i),
+      'lossPrice' : i,
       'content' : String(i),
       'userId' : 1
     }
@@ -72,7 +76,7 @@ app.post('/nurbanboard/insertTempData', async (req, res) => {
 
   for(var ele in dataList){
     try{
-      let result = await nurbanboardDao.create(ele.thumbnail, ele, ele, 1);
+      let result = await nurbanboardDao.create(ele.uuidm, ele.thumbnail, ele.title, ele.lossPrice, ele.content, 1);
       console.log(`result : ${result}`);
     }catch(err){
       console.log(`err : ${err}`);
