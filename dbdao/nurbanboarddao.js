@@ -63,7 +63,7 @@ exports.read = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         offset: Number(offset),
@@ -77,7 +77,7 @@ exports.readCount = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         where: {
