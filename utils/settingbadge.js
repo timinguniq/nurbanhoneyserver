@@ -1,5 +1,5 @@
 var userDao = require('../dbdao/userdao');
-const constObj = reuqire('../config/const');
+const constObj = require('../config/const');
 
 // 포인트에 따른 User Badge 셋팅
 module.exports = async (point) => {

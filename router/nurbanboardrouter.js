@@ -11,6 +11,7 @@ var s3delete = require('../utils/s3delete');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let awsObj = require('../config/aws');
 let constObj = require('../config/const');
+
 /*
 exports.create = function create(thumbnail, title, content, userId){
     return NurbanBoard.create({
@@ -96,7 +97,7 @@ router.get('/detail', async (req, res) => {
     let inputArray = [id];
     if(await inputErrorHandler(inputArray)){
         let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
-                "profile", "nickname", "insignia", "error"];
+                "badge", "nickname", "insignia", "error"];
         let valueList = [null, null, null, null, null, null, null, null, null, null, 
                 null, null, null, "input is null"];
         contentObject = createJson.multi(nameList, valueList);
@@ -121,7 +122,7 @@ router.get('/detail', async (req, res) => {
         let dislikeCount = result.dislikeCount;
         let updateAt = result.updateAt;
         let userId = result.User.userId;
-        let profile = result.User.profile;
+        let badge = result.User.badge;
         let nickname = result.User.nickname;
         let insignia = result.User.insignia_show;
         let myRating = null;
@@ -148,15 +149,15 @@ router.get('/detail', async (req, res) => {
         }
 
         let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
-                "profile", "nickname", "insignia", "myRating", "error"];
+                "badge", "nickname", "insignia", "myRating", "error"];
         let valueList = [articleId, uuid, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updateAt, 
-                profile, nickname, insignia, myRating, null];
+                badge, nickname, insignia, myRating, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
     }catch(err){
         let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
-                "profile", "nickname", "insignia", "error"];
+                "badge", "nickname", "insignia", "error"];
         let valueList = [null, null, null, null, null, null, null, null, null, null, 
                 null, null, null, "article is not exist"];
         contentObject = createJson.multi(nameList, valueList);

@@ -28,26 +28,27 @@ router.get('/', async (req, res) => {
         let nickname = result.nickname;
         let description = result.description;
         let point = result.point;
-        let insignia = result.insignia_own;
+        let insignia_show = result.insignia_show;
+        let insignia_own = result.insignia_own;
         
         // point에 따른 badge 셋팅
         settingBadge(key, point);
 
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia", "error"];
-        let valueList = [id, loginType, badge, nickname, description, point, insignia, null];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia_show", "insignia_own", "error"];
+        let valueList = [id, loginType, badge, nickname, description, point, insignia_show, insignia_own, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_result", contentObject);
     }catch(err){
         console.log("err", err);
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia", "error"];
-        let valueList = [null, null, null, null, null, null, null, err];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia_show", "insignia_own", "error"];
+        let valueList = [null, null, null, null, null, null, null, null, err];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_result", contentObject);
     }
     res.json(resultObject);
 });
 
-// 휘장 이미지 장착하는 통신
+// 보여주는 휘장 변경하는 통신
 router.patch('/insignia', async (req, res) => {
     // TODO : 처음 다시 만들어야 됨.
 
