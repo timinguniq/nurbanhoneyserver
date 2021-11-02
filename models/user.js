@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: "비밀번호",
       },
       badge: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(256),
         allowNull: true,
         defaultValue: "https://nurbanhoneyprofile.s3.ap-northeast-2.amazonaws.com/default.png",
         comment: "배지 이미지 주소(URL)"
@@ -48,10 +48,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         comment: "포인트 (글쓰기나 베팅을 통한 포인트 적립)",
       },
-      insignia: {
+      insignia_show: {
         type: DataTypes.JSON,
         allowNull: true,
-        comment: "휘장",
+        comment: "휘장(보여주는 휘장)",
+      },
+      insignia_own: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        comment: "휘장(전체 소장한 휘장)"
       },
       lastLoginAt: {
         type: DataTypes.DATE,

@@ -5,6 +5,7 @@ var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
 var s3upload = require('../utils/s3upload');
+let settingBadge = require('../utils/settingbadge');
 let awsObj = require('../config/aws.js');
 
 // 프로필 관련 통신
@@ -27,7 +28,10 @@ router.get('/', async (req, res) => {
         let nickname = result.nickname;
         let description = result.description;
         let point = result.point;
-        let insignia = result.insignia;
+        let insignia = result.insignia_own;
+        
+        // point에 따른 badge 셋팅
+        settingBadge(key, point);
 
         let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia", "error"];
         let valueList = [id, loginType, badge, nickname, description, point, insignia, null];
@@ -43,42 +47,10 @@ router.get('/', async (req, res) => {
     res.json(resultObject);
 });
 
-// 배지 이미지 변경 통신
-router.post('/badge', async (req, res) => {
+// 휘장 이미지 장착하는 통신
+router.patch('/insignia', async (req, res) => {
     // TODO : 처음 다시 만들어야 됨.
-    let imageFile = req.files;
-    let token = req.headers.token;
 
-    // 토큰에서 키 값 추출
-    let key = extractKey(token);
-   
-    // 키값으로 userId 값 얻어내기
-    userId = await extractUserId(key);
-        
-    let imageFileName = "profile";
-    
-    let bufferObj = JSON.parse(JSON.stringify(imageFile[0].buffer));
-    let bodyBuffer = new Buffer.from(bufferObj.data);  
-    let resultString = "profile_image_revise_result";
-
-    // s3에 파일 업로드 하는 메소드
-    s3upload(awsObj.s3nurbanhoneyprofilename, userId, imageFileName, bodyBuffer, resultString, async (resultObject) => {
-        let profileUrl = resultObject.profile_image_revise_result.result;
-        console.log(`profileUrl : ${profileUrl}`);
-        try{
-            let result = await userDao.updateProfile(key, profileUrl);
-            // result 1이면 성공 0이면 실패
-            console.log(`s3upload result : ${result}`)
-            res.json(resultObject);
-        }catch(err){
-            console.log(`s3upload err : ${err}`)
-            let nameList = ["result", "error"];
-            let valueList = [null, err];
-            let contentObject = createJson.multi(nameList, valueList);
-            let resultObject = createJson.one("profile_image_revise_result", contentObject);
-            res.json(resultObject);
-        }
-    });
 });
 
 // 닉네임 변경 통신

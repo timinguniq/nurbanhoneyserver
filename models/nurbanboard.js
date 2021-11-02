@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         comment: "썸네일 이미지 주소",
       },
       title: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(256),
         allowNull: false,
         comment: "제목",
       },
-      lossPrice: {
+      lossCut: {
         type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,

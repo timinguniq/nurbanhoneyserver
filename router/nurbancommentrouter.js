@@ -174,8 +174,8 @@ router.delete('/', async (req, res) => {
     if(await inputErrorHandler(inputArray)){
         let nameList = ["result", "error"];
         let valueList = [null, "input is null"];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbancomment_delete_result", contentObject);
         res.json(resultObject);
         return res.end();
     }
@@ -186,15 +186,15 @@ router.delete('/', async (req, res) => {
         console.log(`delete result : ${result}`)
         let nameList = ["result", "error"];
         let valueList = [result, null];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbancomment_delete_result", contentObject);
         res.json(resultObject);
     }catch(err){
         console.log(`delete err : ${err}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
-        let contentObject = createJson.multi(nameList, valueList);
-        let resultObject = createJson.one("nurbancomment_delete_result", contentObject);
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("nurbancomment_delete_result", contentObject);
         res.json(resultObject);
         return res.end();
     }
