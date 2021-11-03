@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
 // 보여주는 휘장 변경하는 통신
 router.patch('/insignia', async (req, res) => {
     // TODO : 처음 다시 만들어야 됨.
-
+    
 });
 
 // 닉네임 변경 통신

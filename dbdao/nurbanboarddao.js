@@ -2,13 +2,13 @@ const NurbanBoard = require('../models').NurbanBoard;
 const User = require('../models').User;
 const { Op } = require("sequelize");
 
-exports.create = function create(uuid, thumbnail, title, lossPrice, content, userId){
+exports.create = function create(uuid, thumbnail, title, lossCut, content, userId){
     return NurbanBoard.create({
         id: 0,
         uuid: uuid,
         thumbnail: thumbnail,
         title: title,
-        lossPrice: lossPrice,
+        lossCut: lossCut,
         content: content,
         userId: userId
     })
@@ -41,7 +41,7 @@ exports.readForId = function read(id){
     return NurbanBoard.findOne({
         include:[
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia_show']}
         ],
         where: {
             id: id 
@@ -63,7 +63,7 @@ exports.read = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insignia_show', 'insignia']]}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         offset: Number(offset),
@@ -77,7 +77,7 @@ exports.readCount = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia_show']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         where: {
@@ -98,7 +98,7 @@ exports.readLikeCount = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia_show']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         where: {

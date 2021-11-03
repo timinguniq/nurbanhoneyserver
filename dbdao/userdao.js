@@ -38,11 +38,6 @@ exports.readCount = function read(){
     });
 }
   
-// User content 업데이트
-exports.update = function update(id, thumbnail, nickanme, description, insignia){
-    return User.update({thumbnail: thumbnail, nickname: nickanme, description: description, insignia: insignia}, {where: {id: id}})
-}
-
 // User badge 업데이트
 exports.updateBadge = function update(key, badge){
     return User.update({badge: badge}, {where: {key: key}})

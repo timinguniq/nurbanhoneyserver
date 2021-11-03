@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
     let uuid = req.body.uuid;
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
-    let lossPrice = req.body.lossPrice;
+    let lossCut = req.body.lossCut;
     let content = req.body.content;
     let userId = '';
 
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
     let resultObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [uuid, thumbnail, title, lossPrice, content];
+    let inputArray = [uuid, thumbnail, title, lossCut, content];
     if(await inputErrorHandler(inputArray)){
         let nameList = ["result", "error"];
         let valueList = [null, "input is null"];
@@ -68,7 +68,7 @@ router.post('/', async (req, res) => {
 
     // 너반꿀 게시판 글 작성
     try{
-        let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossPrice, content, userId);
+        let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossCut, content, userId);
         console.log(`create : ${result}`);
         let resultObject = {};
         let nameList = ["result", "error"];
