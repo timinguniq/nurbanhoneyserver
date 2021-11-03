@@ -123,7 +123,7 @@ router.get('/detail', async (req, res) => {
         let userId = result.User.userId;
         let badge = result.User.badge;
         let nickname = result.User.nickname;
-        let insignia = result.User.insignia_show;
+        let insignia = result.User.insigniaShow;
         let myRating = null;
 
         // 좋아요 데이터 받아오는 코드
