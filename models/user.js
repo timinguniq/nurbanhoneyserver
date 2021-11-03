@@ -48,12 +48,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         comment: "포인트 (글쓰기나 베팅을 통한 포인트 적립)",
       },
-      insignia_show: {
+      insigniaShow: {
         type: DataTypes.JSON,
         allowNull: true,
         comment: "휘장(보여주는 휘장)",
       },
-      insignia_own: {
+      insigniaOwn: {
         type: DataTypes.JSON,
         allowNull: true,
         comment: "휘장(전체 소장한 휘장)"

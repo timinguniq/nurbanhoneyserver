@@ -46,7 +46,6 @@ router.post('/', async (req, res) => {
         return res.end();
     }
 
-
     let token = req.headers.token;
 
     // 토큰에서 키 값 추출

@@ -53,6 +53,15 @@ exports.updateDescription = function update(key, description){
     return User.update({description: description}, {where: {key: key}})
 }
 
+// User insigniaShow 업데이트
+exports.updateInsigniaShow = function update(key, insigniaShow){
+    return User.update({insigniaShow: insigniaShow}, {where: {key: key}})    
+}
+
+// User insigniaOwn 업데이트
+exports.updateInsigniaOwn = function update(key, insigniaOwn){
+    return User.update({insigniaOwn: insigniaOwn}, {where: {key: key}})    
+}
 
 // User LastLoginAt만 업데이트
 exports.updateLastTime = function update(id){

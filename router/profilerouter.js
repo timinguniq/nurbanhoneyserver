@@ -28,19 +28,19 @@ router.get('/', async (req, res) => {
         let nickname = result.nickname;
         let description = result.description;
         let point = result.point;
-        let insignia_show = result.insignia_show;
-        let insignia_own = result.insignia_own;
+        let insigniaShow = result.insigniaShow;
+        let insigniaOwn = result.insigniaOwn;
         
         // point에 따른 badge 셋팅
         settingBadge(key, point);
 
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia_show", "insignia_own", "error"];
-        let valueList = [id, loginType, badge, nickname, description, point, insignia_show, insignia_own, null];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn", "error"];
+        let valueList = [id, loginType, badge, nickname, description, point, insigniaShow, insigniaOwn, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_result", contentObject);
     }catch(err){
         console.log("err", err);
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insignia_show", "insignia_own", "error"];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn", "error"];
         let valueList = [null, null, null, null, null, null, null, null, err];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_result", contentObject);
@@ -51,7 +51,42 @@ router.get('/', async (req, res) => {
 // 보여주는 휘장 변경하는 통신
 router.patch('/insignia', async (req, res) => {
     // TODO : 처음 다시 만들어야 됨.
+    let changeNickname = req.body.nickname;
+    let token = req.headers.token;
+
+    let contentObject = new Object();
+    let resultObject = new Object();
     
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [changeNickname];
+    if(await inputErrorHandler(inputArray)){
+        let nameList = ["result", "error"];
+        let valueList = [null, "input is null"];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_nickname_revise_result", contentObject);
+        res.json(resultObject);
+        return res.end();
+    }
+
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
+    
+    try{
+        let result = await userDao.update(key, changeNickname);
+        // result 1이면 성공 0이면 실패
+        console.log(`patch result : ${result}`)
+        let nameList = ["result", "error"];
+        let valueList = [result[0], null];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_nickname_revise_result", contentObject);
+    }catch(err){
+        console.log(`patch err : ${err}`)
+        let nameList = ["result", "error"];
+        let valueList = [null, err];
+        contentObject = createJson.multi(nameList, valueList);
+        resultObject = createJson.one("profile_nickname_revise_result", contentObject);
+    }
+    res.json(resultObject);
 });
 
 // 닉네임 변경 통신

@@ -15,7 +15,7 @@ exports.readCount = function read(articleId, offset = 0, limit = 10){
         return NurbanComment.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'profile', 'nickname', 'insignia']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insignia_show']}
         ],
         attributes: ['id', 'content', 'articleId'],
         offset: Number(offset),
