@@ -43,6 +43,11 @@ exports.updateBadge = function update(key, badge){
     return User.update({badge: badge}, {where: {key: key}})
 }
 
+// User Point 업데이트
+exports.updatePoint = function update(key, point){
+    return User.update({point: point}, {where: {key: key}})
+}
+
 // User nickname 업데이트
 exports.updateNickname = function update(key, nickanme){
     return User.update({nickname: nickanme}, {where: {key: key}})

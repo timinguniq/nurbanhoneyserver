@@ -69,6 +69,13 @@ router.post('/', async (req, res) => {
     try{
         let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossCut, content, userId);
         console.log(`create : ${result}`);
+        if(result !== null){
+            // point 올리는 로직
+            let userResult = await userDao.read(key)
+            let point = userResult.point;
+            point += constObj.writePoint;
+            let userUpdateResult = await userDao.updatePoint(key, point);
+        }
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = ["ok", null];

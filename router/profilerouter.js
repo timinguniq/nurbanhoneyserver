@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const userDao = require('../dbdao/userdao');
+const nurbanBoardDao = require('../dbdao/nurbanboarddao');
+const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
 var s3upload = require('../utils/s3upload');
 let settingBadge = require('../utils/settingbadge');
+let settingInsignia = require('../utils/settinginsignia');
+let inputErrorHandler = require('../utils/inputerrorhandler');
 let awsObj = require('../config/aws.js');
 
 // 프로필 관련 통신
@@ -31,11 +35,21 @@ router.get('/', async (req, res) => {
         let insigniaShow = result.insigniaShow;
         let insigniaOwn = result.insigniaOwn;
         
+        let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
+        let myArticleNumber = nurbanBoardResult[0].dataValues.n_ids;
+
+        let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
+        let myCommentNumber = nurbanCommentResult[0].dataValues.n_ids;
+        
         // point에 따른 badge 셋팅
-        settingBadge(key, point);
+        if(!settingBadge(key, point)){
+            console.log("settingBadge error");
+        }
 
         // 휘장 획득하는 코드
-
+        if(settingInsignia(key, point, myArticleNumber, myCommentNumber)){
+            console.log("settingInsignia error");
+        }
 
         let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn", "error"];
         let valueList = [id, loginType, badge, nickname, description, point, insigniaShow, insigniaOwn, null];
@@ -53,7 +67,7 @@ router.get('/', async (req, res) => {
 
 // 보여주는 휘장 변경하는 통신
 router.patch('/insignia', async (req, res) => {
-    // TODO : 처음 다시 만들어야 됨.
+    // TODO : 나중에 테스트 해야지
     let insigniaShow = req.body.insignia;
     let token = req.headers.token;
     console.log("insigniaShow : ", insigniaShow);

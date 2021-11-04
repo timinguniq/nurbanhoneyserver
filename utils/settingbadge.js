@@ -32,8 +32,8 @@ module.exports = async (point) => {
         }else{
             return false;
         }
-    }catch(e){
-        // 카카오 토큰이 유효하지 않다.
+    }catch(err){
+        console.log(`update badge err : ${err}`);
         return false;
     }   
 }

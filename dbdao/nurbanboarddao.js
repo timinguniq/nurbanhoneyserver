@@ -72,6 +72,18 @@ exports.read = function read(offset, limit){
     })
 }
 
+// userId에 따라 갯수 확인하는 메소드
+exports.readCountForUserId = function read(userId){
+    return NurbanBoard.findAll({
+        attributes: [
+            [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
+        ],
+        where: {
+            userId: userId
+        }
+    });
+}
+
 // 조회수 순으로 데이터 가져오기
 exports.readCount = function read(offset, limit){
     return NurbanBoard.findAll({

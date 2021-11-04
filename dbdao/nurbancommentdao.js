@@ -26,6 +26,18 @@ exports.readCount = function read(articleId, offset = 0, limit = 10){
     })
 }
 
+// userId에 따라 갯수 확인하는 메소드
+exports.readCountForUserId = function read(userId){
+    return NurbanComment.findAll({
+        attributes: [
+            [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
+        ],
+        where: {
+            userId: userId
+        }
+    });
+}
+
 // NurbanComment Content 수정 
 exports.updateContent = function update(id, content){
     return NurbanComment.update({content: content}, {where: {id: id}})
