@@ -102,9 +102,9 @@ router.get('/detail', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [id];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
             "badge", "nickname", "insignia", "myRating", "error"];
-        let valueList = [null, null, null, null, null, null, null, null, null, null, 
+        let valueList = [null, null, null, null, null, null, null, null, null, null, null, 
                 null, null, null, null, "input is null"];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
@@ -120,6 +120,7 @@ router.get('/detail', async (req, res) => {
         let uuid = result.uuid;
         let thumbanil = result.thumbanil;
         let title = result.title;
+        let lossCut = result.lossCut;
         let content = result.content;
         let count = result.count;
         articleCount = count;
@@ -154,17 +155,17 @@ router.get('/detail', async (req, res) => {
             console.log("dislike err", err);
         }
 
-        let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
                 "badge", "nickname", "insignia", "myRating", "error"];
-        let valueList = [articleId, uuid, thumbanil, title, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
+        let valueList = [articleId, uuid, thumbanil, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
                 badge, nickname, insignia, myRating, null];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
         res.json(resultObject);
     }catch(err){
-        let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
                 "badge", "nickname", "insignia", "myRating", "error"];
-        let valueList = [null, null, null, null, null, null, null, null, null, null, 
+        let valueList = [null, null, null, null, null, null, null, null, null, null, null, 
                 null, null, null, null, "article is not exist"];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("nurbanboard_detail_result", contentObject);
