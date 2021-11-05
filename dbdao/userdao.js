@@ -48,19 +48,9 @@ exports.updatePoint = function update(key, point){
     return User.update({point: point}, {where: {key: key}})
 }
 
-// User nickname 업데이트
-exports.updateNickname = function update(key, nickanme){
-    return User.update({nickname: nickanme}, {where: {key: key}})
-}
-
-// User description 업데이트
-exports.updateDescription = function update(key, description){
-    return User.update({description: description}, {where: {key: key}})
-}
-
-// User insigniaShow 업데이트
-exports.updateInsigniaShow = function update(key, insigniaShow){
-    return User.update({insigniaShow: insigniaShow}, {where: {key: key}})    
+// User Edit 모드에서 업데이트 통신(닉네임, 설명, 보여주는 휘장)
+exports.updateEdit = function update(key, nickname, description, insigniaShow){
+    return User.update({nickname: nickname, description: description, insigniaShow: insigniaShow}, {where: {key: key}})
 }
 
 // User insigniaOwn 업데이트

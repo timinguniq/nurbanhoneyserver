@@ -65,22 +65,26 @@ router.get('/', async (req, res) => {
     res.json(resultObject);
 });
 
-// 보여주는 휘장 변경하는 통신
-router.patch('/insignia', async (req, res) => {
+// edit 편집을 누르면 이루어지는 편집 통신
+router.patch('/edit', async (req, res) => {
     // TODO : 나중에 테스트 해야지
+    let nickname = req.body.nickname;
+    let description = req.body.description;
     let insigniaShow = req.body.insignia;
     let token = req.headers.token;
+    
     console.log("insigniaShow : ", insigniaShow);
+
     let contentObject = new Object();
     let resultObject = new Object();
     
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [insigniaShow];
+    let inputArray = [nickname, description, insigniaShow];
     if(await inputErrorHandler(inputArray)){
         let nameList = ["result", "error"];
         let valueList = [null, "input is null"];
         contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_insignia_revise_result", contentObject);
+        resultObject = createJson.one("profile_edit_result", contentObject);
         res.json(resultObject);
         return res.end();
     }
@@ -91,19 +95,19 @@ router.patch('/insignia', async (req, res) => {
     key = "K-1962161281";
 
     try{
-        let result = await userDao.updateInsigniaShow(key, insigniaShow);
+        let result = await userDao.updateEdit(key, nickname, description, insigniaShow);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         let nameList = ["result", "error"];
         let valueList = [result[0], null];
         contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_insignia_revise_result", contentObject);
+        resultObject = createJson.one("profile_edit_result", contentObject);
     }catch(err){
         console.log(`patch err : ${err}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
         contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_insignia_revise_result", contentObject);
+        resultObject = createJson.one("profile_edit_result", contentObject);
     }
     res.json(resultObject);
 });
