@@ -67,7 +67,6 @@ router.get('/', async (req, res) => {
 
 // edit 편집을 누르면 이루어지는 편집 통신
 router.patch('/edit', async (req, res) => {
-    // TODO : 나중에 테스트 해야지
     let nickname = req.body.nickname;
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
@@ -108,86 +107,6 @@ router.patch('/edit', async (req, res) => {
         let valueList = [null, err];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_edit_result", contentObject);
-    }
-    res.json(resultObject);
-});
-
-// 닉네임 변경 통신
-router.patch('/nickname', async (req, res) => {
-    let changeNickname = req.body.nickname;
-    let token = req.headers.token;
-
-    let contentObject = new Object();
-    let resultObject = new Object();
-    
-    // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [changeNickname];
-    if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_nickname_revise_result", contentObject);
-        res.json(resultObject);
-        return res.end();
-    }
-
-    // 토큰에서 키 값 추출
-    let key = extractKey(token);
-    
-    try{
-        let result = await userDao.updateNickname(key, changeNickname);
-        // result 1이면 성공 0이면 실패
-        console.log(`patch result : ${result}`)
-        let nameList = ["result", "error"];
-        let valueList = [result[0], null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_nickname_revise_result", contentObject);
-    }catch(err){
-        console.log(`patch err : ${err}`)
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_nickname_revise_result", contentObject);
-    }
-    res.json(resultObject);
-});
-
-// 설명 변경 통신
-router.patch('/description', async (req, res) => {
-    let changeDescription = req.body.description;
-    let token = req.headers.token;
-
-    // 토큰에서 키 값 추출
-    let key = extractKey(token);
-
-    let contentObject = new Object();
-    let resultObject = new Object();
-
-    // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [changeDescription];
-    if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_description_revise_result", contentObject);
-        res.json(resultObject);
-        return res.end();
-    }
-    
-    try{
-        let result = await userDao.updateDescription(key, changeDescription);
-        // result 1이면 성공 0이면 실패
-        console.log(`patch result : ${result}`)
-        let nameList = ["result", "error"];
-        let valueList = [result[0], null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_description_revise_result", contentObject);
-    }catch(err){
-        console.log(`patch err : ${err}`)
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_description_revise_result", contentObject);
     }
     res.json(resultObject);
 });
