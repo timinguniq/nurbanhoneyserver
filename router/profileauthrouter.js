@@ -111,10 +111,15 @@ router.patch('/edit', async (req, res) => {
     res.json(resultObject);
 });
 
+// 내가 작성한 글 리스트 보는 통신
+router.get('/myArticle', async (req, res) => {
+
+})
+
 // 회원탈퇴
 router.delete('/withdrawal', async (req, res) => {
     let id = req.query.id;
-
+ 
     let contentObject = new Object();
     let resultObject = new Object();
     

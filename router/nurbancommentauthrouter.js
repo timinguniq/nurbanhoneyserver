@@ -8,7 +8,7 @@ var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractUserId');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 
-// 토큰이 없어도 통신이 가능
+// 토큰이 있어야 가능한 통신
 
 // 댓글 생성
 router.post('/', async (req, res) => {

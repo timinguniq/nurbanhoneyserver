@@ -10,10 +10,12 @@ var loginRouter = require('./router/loginrouter');
 var tokenMidRouter = require('./router/tokenmidrouter');
 var tokenRouter = require('./router/tokenrouter');
 var nurbanBoardRouter = require('./router/nurbanboardrouter');
+var nurbanBoardAuthRouter = require('./router/nurbanboardauthrouter');
 var nurbanCommentRouter = require('./router/nurbancommentrouter');
-var nurbanLikeRouter = require('./router/nurbanlikerouter');
-var nurbanDislikeRouter = require('./router/nurbandislikerouter');
-var profileRouter = require('./router/profilerouter');
+var nurbanCommentAuthRouter = require('./router/nurbancommentauthrouter');
+var nurbanLikeAuthRouter = require('./router/nurbanlikeauthrouter');
+var nurbanDislikeAuthRouter = require('./router/nurbandislikeauthrouter');
+var profileAuthRouter = require('./router/profileauthrouter');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
 const { v4: uuidv4 } = require('uuid');
 
@@ -89,22 +91,25 @@ app.post('/nurbanboard/insertTempData', async (req, res) => {
 app.use('/appversion', appversionRouter);
 // user router
 app.use('/login', loginRouter);
-// token router
-app.use('/token', tokenRouter);
-// token valid
-app.use('/', tokenMidRouter);
 // nurbanboard router
 app.use('/nurbanboard', nurbanBoardRouter);
 // nurbancomment router
 app.use('/nurbancomment', nurbanCommentRouter);
+// token router
+app.use('/token', tokenRouter);
+// token valid
+app.use('/', tokenMidRouter);
+// auth
+// nurbanboard router
+app.use('/nurbanboard', nurbanBoardAuthRouter);
+// nurbancomment router
+app.use('/nurbancomment', nurbanCommentAuthRouter);
 // nurbanlike router
-app.use('/nurbanlike', nurbanLikeRouter);
+app.use('/nurbanlike', nurbanLikeAuthRouter);
 // nurbandislike router
-app.use('/nurbandislike', nurbanDislikeRouter);
-
-
+app.use('/nurbandislike', nurbanDislikeAuthRouter);
 // profile
-app.use('/profile', profileRouter);
+app.use('/profile', profileAuthRouter);
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
