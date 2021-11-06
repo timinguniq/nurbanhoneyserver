@@ -17,6 +17,7 @@ var nurbanLikeAuthRouter = require('./router/nurbanlikeauthrouter');
 var nurbanDislikeAuthRouter = require('./router/nurbandislikeauthrouter');
 var profileAuthRouter = require('./router/profileauthrouter');
 var rankRouter = require('./router/rankrouter');
+let schedule = require('node-schedule');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
 const { v4: uuidv4 } = require('uuid');
 
@@ -37,6 +38,10 @@ sequelize.sync({ force: false })
 })
 .catch((err) => {
   console.error(err);
+});
+
+const job = schedule.scheduleJob('60 * * * * *', () => {
+  console.log(`1분마다 실행`);
 });
 
 app.get('/', (req, res) => {

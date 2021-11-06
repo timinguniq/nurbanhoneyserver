@@ -1,4 +1,5 @@
 const Rank = require('../models').Rank;
+const User = require('../models').User;
 
 exports.create = function create(totalLossCut, totalLikeCount, userId){
     return Rank.create({
