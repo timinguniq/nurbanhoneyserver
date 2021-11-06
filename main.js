@@ -16,6 +16,7 @@ var nurbanCommentAuthRouter = require('./router/nurbancommentauthrouter');
 var nurbanLikeAuthRouter = require('./router/nurbanlikeauthrouter');
 var nurbanDislikeAuthRouter = require('./router/nurbandislikeauthrouter');
 var profileAuthRouter = require('./router/profileauthrouter');
+var rankRouter = require('./router/rankrouter');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
 const { v4: uuidv4 } = require('uuid');
 
@@ -95,6 +96,8 @@ app.use('/login', loginRouter);
 app.use('/nurbanboard', nurbanBoardRouter);
 // nurbancomment router
 app.use('/nurbancomment', nurbanCommentRouter);
+// rank router
+app.use('/rank', rankRouter);
 // token router
 app.use('/token', tokenRouter);
 // token valid
