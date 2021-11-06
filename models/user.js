@@ -82,6 +82,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.NurbanLike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     
       User.hasOne(models.NurbanDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+
+      User.hasOne(models.Rank, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     };
     
     return User;

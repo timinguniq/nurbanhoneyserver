@@ -88,43 +88,6 @@ router.post('/', async (req, res) => {
     res.json(resultObject);
 });
 
-// 댓글 리스트 읽기
-router.get('/', async (req, res) => {
-    let articleId = req.query.articleId
-    let offset = req.query.offset;
-    let limit = req.query.limit;
-
-    let contentObject = new Object();
-    let resultObject = new Object();
-    
-    // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [articleId, offset, limit];
-    if(await inputErrorHandler(inputArray)){
-        contentObject.error = "input is null";
-        resultObject = createJson.one("nurbancomment_list_result", contentObject);
-        res.json(resultObject);
-        return res.end();
-    }
-
-    // 컨텐츠, 글id, userId, profile, nickname, insignia
-    try{
-        let result = await nurbanCommentDao.readCount(articleId, offset, limit);
- 
-        let contentObjectList = [];
-
-        for(var i = 0 ; i < result.length ; i++){
-            contentObjectList.push(result[i].dataValues);
-        }
-        
-        resultObject = createJson.one("nurbancomment_list_result", contentObjectList);
-    }catch(err){
-        console.log(`err : ${err}`);
-        contentObject.error = err;
-        resultObject = createJson.one("nurbancomment_list_result", contentObject);
-    }
-    res.json(resultObject);
-});
-
 // 댓글 수정
 router.patch('/', async (req, res) => {
     let id = req.body.id;
