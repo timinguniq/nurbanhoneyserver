@@ -17,10 +17,10 @@ var nurbanLikeAuthRouter = require('./router/nurbanlikeauthrouter');
 var nurbanDislikeAuthRouter = require('./router/nurbandislikeauthrouter');
 var profileAuthRouter = require('./router/profileauthrouter');
 var rankRouter = require('./router/rankrouter');
+let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
 const { v4: uuidv4 } = require('uuid');
-
 
 // for parsing application/json
 app.use(express.json());
@@ -40,9 +40,7 @@ sequelize.sync({ force: false })
   console.error(err);
 });
 
-const job = schedule.scheduleJob('60 * * * * *', () => {
-  console.log(`1분마다 실행`);
-});
+const job = schedule.scheduleJob('60 * * * * *', createRank);
 
 app.get('/', (req, res) => {
     res.send('Hello world1')
