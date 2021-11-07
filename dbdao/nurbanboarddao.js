@@ -145,6 +145,8 @@ exports.readForRank = function read(){
                 [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
             }
         },
+        offset: 0,
+        limit: 5,
         order: [['lossCut', 'DESC'], ['id', 'DESC']],
         group: 'userId'
     });
