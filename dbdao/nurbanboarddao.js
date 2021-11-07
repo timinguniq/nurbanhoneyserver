@@ -1,6 +1,7 @@
 const NurbanBoard = require('../models').NurbanBoard;
 const User = require('../models').User;
 const { Op } = require("sequelize");
+const constObj = require('../config/const');
 
 exports.create = function create(uuid, thumbnail, title, lossCut, content, userId){
     return NurbanBoard.create({
@@ -102,7 +103,7 @@ exports.readCount = function read(offset, limit){
         offset: Number(offset),
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
-    })
+    });
 }
 
 // 좋아요 순으로 데이터 가져오기
@@ -123,7 +124,26 @@ exports.readLikeCount = function read(offset, limit){
         offset: Number(offset),
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
-    })
+    });
+}
+
+// 랭크 생성을 위한 데이터 가져오기
+exports.readForRank = function read(){
+    return NurbanBoard.findAll({
+        attributes: ['id', 'lossCut', 'likeCount', 'userId'],
+        where: {
+            likeCount: {
+                [Op.gte]: constObj.baseLikeCount
+            },
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            }
+        },
+        order: [['lossCut', 'DESC'], ['id', 'DESC']],
+        group: 'userId'
+    });
 }
 
 
