@@ -6,13 +6,16 @@ module.exports = async () => {
     try{
         let resultList = await nurbanBoardDao.readForRank();
 
+        console.log("resultList" , resultList);
+
+        /*
         let deleteResult = await rankDao.destoryAll();
         if(deleteResult === 1){
             let result = await rankDao.create(totalLossCut, totalLikeCount, userId);
         }else{
             
         }
-        let result = await rankDao.create();
+        */
     }catch(err){
 
     }

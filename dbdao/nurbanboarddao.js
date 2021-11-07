@@ -1,6 +1,7 @@
 const NurbanBoard = require('../models').NurbanBoard;
 const User = require('../models').User;
 const { Op } = require("sequelize");
+const { sequelize } = require('../models');
 const constObj = require('../config/const');
 
 exports.create = function create(uuid, thumbnail, title, lossCut, content, userId){
@@ -127,10 +128,13 @@ exports.readLikeCount = function read(offset, limit){
     });
 }
 
+[sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
+
 // 랭크 생성을 위한 데이터 가져오기
 exports.readForRank = function read(){
     return NurbanBoard.findAll({
-        attributes: ['id', 'lossCut', 'likeCount', 'userId'],
+        attributes: [[sequelize.fn('SUM', sequelize.col('lossCut')), 'sumLossCut'],
+                    [sequelize.fn('SUM', sequelize.col('likeCount')), 'sumlikeCount'], 'userId'],
         where: {
             likeCount: {
                 [Op.gte]: constObj.baseLikeCount
