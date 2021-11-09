@@ -5,8 +5,12 @@ const nurbanLikeDao = require('../dbdao/nurbanlikedao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
-var extractUserId = require('../utils/extractUserId');
+var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
+let extractArticleKey = require('../utils/extractarticlekey')
+let raisePoint = require('../utils/raisepoint');
+let dropPoint = require('../utils/droppoint');
+let constObj = require('../config/const');
 
 // 싫어요 생성
 router.post('/', async (req, res) => {
@@ -33,11 +37,14 @@ router.post('/', async (req, res) => {
     let key = extractKey(token);
 
     // 키값으로 userId값 가져오기
-    userId = await extractUserId(key);
-
+    userId = await extractUserId(key); 
+    
     if(userId === ""){
         console.log("userId error")
     }
+
+    // articleId로 작성자의 key값 가져오기
+    let articleKey = await extractArticleKey(articleId);
         
     // 싫어요를 삭제하는 코드
     await nurbanDislikeDao.destoryUserId(articleId, userId);
@@ -48,6 +55,12 @@ router.post('/', async (req, res) => {
     try{
         let result = await nurbanDislikeDao.create(articleId, userId);
         console.log(`post create result : ${result}`);
+
+        // 싫어요 포인트를 추가하는 메소드
+        if(!raisePoint(articleKey, constObj.dislikePoint)){
+            console.log("raisePoint error");
+        }
+
         let nameList = ["result", "error"];
         let valueList = [result, null];
         contentObject = createJson.multi(nameList, valueList);
@@ -144,10 +157,19 @@ router.delete('/', async (req, res) => {
         console.log("userId error")
     }
 
+    // articleId로 작성자의 key값 가져오기
+    let articleKey = await extractArticleKey(articleId);
+
     try{
         let result = await nurbanDislikeDao.destoryUserId(articleId, userId);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
+
+        // 싫어요 포인트를 삭제하는 메소드
+        if(!dropPoint(articleKey, constObj.dislikePoint)){
+            console.log("dropPoint error");
+        }
+
         let nameList = ["result", "error"];
         let valueList = [result, null];
         contentObject = createJson.multi(nameList, valueList);

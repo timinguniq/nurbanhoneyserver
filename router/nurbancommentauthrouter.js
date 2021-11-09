@@ -2,11 +2,13 @@ var express = require('express');
 var router = express.Router();
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
-const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
-var extractUserId = require('../utils/extractUserId');
+var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
+let raisePoint = require('../utils/raisepoint');
+let dropPoint = require('../utils/droppoint');
+
 
 // 토큰이 있어야 가능한 통신
 
@@ -52,11 +54,16 @@ router.post('/', async (req, res) => {
         console.log(`post error nurbanBoardDao : ${err}`);    
     }
     
-
     // 댓글 생성하는 코드
     try{
         let result = await nurbanCommentDao.create(content, articleId, userId);
         console.log(`post create result : ${result}`);
+
+        // 포인트를 올리는 메소드
+        if(!raisePoint(key, constObj.writeCommentPoint)){
+            console.log("raisePoint error");
+        }
+
         let nameList = ["result", "error"];
         let valueList = [result, null];
         contentObject = createJson.multi(nameList, valueList);
@@ -148,6 +155,12 @@ router.delete('/', async (req, res) => {
         let result = await nurbanCommentDao.destory(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
+
+        // 포인트를 내리는 메소드
+        if(!dropPoint(key, constObj.writeCommentPoint)){
+            console.log("dropPoint error");
+        }
+
         let nameList = ["result", "error"];
         let valueList = [result, null];
         contentObject = createJson.multi(nameList, valueList);

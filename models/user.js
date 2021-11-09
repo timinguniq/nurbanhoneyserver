@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
       totalLossCut: {
         type: DataTypes.BIGINT,
         allowNull: true,
-        default: 0,
+        defaultValue: 0,
         comment: "전체 손절액"
       },
       lastLoginAt: {

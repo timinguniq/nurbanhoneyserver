@@ -11,6 +11,10 @@ var s3delete = require('../utils/s3delete');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let awsObj = require('../config/aws');
 let constObj = require('../config/const');
+let raisePoint = require('../utils/raisepoint');
+let raiseTotalLossCut = require('../utils/raisetotallosscut');
+let dropPoint = require('../utils/droppoint');
+let dropTotalLossCut = require('../utils/droptotallosscut');
 
 // 토큰 있어야 가능한 통신
 
@@ -60,16 +64,16 @@ router.post('/', async (req, res) => {
     try{
         let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossCut, content, userId);
         console.log(`create : ${result}`);
-        if(result !== null){
-            // point 올리는 로직
-            let userResult = await userDao.read(key)
-            let point = userResult.point;
-            let userLossCut = userResult.totalLossCut;
-            point += constObj.writePoint;
-            userLossCut += lossCut;
-            let userPointUpdateResult = await userDao.updatePoint(key, point);
-            let userLossCutUpdateResult = await userDao.updateTotalLossCut(key, userLossCut);
+
+        // 포인트를 올리는 메소드
+        if(!raisePoint(key, constObj.writeArticlePoint)){
+            console.log("raisePoint error");
         }
+        // 총 손실액 올리는 메소드
+        if(!raiseTotalLossCut(key, lossCut)){
+            console.log("raiseTotalLossCut error");
+        }
+
         let resultObject = {};
         let nameList = ["result", "error"];
         let valueList = ["ok", null];
@@ -152,20 +156,16 @@ router.delete('/', async (req, res) => {
         let readResult = await nurbanBoardDao.readForId(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
-        // TODO 
-        if(result !== null){
-            // point, lossCut 삭제하는 로직
-            let userResult = await userDao.read(key)
-            let point = userResult.point;
-            let userLossCut = userResult.totalLossCut;
-            point -= constObj.writePoint;
-            userLossCut -= readResult.lossCut;
-            if(point <= 0) point = 0;
-            if(userLossCut <= 0) userLossCut = 0;  
-            let userPointUpdateResult = await userDao.updatePoint(key, point);
-            let userLossCutUpdateResult = await userDao.updateTotalLossCut(key, userLossCut);
-        }
         
+        // 포인트를 내리는 메소드
+        if(!dropPoint(key, constObj.writeArticlePoint)){
+            console.log("dropPoint error");
+        }
+        // 총 손실액 내리는 메소드
+        if(!dropTotalLossCut(key, readResult.lossCut)){
+            console.log("dropTotalLossCut error");
+        }
+
         let nameList = ["result", "error"];
         let valueList = [result, null];
         contentObject = createJson.multi(nameList, valueList);
