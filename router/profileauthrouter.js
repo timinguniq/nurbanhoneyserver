@@ -34,7 +34,8 @@ router.get('/', async (req, res) => {
         let point = result.point;
         let insigniaShow = result.insigniaShow;
         let insigniaOwn = result.insigniaOwn;
-        
+        let totalLossCut = result.totalLossCut;
+
         let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
         let myArticleNumber = nurbanBoardResult[0].dataValues.n_ids;
 
@@ -47,7 +48,7 @@ router.get('/', async (req, res) => {
         }
 
         // 휘장 획득하는 코드
-        if(settingInsignia(key, point, myArticleNumber, myCommentNumber)){
+        if(!settingInsignia(key, insigniaOwn, point, totalLossCut, myArticleNumber, myCommentNumber)){
             console.log("settingInsignia error");
         }
 

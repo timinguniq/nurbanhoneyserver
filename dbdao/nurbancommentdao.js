@@ -1,5 +1,6 @@
 const NurbanComment = require('../models').NurbanComment;
 const User = require('../models').User;
+const { sequelize } = require('../models');
 
 exports.create = function create(content, articleId, userId){
     return NurbanComment.create({

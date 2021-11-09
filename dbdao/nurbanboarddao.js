@@ -134,7 +134,7 @@ exports.readLikeCount = function read(offset, limit){
 exports.readForRank = function read(){
     return NurbanBoard.findAll({
         attributes: [[sequelize.fn('SUM', sequelize.col('lossCut')), 'sumLossCut'],
-                    [sequelize.fn('SUM', sequelize.col('likeCount')), 'sumlikeCount'], 'userId'],
+                    [sequelize.fn('SUM', sequelize.col('likeCount')), 'sumLikeCount'], 'userId'],
         where: {
             likeCount: {
                 [Op.gte]: constObj.baseLikeCount

@@ -64,8 +64,11 @@ router.post('/', async (req, res) => {
             // point 올리는 로직
             let userResult = await userDao.read(key)
             let point = userResult.point;
+            let userLossCut = userResult.totalLossCut;
             point += constObj.writePoint;
-            let userUpdateResult = await userDao.updatePoint(key, point);
+            userLossCut += lossCut;
+            let userPointUpdateResult = await userDao.updatePoint(key, point);
+            let userLossCutUpdateResult = await userDao.updateTotalLossCut(key, userLossCut);
         }
         let resultObject = {};
         let nameList = ["result", "error"];
@@ -145,8 +148,24 @@ router.delete('/', async (req, res) => {
 
     try{
         let result = await nurbanBoardDao.destory(id);
+
+        let readResult = await nurbanBoardDao.readForId(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
+        // TODO 
+        if(result !== null){
+            // point, lossCut 삭제하는 로직
+            let userResult = await userDao.read(key)
+            let point = userResult.point;
+            let userLossCut = userResult.totalLossCut;
+            point -= constObj.writePoint;
+            userLossCut -= readResult.lossCut;
+            if(point <= 0) point = 0;
+            if(userLossCut <= 0) userLossCut = 0;  
+            let userPointUpdateResult = await userDao.updatePoint(key, point);
+            let userLossCutUpdateResult = await userDao.updateTotalLossCut(key, userLossCut);
+        }
+        
         let nameList = ["result", "error"];
         let valueList = [result, null];
         contentObject = createJson.multi(nameList, valueList);

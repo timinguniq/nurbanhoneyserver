@@ -34,7 +34,7 @@ exports.readCount = function read(){
     return User.findAll({
         attributes: [
             [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
-        ] 
+        ]
     });
 }
   
@@ -56,6 +56,11 @@ exports.updateEdit = function update(key, nickname, description, insigniaShow){
 // User insigniaOwn 업데이트
 exports.updateInsigniaOwn = function update(key, insigniaOwn){
     return User.update({insigniaOwn: insigniaOwn}, {where: {key: key}})    
+}
+
+// User totalLossCut 업데이트
+exports.updateTotalLossCut = function update(key, totalLossCut){
+    return User.update({totalLossCut: totalLossCut}, {where: {key: key}})    
 }
 
 // User LastLoginAt만 업데이트
