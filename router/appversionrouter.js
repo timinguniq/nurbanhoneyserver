@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         let valueList = ["input is null"];
         appversionObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("appversion_result", appversionObject); 
-        res.json(appversionObject);
+        res.status(400).json(appversionObject);
         return res.end();
     }
 
@@ -29,15 +29,17 @@ router.get('/', async (req, res) => {
             const result = await appversionDao.read()
             console.log(`result : ${result}`)
             if(result === null){
-                let nameList = ["appversion", "isUpdate", "error"];
-                let valueList = [null, null, "db is null"];
+                let nameList = ["error"];
+                let valueList = ["db is null"];
                 appversionObject = createJson.multi(nameList, valueList);
                 resultObject = createJson.one("appversion_result", appversionObject);    
+                res.status(501).json(appversionObject);    
             }else{
-                let nameList = ["appversion", "isUpdate", "error"];
-                let valueList = [result.dataValues.appversion, result.dataValues.isUpdate, null];
+                let nameList = ["appversion", "isUpdate"];
+                let valueList = [result.dataValues.appversion, result.dataValues.isUpdate];
                 appversionObject = createJson.multi(nameList, valueList);
-                resultObject = createJson.one("appversion_result", appversionObject);    
+                resultObject = createJson.one("appversion_result", appversionObject);  
+                res.status(200).json(appversionObject);  
             }
         }catch(err){
             console.log(err);
@@ -45,14 +47,15 @@ router.get('/', async (req, res) => {
             let valueList = [err];
             appversionObject = createJson.multi(nameList, valueList);
             resultObject = createJson.one("appversion_result", appversionObject);
+            res.status(500).json(appversionObject);  
         }
     }else{
         let nameList = ["error"];
         let valueList = ["app name error"];
         appversionObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("appversion_result", appversionObject);
+        res.status(400).json(appversionObject);  
     }
-    res.json(appversionObject);    
 });
 
 router.post('/create', async (req, res) =>{
