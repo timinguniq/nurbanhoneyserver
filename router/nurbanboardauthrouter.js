@@ -157,6 +157,14 @@ router.delete('/', async (req, res) => {
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
         
+        // 좋아요 수 - 싫어요 수
+        let diffLikeDislikeCount = readResult.likeCount - readResult.dislikeCount;
+        // 좋아요 싫어요 정산 포인트 
+        let diffPoint = diffLikeDislikeCount * constObj.likePoint;
+        // 좋아요 싫어요 포인트 정산
+        if(!raisePoint(key, diffPoint)){
+            console.log("raisePoint error");
+        }
         // 포인트를 내리는 메소드
         if(!dropPoint(key, constObj.writeArticlePoint)){
             console.log("dropPoint error");

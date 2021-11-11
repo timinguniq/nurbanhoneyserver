@@ -15,11 +15,11 @@ router.get('/', async (req, res) => {
 
     // 필수 input 값이 null이거나 undefined면 에러
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["appversion", "isUpdate", "error"];
-        let valueList = [null, null, "input is null"];
+        let nameList = ["error"];
+        let valueList = ["input is null"];
         appversionObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("appversion_result", appversionObject); 
-        res.json(resultObject);
+        res.json(appversionObject);
         return res.end();
     }
 
@@ -41,18 +41,18 @@ router.get('/', async (req, res) => {
             }
         }catch(err){
             console.log(err);
-            let nameList = ["appversion", "isUpdate", "error"];
-            let valueList = [null, null, err];
+            let nameList = ["error"];
+            let valueList = [err];
             appversionObject = createJson.multi(nameList, valueList);
             resultObject = createJson.one("appversion_result", appversionObject);
         }
     }else{
-        let nameList = ["appversion", "isUpdate", "error"];
-        let valueList = [null, null, "app name error"];
+        let nameList = ["error"];
+        let valueList = ["app name error"];
         appversionObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("appversion_result", appversionObject);
     }
-    res.json(resultObject);    
+    res.json(appversionObject);    
 });
 
 router.post('/create', async (req, res) =>{
