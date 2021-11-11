@@ -5,12 +5,9 @@ const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
-var extractUserId = require('../utils/extractuserid');
-var s3upload = require('../utils/s3upload');
 let settingBadge = require('../utils/settingbadge');
 let settingInsignia = require('../utils/settinginsignia');
 let inputErrorHandler = require('../utils/inputerrorhandler');
-let awsObj = require('../config/aws.js');
 
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
@@ -52,18 +49,16 @@ router.get('/', async (req, res) => {
             console.log("settingInsignia error");
         }
 
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn", "error"];
-        let valueList = [id, loginType, badge, nickname, description, point, insigniaShow, insigniaOwn, null];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn"];
+        let valueList = [id, loginType, badge, nickname, description, point, insigniaShow, insigniaOwn];
         contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.one("profile_result", contentObject);
+        res.status(200).json(resultObject);
     }catch(err){
         console.log("err", err);
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn", "error"];
-        let valueList = [null, null, null, null, null, null, null, null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_result", contentObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
     }
-    res.json(resultObject);
 });
 
 // edit 편집을 누르면 이루어지는 편집 통신
@@ -81,11 +76,8 @@ router.patch('/edit', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [nickname, description, insigniaShow];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_edit_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -98,18 +90,13 @@ router.patch('/edit', async (req, res) => {
         let result = await userDao.updateEdit(key, nickname, description, insigniaShow);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
-        let nameList = ["result", "error"];
-        let valueList = [result[0], null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_edit_result", contentObject);
+        resultObject = createJson.result(result[0]);
+        res.status(200).json(resultObject);
     }catch(err){
         console.log(`patch err : ${err}`)
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_edit_result", contentObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
     }
-    res.json(resultObject);
 });
 
 // 내가 작성한 글 리스트 보는 통신
@@ -127,29 +114,24 @@ router.delete('/withdrawal', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [id];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_withdrawal_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
     try{
         let result = await userDao.destory(id);
         // result 1이면 성공 0이면 실패
-        let nameList = ["result", "error"];
-        let valueList = [result, null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_withdrawal_result", contentObject);
+        resultObject = createJson.result(result);
+        res.status(200).json(resultObject);
     }catch(err){
         console.log(`withdrawal err : ${err}`)
         let nameList = ["result", "error"];
         let valueList = [null, err];
         contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("profile_withdrawal_result", contentObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
     }
-    res.json(resultObject);
 })
 
 

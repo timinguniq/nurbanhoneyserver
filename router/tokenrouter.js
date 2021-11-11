@@ -4,7 +4,6 @@ var createJson = require('../utils/createjson');
 var isValidToken = require('../utils/isvalidtoken.js');
 let createJwtToken = require('../utils/createjwttoken');
 let extractKey = require('../utils/extractkey');
-const userDao = require('../dbdao/userdao');
 
 // token valid
 router.post('/exam', async (req, res) => {
@@ -14,18 +13,13 @@ router.post('/exam', async (req, res) => {
     let contentObejct = new Object();
     if(isValidToken(token)){
         // 토큰이 유효하다
-        let nameList = ["result", "error"];
-        let valueList = [true, null];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("token_exaim_result", contentObejct);
+        resultObject = createJson.result(true);
+        res.status(200).json(resultObject);
     }else{
         // 토큰이 안 유효하다
-        let nameList = ["result", "error"];
-        let valueList = [false, null];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("token_exaim_result", contentObejct);
+        resultObject = createJson.result(false);
+        res.status(200).json(resultObject);
     }
-    res.json(resultObject);
 });
 
 // token 재발급(토큰을 받아서 새로운 토큰을 만들어서 준다.)
@@ -36,10 +30,8 @@ router.post('/exchange', async (req, res) => {
     let contentObejct = new Object();
     if(isValidToken(token)){
         // 토큰이 유효하다. -> 에러 (토큰이 유효기간이 지난걸 새로 발급해 줘야 되니까)
-        let nameList = ["token","error"];
-        let valueList = [null, "token is not expired"];
-        contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("token_exchange_result", contentObejct);
+        resultObject = createJson.error("token is not expired");
+        res.status(400).json(resultObject);
     }else{
         // 토큰이 유효하지 않다.
         // TODO : 토큰이 유효하지 않으면 재생성 후 리턴해준다.
@@ -52,12 +44,12 @@ router.post('/exchange', async (req, res) => {
         // token 만드는 코드
         let token = createJwtToken(key);
 
-        let nameList = ["token","error"];
-        let valueList = [token, null];
+        let nameList = ["token"];
+        let valueList = [token];
         contentObejct = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("token_exchange_result", contentObejct);
+        resultObject = createJson.multi(nameList, valueList);
+        res.status(200).json(resultObject);
     }
-    res.json(resultObject);
 });
 
 module.exports = router;

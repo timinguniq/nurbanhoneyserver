@@ -3,13 +3,8 @@ var router = express.Router();
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanLikeDao = require('../dbdao/nurbanlikedao');
 const nurbanDislikeDao = require('../dbdao/nurbandislikedao');
-const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
-var extractKey = require('../utils/extractkey');
-var s3upload = require('../utils/s3upload');
-var s3delete = require('../utils/s3delete');
 let inputErrorHandler = require('../utils/inputerrorhandler');
-let awsObj = require('../config/aws');
 let constObj = require('../config/const');
 
 // 토큰 없이 이용 가능한 통신들
@@ -24,13 +19,8 @@ router.get('/detail', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [id];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
-            "badge", "nickname", "insignia", "myRating", "error"];
-        let valueList = [null, null, null, null, null, null, null, null, null, null, null, 
-                null, null, null, null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_detail_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -81,17 +71,11 @@ router.get('/detail', async (req, res) => {
                 "badge", "nickname", "insignia", "myRating", "error"];
         let valueList = [articleId, uuid, thumbanil, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
                 badge, nickname, insignia, myRating, null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_detail_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.multi(nameList, valueList);
+        res.status(200).json(resultObject);
     }catch(err){
-        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
-                "badge", "nickname", "insignia", "myRating", "error"];
-        let valueList = [null, null, null, null, null, null, null, null, null, null, null, 
-                null, null, null, null, "article is not exist"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanboard_detail_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("article is not exist");
+        res.status(500).json(resultObject);
     }
   
     // 조회수 카운트 플러스하는 코드
@@ -116,9 +100,8 @@ router.get('/', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [flag, offset, limit];
     if(await inputErrorHandler(inputArray)){
-        contentObject.error = "input is null";
-        resultObject = createJson.one("nurbanboard_list_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -134,9 +117,8 @@ router.get('/', async (req, res) => {
             result = await nurbanBoardDao.readLikeCount(offset, limit);
         }else{
             // 에러
-            contentObject.error = "flag is not correct";
-            resultObject = createJson.one("nurbanboard_list_result", contentObject);
-            res.json(resultObject);
+            resultObject = createJson.error("flag is not correct");
+            res.status(400).json(resultObject);
             return res.end()
         }
         console.log("result", result);
@@ -151,12 +133,11 @@ router.get('/', async (req, res) => {
 
         //console.log(`result.rows : ${result.rows}`);
         //resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
-        res.json(contentObjectList);
+        res.status(200).json(contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
-        contentObject.error = err;
-        resultObject = createJson.one("nurbanboard_list_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
     }
 });
 

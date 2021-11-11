@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
-let kakakoAuth = require('../utils/kakaoauth');
 let createJwtToken = require('../utils/createjwttoken');
 const kakaoauth = require('../utils/kakaoauth');
 let inputErrorHandler = require('../utils/inputerrorhandler');
@@ -13,16 +12,12 @@ router.post('/', async (req, res) => {
     let inputKey = req.body.key;
     let inputPassword = req.body.password;
     let resultObject = {};
-    let tokenObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [inputKey];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["token", "error"];
-        let valueList = [null, "input is null"];
-        tokenObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("login_result", tokenObject);        
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");        
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -32,11 +27,8 @@ router.post('/', async (req, res) => {
 
     // 로그인 타입 확인하는 코드
     if(inputLoginType !== "kakao" && inputLoginType !== "google" && inputLoginType !== "email"){
-        let nameList = ["token", "error"];
-        let valueList = [null, "loginType_error"];
-        tokenObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("login_result", tokenObject);        
-        res.json(resultObject);
+        resultObject = createJson.error("loginType_error");        
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -45,11 +37,8 @@ router.post('/', async (req, res) => {
         let kakaoProfileId = await kakaoauth(inputKey);
         if(!kakaoProfileId){
             // 카카오 토큰이 유효하지 않다.
-            let nameList = ["token", "error"];
-            let valueList = [null, "kakao_auth_error"];
-            tokenObject = createJson.multi(nameList, valueList);
-            resultObject = createJson.one("login_result", tokenObject);
-            res.json(resultObject);
+            resultObject = createJson.error("kakao_auth_error");
+            res.status(401).json(resultObject);
             return res.end()
         }
 
@@ -80,22 +69,18 @@ router.post('/', async (req, res) => {
             userId = result.id;            
             
             if(result.password === inputPassword){
-                let nameList = ["token", "error"];
-                let valueList = [token, null];
-                tokenObject = createJson.multi(nameList, valueList);
-                resultObject = createJson.one("login_result", tokenObject);
+                let nameList = ["token", "userId"];
+                let valueList = [token, userId];
+                resultObject = createJson.multi(nameList, valueList);
+                res.status(200).json(resultObject);
             }else{
-                let nameList = ["token", "error"];
-                let valueList = [null, "login_fail"];
-                tokenObject = createJson.multi(nameList, valueList);
-                resultObject = createJson.one("login_result", tokenObject);
+                resultObject = createJson.error("login_fail");
+                res.status(400).json(resultObject);
             }
         }
     }catch(err){
-        let nameList = ["token", "error"];
-        let valueList = [null, err];
-        tokenObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("login_result", tokenObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
     }
 
     if(isRead){
@@ -124,19 +109,16 @@ router.post('/', async (req, res) => {
             let nickname = "너반꿀" + userCount;
             let result = await userDao.create(inputLoginType, inputKey, inputPassword, nickname);
             if(result !== null){
-                let nameList = ["token", "userId", "error"];
-                let valueList = [token, userId, null];
-                tokenObject = createJson.multi(nameList, valueList);
-                resultObject = createJson.one("login_result", tokenObject);
+                let nameList = ["token", "userId"];
+                let valueList = [token, userId];
+                resultObject = createJson.multi(nameList, valueList);
+                res.status(201).json(resultObject);
             }
         }catch(err){
-            let nameList = ["token", "userId", "error"];
-            let valueList = [null, null, err];
-            tokenObject = createJson.multi(nameList, valueList);
-            resultObject = createJson.one("login_result", tokenObject);
+            resultObject = createJson.error(err);
+            res.status(500).json(resultObject);
         }
     }
-    res.json(resultObject);
 });
 
 module.exports = router;

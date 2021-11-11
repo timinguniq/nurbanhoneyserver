@@ -1,14 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const rankDao = require('../dbdao/rankdao');
-const userDao = require('../dbdao/userdao');
-const nurbanBoardDao = require('../dbdao/nurbanboarddao');
-const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 var createJson = require('../utils/createjson');
-var extractKey = require('../utils/extractkey');
-let settingBadge = require('../utils/settingbadge');
-let settingInsignia = require('../utils/settinginsignia');
-let inputErrorHandler = require('../utils/inputerrorhandler');
 
 // 랭크 관련 통신
 
@@ -30,12 +23,11 @@ router.get('/', async (req, res) => {
 
         console.log("contentObjectArrayList", contentObjectList);
 
-        res.json(contentObjectList);
+        res.status(200).json(contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
-        contentObject.error = err;
-        resultObject = createJson.one("rank_list_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
     }
 });
 

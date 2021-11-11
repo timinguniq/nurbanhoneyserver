@@ -25,11 +25,8 @@ router.post('/', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [content, articleId];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_create_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
     
@@ -64,17 +61,12 @@ router.post('/', async (req, res) => {
             console.log("raisePoint error");
         }
 
-        let nameList = ["result", "error"];
-        let valueList = [result, null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_create_result", contentObject);
+        resultObject = createJson.result(result);
+        res.status(201).json(resultObject);
     }catch(err){
         console.log(`post create result err : ${err}`);
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_create_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();
     }
 
@@ -85,14 +77,10 @@ router.post('/', async (req, res) => {
         console.log(`commentCount result : ${result}`)    
     }catch(err){
         console.log(`post create comment update result err : ${err}`);
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_create_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();
     }
-    res.json(resultObject);
 });
 
 // 댓글 수정
@@ -106,11 +94,8 @@ router.patch('/', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [id, content];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_revise_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -118,18 +103,12 @@ router.patch('/', async (req, res) => {
         let result = await nurbanCommentDao.updateContent(id, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
-        let nameList = ["result", "error"];
-        let valueList = [result[0], null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_revise_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.result(result[0]);
+        res.status(200).json(resultObject);
     }catch(err){
         console.log(`patch err : ${result}`)
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_revise_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
     }
 });
 
@@ -143,11 +122,8 @@ router.delete('/', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [id];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_delete_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -161,18 +137,12 @@ router.delete('/', async (req, res) => {
             console.log("dropPoint error");
         }
 
-        let nameList = ["result", "error"];
-        let valueList = [result, null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_delete_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.result(result);
+        res.status(200).json(resultObject);
     }catch(err){
         console.log(`delete err : ${err}`)
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbancomment_delete_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();
     }
 });

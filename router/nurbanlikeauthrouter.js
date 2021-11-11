@@ -12,7 +12,6 @@ let raisePoint = require('../utils/raisepoint');
 let dropPoint = require('../utils/droppoint');
 let constObj = require('../config/const');
 
-
 // 좋아요 생성
 router.post('/', async (req, res) => {
     let articleId = req.body.articleId;
@@ -24,11 +23,8 @@ router.post('/', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [articleId];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_create_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -62,17 +58,12 @@ router.post('/', async (req, res) => {
             console.log("raisePoint error");
         }
 
-        let nameList = ["result", "error"];
-        let valueList = [result, null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_create_result", contentObject);
+        resultObject = createJson.result("ok");
+        res.status(200).json(resultObject);
     }catch(err){
         console.log(`post create result err : ${err}`);
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_create_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();
     }
 
@@ -102,11 +93,8 @@ router.post('/', async (req, res) => {
             let result = await nurbanBoardDao.updateDislikeCount(articleId, dislikeCount);
         }        
     }catch(err){
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_create_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();   
     }
 
@@ -116,15 +104,10 @@ router.post('/', async (req, res) => {
             let result = await nurbanBoardDao.updateLikeCount(articleId, likeCount);
         }        
     }catch(err){
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_create_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();   
     }
-
-    res.json(resultObject);
 });
 
 // 좋아요 삭제
@@ -138,11 +121,8 @@ router.delete('/', async (req, res) => {
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [articleId];
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["result", "error"];
-        let valueList = [null, "input is null"];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_delete_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -171,17 +151,12 @@ router.delete('/', async (req, res) => {
             console.log("dropPoint error");
         }
 
-        let nameList = ["result", "error"];
-        let valueList = [result, null];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_delete_result", contentObject);
+        resultObject = createJson.result(result);
+        res.status(200).json(resultObject);
     }catch(err){
         console.log(`delete err : ${err}`)
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_delete_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();
     }
 
@@ -193,11 +168,8 @@ router.delete('/', async (req, res) => {
         likeCount = result[0].dataValues.n_ids;
     }catch(err){
         console.log(err);
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_delete_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();   
     }
 
@@ -207,11 +179,8 @@ router.delete('/', async (req, res) => {
             let result = await nurbanBoardDao.updateLikeCount(articleId, likeCount);
         }
     }catch(err){
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("nurbanlike_delete_result", contentObject);
-        res.json(resultObject);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
         return res.end();   
     }
 

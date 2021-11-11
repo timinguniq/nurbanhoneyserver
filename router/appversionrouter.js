@@ -10,13 +10,12 @@ router.get('/', async (req, res) => {
     console.log(`app : ${app}`)
     let inputArray = [app];
 
-    let appversionObject = new Object();
     let resultObject = new Object
 
     // 필수 input 값이 null이거나 undefined면 에러
     if(await inputErrorHandler(inputArray)){
-        appversionObject = createJson.error("input is null");
-        res.status(400).json(appversionObject);
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
         return res.end();
     }
 
@@ -26,29 +25,22 @@ router.get('/', async (req, res) => {
             const result = await appversionDao.read()
             console.log(`result : ${result}`)
             if(result === null){
-                let nameList = ["error"];
-                let valueList = ["db is null"];
-                appversionObject = createJson.multi(nameList, valueList);   
-                res.status(501).json(appversionObject);    
+                resultObject = createJson.error("db is null");   
+                res.status(501).json(resultObject);    
             }else{
                 let nameList = ["appversion", "isUpdate"];
                 let valueList = [result.dataValues.appversion, result.dataValues.isUpdate];
-                appversionObject = createJson.multi(nameList, valueList);
-                res.status(200).json(appversionObject);  
+                resultObject = createJson.multi(nameList, valueList);
+                res.status(200).json(resultObject);  
             }
         }catch(err){
             console.log(err);
-            let nameList = ["error"];
-            let valueList = [err];
-            appversionObject = createJson.multi(nameList, valueList);
-            res.status(500).json(appversionObject);  
+            resultObject = createJson.error(err);
+            res.status(500).json(resultObject);  
         }
     }else{
-        let nameList = ["error"];
-        let valueList = ["app name error"];
-        appversionObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("appversion_result", appversionObject);
-        res.status(400).json(appversionObject);  
+        resultObject = createJson.error("app name error");
+        res.status(400).json(resultObject);  
     }
 });
 

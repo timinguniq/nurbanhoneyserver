@@ -22,18 +22,11 @@ module.exports = async (bucketName, folderName, imageFileName, bodyBuffer, resul
     await s3.upload(param, (err, data) => {
         if(err !== null){
             // 에러가 있음
-            let nameList = ["result", "error"];
-            let valueList = [null, err];
-            let contentObject = createJson.multi(nameList, valueList);
-            let resultObject = createJson.one(resultString, contentObject);
+            let resultObject = createJson.error(err);
             return callback(resultObject)
         }else{
             // 에러가 없음
-            let location = data.Location;
-            let nameList = ["result", "error"];
-            let valueList = [location, null];
-            let contentObject = createJson.multi(nameList, valueList);
-            let resultObject = createJson.one(resultString, contentObject);
+            let resultObject = createJson.result(location);
             return callback(resultObject)
         }
     });
