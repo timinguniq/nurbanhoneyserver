@@ -15,10 +15,7 @@ router.get('/', async (req, res) => {
 
     // 필수 input 값이 null이거나 undefined면 에러
     if(await inputErrorHandler(inputArray)){
-        let nameList = ["error"];
-        let valueList = ["input is null"];
-        appversionObject = createJson.multi(nameList, valueList);
-        resultObject = createJson.one("appversion_result", appversionObject); 
+        appversionObject = createJson.error("input is null");
         res.status(400).json(appversionObject);
         return res.end();
     }
@@ -31,14 +28,12 @@ router.get('/', async (req, res) => {
             if(result === null){
                 let nameList = ["error"];
                 let valueList = ["db is null"];
-                appversionObject = createJson.multi(nameList, valueList);
-                resultObject = createJson.one("appversion_result", appversionObject);    
+                appversionObject = createJson.multi(nameList, valueList);   
                 res.status(501).json(appversionObject);    
             }else{
                 let nameList = ["appversion", "isUpdate"];
                 let valueList = [result.dataValues.appversion, result.dataValues.isUpdate];
                 appversionObject = createJson.multi(nameList, valueList);
-                resultObject = createJson.one("appversion_result", appversionObject);  
                 res.status(200).json(appversionObject);  
             }
         }catch(err){
@@ -46,7 +41,6 @@ router.get('/', async (req, res) => {
             let nameList = ["error"];
             let valueList = [err];
             appversionObject = createJson.multi(nameList, valueList);
-            resultObject = createJson.one("appversion_result", appversionObject);
             res.status(500).json(appversionObject);  
         }
     }else{
