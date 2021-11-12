@@ -33,9 +33,11 @@ router.get('/', async (req, res) => {
         let insigniaOwn = result.insigniaOwn;
         let totalLossCut = result.totalLossCut;
 
+        // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
         let myArticleNumber = nurbanBoardResult[0].dataValues.n_ids;
 
+        // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
         let myCommentNumber = nurbanCommentResult[0].dataValues.n_ids;
         
@@ -100,9 +102,14 @@ router.patch('/edit', async (req, res) => {
 });
 
 // 내가 작성한 글 리스트 보는 통신
-router.get('/myArticle', async (req, res) => {
+router.get('/myarticle', async (req, res) => {
 
-})
+});
+
+// 내가 작성한 댓글 리스트 보는 통신
+router.get('/mycomment', async (req, res) => {
+
+});
 
 // 회원탈퇴
 router.delete('/withdrawal', async (req, res) => {
