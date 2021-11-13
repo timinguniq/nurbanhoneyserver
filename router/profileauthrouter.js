@@ -164,7 +164,59 @@ router.get('/myarticle', async (req, res) => {
 
 // 내가 작성한 댓글 리스트 보는 통신
 router.get('/mycomment', async (req, res) => {
+    let offset = req.query.offset;
+    let limit = req.query.limit;
+    let token = req.headers.token;
 
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
+    // 키에서 userId 값 추출
+    let userId = extractUserId(key);
+
+    // 테스트 코드 나중에 삭제 해야됨
+    userId = 1;
+
+    let resultObject = new Object();
+
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [offset, limit];
+    if(await inputErrorHandler(inputArray)){
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
+        return res.end();
+    }
+
+    // 썸네일, 제목, 댓글 개수
+    try{
+        // 너반꿀 게시판에서 내가 쓴 글 불러오기
+        let nurbanCommentResult = await nurbanCommentDao.readForUserId(userId, offset, limit);
+        console.log("nurbanCommentResult", nurbanCommentResult);
+        // TODO 자유게시판 내가 쓴 글 불러오기
+        //let freeCommentResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
+        //console.log("freeCommentResult", freeCommentResult);
+
+        let contentObjectList = [];
+
+        // 너반꿀 게시판
+        for(var i = 0 ; i < nurbanCommentResult.length ; i++){
+            contentObjectList.push(nurbanCommentResult[i].dataValues);
+        }
+
+        // 자유게시판 
+        //for(var i = 0 ; i < freeCommentResult.length ; i++){
+        //    contentObjectList.push(freeCommentResult[i].dataValues);
+        //}
+
+        console.log("contentObjectArrayList", contentObjectList);
+
+        //console.log(`result.rows : ${result.rows}`);
+        //resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
+        res.status(200).json(contentObjectList);
+    }catch(err){
+        console.log(`err : ${err}`);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
 });
 
 // 회원탈퇴

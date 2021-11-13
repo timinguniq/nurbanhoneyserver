@@ -59,7 +59,8 @@ exports.readForUserId = function read(userId, offset, limit){
         limit: Number(limit),
         where: {
             userId: userId 
-        }
+        },
+        order: [['id', 'DESC']]
     })
 }
 
