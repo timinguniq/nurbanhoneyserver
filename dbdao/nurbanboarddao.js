@@ -52,7 +52,7 @@ exports.readForId = function read(id){
 }
  
 // 글 userId로 검색
-exports.readForUserId = function read(userId, offset, limit){
+exports.readForUserId = function read(userId, offset = 0, limit = 10){
     return NurbanBoard.findAll({
         attributes: ['id', 'thumbnail', 'title', 'commentCount', 'createdAt'],
         offset: Number(offset),

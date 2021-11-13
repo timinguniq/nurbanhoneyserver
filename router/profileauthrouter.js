@@ -37,11 +37,11 @@ router.get('/', async (req, res) => {
 
         // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
-        let myArticleNumber = nurbanBoardResult[0].dataValues.n_ids;
+        let myArticleCount = nurbanBoardResult[0].dataValues.n_ids;
 
         // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
-        let myCommentNumber = nurbanCommentResult[0].dataValues.n_ids;
+        let myCommentCount = nurbanCommentResult[0].dataValues.n_ids;
         
         // point에 따른 badge 셋팅
         if(!settingBadge(key, point)){
@@ -49,12 +49,12 @@ router.get('/', async (req, res) => {
         }
 
         // 휘장 획득하는 코드
-        if(!settingInsignia(key, insigniaOwn, point, totalLossCut, myArticleNumber, myCommentNumber)){
+        if(!settingInsignia(key, insigniaOwn, point, totalLossCut, myArticleCount, myCommentCount)){
             console.log("settingInsignia error");
         }
 
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn"];
-        let valueList = [id, loginType, badge, nickname, description, point, insigniaShow, insigniaOwn];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn", "myArticleCount", "myCommentCount"];
+        let valueList = [id, loginType, badge, nickname, description, point, insigniaShow, insigniaOwn, myArticleCount, myCommentCount];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
     }catch(err){
