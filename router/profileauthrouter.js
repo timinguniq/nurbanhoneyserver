@@ -149,6 +149,13 @@ router.get('/myarticle', async (req, res) => {
         //    contentObjectList.push(freeBoardResult[i].dataValues);
         //}
 
+        // array sort
+        contentObjectList.sort((a, b) => {
+            if(a.createdAt > b.createdAt) return 1;
+            if(a.createdAt === b.createdAt) return 0;
+            if(a.createdAt < b.createdAt) return -1;
+        });
+
         console.log("contentObjectArrayList", contentObjectList);
 
         //console.log(`result.rows : ${result.rows}`);
@@ -194,7 +201,7 @@ router.get('/mycomment', async (req, res) => {
         // TODO 자유게시판 내가 쓴 글 불러오기
         //let freeCommentResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
         //console.log("freeCommentResult", freeCommentResult);
-
+ 
         let contentObjectList = [];
 
         // 너반꿀 게시판
@@ -206,6 +213,13 @@ router.get('/mycomment', async (req, res) => {
         //for(var i = 0 ; i < freeCommentResult.length ; i++){
         //    contentObjectList.push(freeCommentResult[i].dataValues);
         //}
+
+        // array sort
+        contentObjectList.sort((a, b) => {
+            if(a.createdAt > b.createdAt) return 1;
+            if(a.createdAt === b.createdAt) return 0;
+            if(a.createdAt < b.createdAt) return -1;
+        });
 
         console.log("contentObjectArrayList", contentObjectList);
 
