@@ -31,7 +31,7 @@ exports.readCount = function read(articleId, offset = 0, limit = 10){
 // 댓글을 userId로 검색
 exports.readForUserId = function read(userId, offset = 0, limit = 10){
     return NurbanComment.findAll({
-        attributes: ['id', 'content', 'articleId'],
+        attributes: ['id', 'content', 'articleId', 'createdAt'],
         offset: Number(offset),
         limit: Number(limit),
         where: {
