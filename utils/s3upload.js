@@ -9,7 +9,7 @@ AWS.config.update({
 });
 
 // s3에 파일 업로드 하는 메소드
-module.exports = async (bucketName, folderName, imageFileName, bodyBuffer, resultString, callback) => {
+module.exports = async (bucketName, folderName, imageFileName, bodyBuffer, callback) => {
     let s3 = new AWS.S3();
     let param = {
         'Bucket' : bucketName,
