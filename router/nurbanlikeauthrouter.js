@@ -36,6 +36,25 @@ router.post('/', async (req, res) => {
     // 키값으로 userId값 가져오기
     userId = await extractUserId(key);
 
+    let nurbanLikeResult;
+    // 좋아요를 생성하는 코드
+    try{
+        nurbanLikeResult = await nurbanLikeDao.create(articleId, userId);
+        console.log(`post create result : ${result}`);
+       
+        // 좋아요 포인트를 추가하는 메소드
+        if(!raisePoint(articleKey, constObj.likePoint)){
+            console.log("raisePoint error");
+        }
+
+
+    }catch(err){
+        console.log(`post create result err : ${err}`);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+        return res.end();
+    }
+
     if(userId === ""){
         console.log("userId error")
     }
@@ -90,17 +109,8 @@ router.post('/', async (req, res) => {
         return res.end();   
     }
 
-    // 좋아요를 생성하는 코드
     try{
-        let result = await nurbanLikeDao.create(articleId, userId);
-        console.log(`post create result : ${result}`);
-           
-        // 좋아요 포인트를 추가하는 메소드
-        if(!raisePoint(articleKey, constObj.likePoint)){
-            console.log("raisePoint error");
-        }
-
-        if(result !== null && result !== undefined){
+        if(nurbanLikeResult !== null && nurbanLikeResult !== undefined){
             // 생성 성공
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
@@ -118,11 +128,10 @@ router.post('/', async (req, res) => {
             res.status(400).json(resultObject);
         }
     }catch(err){
-        console.log(`post create result err : ${err}`);
         resultObject = createJson.error(err);
         res.status(500).json(resultObject);
         return res.end();
-    }
+    }    
 });
 
 // 좋아요 삭제

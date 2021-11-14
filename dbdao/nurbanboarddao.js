@@ -54,7 +54,7 @@ exports.readForId = function read(id){
 // 좋아요 수랑 싫어요 수 리턴
 exports.readForLikeDisLike = function read(id){
     return NurbanBoard.findOne({
-        attributes: ['likeCount', 'dislikeCount'],
+        attributes: ['id', 'likeCount', 'dislikeCount'],
         where: {
             id: id
         }
