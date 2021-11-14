@@ -149,11 +149,11 @@ router.get('/myarticle', async (req, res) => {
         //    contentObjectList.push(freeBoardResult[i].dataValues);
         //}
 
-        // array sort
+        // array sort 내림차순(최신께 위로)
         contentObjectList.sort((a, b) => {
-            if(a.createdAt > b.createdAt) return 1;
+            if(a.createdAt > b.createdAt) return -1;
             if(a.createdAt === b.createdAt) return 0;
-            if(a.createdAt < b.createdAt) return -1;
+            if(a.createdAt < b.createdAt) return 1;
         });
 
         console.log("contentObjectArrayList", contentObjectList);
@@ -214,11 +214,11 @@ router.get('/mycomment', async (req, res) => {
         //    contentObjectList.push(freeCommentResult[i].dataValues);
         //}
 
-        // array sort
+        // array sort 내림차순(최신께 위로)
         contentObjectList.sort((a, b) => {
-            if(a.createdAt > b.createdAt) return 1;
+            if(a.createdAt > b.createdAt) return -1;
             if(a.createdAt === b.createdAt) return 0;
-            if(a.createdAt < b.createdAt) return -1;
+            if(a.createdAt < b.createdAt) return 1;
         });
 
         console.log("contentObjectArrayList", contentObjectList);

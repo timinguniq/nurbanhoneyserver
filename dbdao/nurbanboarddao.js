@@ -50,6 +50,16 @@ exports.readForId = function read(id){
         }
     })
 }
+
+// 좋아요 수랑 싫어요 수 리턴
+exports.readForLikeDisLike = function read(id){
+    return NurbanBoard.findOne({
+        attributes: ['likeCount', 'dislikeCount'],
+        where: {
+            id: id
+        }
+    })
+}
  
 // 글 userId로 검색
 exports.readForUserId = function read(userId, offset = 0, limit = 10){
@@ -131,8 +141,6 @@ exports.readLikeCount = function read(offset, limit){
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
     });
 }
-
-[sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
 
 // 랭크 생성을 위한 데이터 가져오기
 exports.readForRank = function read(){

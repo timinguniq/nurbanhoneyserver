@@ -68,9 +68,9 @@ router.get('/detail', async (req, res) => {
         }
 
         let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
-                "badge", "nickname", "insignia", "myRating", "error"];
+                "badge", "nickname", "insignia", "myRating"];
         let valueList = [articleId, uuid, thumbanil, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
-                badge, nickname, insignia, myRating, null];
+                badge, nickname, insignia, myRating];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
     }catch(err){
