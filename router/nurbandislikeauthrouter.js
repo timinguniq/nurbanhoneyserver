@@ -99,16 +99,24 @@ router.post('/', async (req, res) => {
         if(!raisePoint(articleKey, constObj.dislikePoint)){
             console.log("raisePoint error");
         }
+        if(result !== null && result !== undefined){
+            // 생성 성공
 
-        // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-        let nurbanBoardResult = await nurbanBoardDao.readForLikeDisLike(articleId);
-        let likeCount = nurbanBoardResult.likeCount;
-        let dislikeCount = nurbanBoardResult.dislikeCount;
-    
-        let nameList = ["likeCount", "dislikeCount"];
-        let valueList = [likeCount, dislikeCount];
-        resultObject = createJson.multi(nameList, valueList);
-        res.status(201).json(resultObject);
+            // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
+            let nurbanBoardResult = await nurbanBoardDao.readForLikeDisLike(articleId);
+            let likeCount = nurbanBoardResult.likeCount;
+            let dislikeCount = nurbanBoardResult.dislikeCount;
+        
+            let nameList = ["likeCount", "dislikeCount"];
+            let valueList = [likeCount, dislikeCount];
+            resultObject = createJson.multi(nameList, valueList);
+            res.status(201).json(resultObject);
+        }else{
+            // 생성 실패
+            resultObject = createJson.result(0);
+            res.status(400).json(resultObject);
+        }
+
     }catch(err){
         console.log(`post create result err : ${err}`);
         resultObject = createJson.error(err);
@@ -182,15 +190,23 @@ router.delete('/', async (req, res) => {
             console.log("dropPoint error");
         }
 
-        // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-        let nurbanBoardResult = await nurbanBoardDao.readForLikeDisLike(articleId);
-        let likeCount = nurbanBoardResult.likeCount;
-        let dislikeCount = nurbanBoardResult.dislikeCount;
-    
-        let nameList = ["likeCount", "dislikeCount"];
-        let valueList = [likeCount, dislikeCount];
-        resultObject = createJson.multi(nameList, valueList);
-        res.status(200).json(resultObject);
+        if(result === 1){
+            // 싫어요 삭제 성공
+
+            // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
+            let nurbanBoardResult = await nurbanBoardDao.readForLikeDisLike(articleId);
+            let likeCount = nurbanBoardResult.likeCount;
+            let dislikeCount = nurbanBoardResult.dislikeCount;
+        
+            let nameList = ["likeCount", "dislikeCount"];
+            let valueList = [likeCount, dislikeCount];
+            resultObject = createJson.multi(nameList, valueList);
+            res.status(200).json(resultObject);
+        }else{
+            // 싫어요 삭제 실패
+            resultObject = createJson.result(0);
+            res.status(400).json(resultObject);
+        }
     }catch(err){
         console.log(`delete err : ${err}`)
         resultObject = createJson.error(err);
