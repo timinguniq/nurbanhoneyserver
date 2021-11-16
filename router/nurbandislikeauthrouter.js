@@ -7,7 +7,7 @@ var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
-let extractArticleKey = require('../utils/extractarticlekey')
+let extractArticleKey = require('../utils/extractarticlekey');
 let raisePoint = require('../utils/raisepoint');
 let dropPoint = require('../utils/droppoint');
 let constObj = require('../config/const');
@@ -47,7 +47,6 @@ router.post('/', async (req, res) => {
     await nurbanDislikeDao.destoryUserId(articleId, userId);
     // 좋아요를 삭제하는 코드
     await nurbanLikeDao.destoryUserId(articleId, userId);
-
 
     // 싫어요를 생성하는 코드
     let nurbanDislikeResult;
@@ -194,17 +193,38 @@ router.delete('/', async (req, res) => {
         return res.end();   
     }
 
-    // 너반꿀 게시판 테이블에 disLikeCount 감소하는 코드
+    // 기사의 좋아요 카우터 수 가져오기
+    let likeCount = -1
+    try{
+        let result = await nurbanLikeDao.readCount(articleId);
+        console.log(result.dataValues.n_ids)
+        likeCount = result[0].dataValues.n_ids;
+    }catch(err){
+        console.log(err);
+    }
+
+    // 너반꿀 게시판 테이블에 disLikeCount 증가하는 코드
     try{
         if(dislikeCount !== -1){
             let result = await nurbanBoardDao.updateDislikeCount(articleId, dislikeCount);
-        }
+        }        
     }catch(err){
         resultObject = createJson.error(err);
         res.status(500).json(resultObject);
         return res.end();   
     }
 
+    // 너반꿀 게시판 테이블에 likeCount 증가하는 코드
+    try{
+        if(likeCount !== -1){
+            let result = await nurbanBoardDao.updateLikeCount(articleId, likeCount);
+        }        
+    }catch(err){
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+        return res.end();   
+    }
+    
     try{
         if(nurbanDislikeResult === 1){
             // 싫어요 삭제 성공
