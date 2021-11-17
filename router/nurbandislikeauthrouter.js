@@ -61,6 +61,7 @@ router.post('/', async (req, res) => {
         if(!raisePoint(articleKey, constObj.dislikePoint)){
             console.log("raisePoint error");
         }
+
     }catch(err){
         console.log(`post create result err : ${err}`);
         resultObject = createJson.error(err);
@@ -115,7 +116,19 @@ router.post('/', async (req, res) => {
             // 생성 성공
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-            let nurbanBoardResult = await nurbanBoardDao.readForLikeDisLike(articleId);
+            let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
+
+            let reflectLossCut = nurbanBoardDao.reflectLossCut;
+            if(reflectLossCut){
+                if(!isApproveLossCut(articleId)){
+                    await nurbanBoardDao.updateReflectLossCut(articleId, false);
+
+                    if(dropTotalLossCut(articleKey, articleId)){
+                        console.log("dropTotalLossCut error");
+                    }
+                }
+            }
+
             let likeCount = nurbanBoardResult.likeCount;
             let dislikeCount = nurbanBoardResult.dislikeCount;
         
@@ -233,7 +246,19 @@ router.delete('/', async (req, res) => {
             // 싫어요 삭제 성공
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-            let nurbanBoardResult = await nurbanBoardDao.readForLikeDisLike(articleId);
+            let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
+            
+            let reflectLossCut = nurbanBoardDao.reflectLossCut;
+            if(!reflectLossCut){
+                if(isApproveLossCut(articleId)){
+                    await nurbanBoardDao.updateReflectLossCut(articleId, true);
+
+                    if(raiseTotalLossCut(articleKey, articleId)){
+                        console.log("raiseTotalLossCut error");
+                    }
+                }
+            }
+            
             let likeCount = nurbanBoardResult.likeCount;
             let dislikeCount = nurbanBoardResult.dislikeCount;
         

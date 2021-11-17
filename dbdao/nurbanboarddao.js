@@ -50,16 +50,6 @@ exports.readForId = function read(id){
         }
     })
 }
-
-// 좋아요 수랑 싫어요 수 리턴
-exports.readForLikeDisLike = function read(id){
-    return NurbanBoard.findOne({
-        attributes: ['id', 'likeCount', 'dislikeCount'],
-        where: {
-            id: id
-        }
-    })
-}
  
 // 글 userId로 검색
 exports.readForUserId = function read(userId, offset = 0, limit = 10){
@@ -188,6 +178,11 @@ exports.updateLikeCount = function update(id, likeCount){
 // NurbanBoard dislikeCount 업데이트
 exports.updateDislikeCount = function update(id, dislikeCount){
     return NurbanBoard.update({dislikeCount: dislikeCount}, {where: {id: id}})
+}
+
+// NurbanBoard reflectLossCut 업데이트
+exports.updateReflectLossCut = function update(id, reflectLossCut){
+    return NurbanBoard.update({reflectLossCut: reflectLossCut}, {where: {id: id}})
 }
 
 // 글 삭제

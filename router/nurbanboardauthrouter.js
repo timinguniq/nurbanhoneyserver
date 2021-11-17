@@ -120,9 +120,10 @@ router.delete('/', async (req, res) => {
     }
 
     try{
+        let readResult = await nurbanBoardDao.readForId(id);
+
         let result = await nurbanBoardDao.destory(id);
 
-        let readResult = await nurbanBoardDao.readForId(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
         
@@ -138,9 +139,9 @@ router.delete('/', async (req, res) => {
         if(!dropPoint(key, constObj.writeArticlePoint)){
             console.log("dropPoint error");
         }
-
-        // 글이 토탈 손실액을 올리는 기준에 포함되는지
-        if(isApproveLossCut(id)){
+        // totalLossCut에 반영이 됬는지 확인하는 변수
+        let reflectLossCut = readResult.reflectLossCut;
+        if(reflectLossCut){
             // 총 손실액 내리는 메소드
             if(!dropTotalLossCut(key, id)){
                 console.log("dropTotalLossCut error");
