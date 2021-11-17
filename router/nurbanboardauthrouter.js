@@ -10,9 +10,9 @@ let inputErrorHandler = require('../utils/inputerrorhandler');
 let awsObj = require('../config/aws');
 let constObj = require('../config/const');
 let raisePoint = require('../utils/raisepoint');
-let raiseTotalLossCut = require('../utils/raisetotallosscut');
 let dropPoint = require('../utils/droppoint');
 let dropTotalLossCut = require('../utils/droptotallosscut');
+let isApproveLossCut = require('../utils/isapprovelosscut');
 
 // 토큰 있어야 가능한 통신
 
@@ -60,10 +60,6 @@ router.post('/', async (req, res) => {
         // 포인트를 올리는 메소드
         if(!raisePoint(key, constObj.writeArticlePoint)){
             console.log("raisePoint error");
-        }
-        // 총 손실액 올리는 메소드
-        if(!raiseTotalLossCut(key, lossCut)){
-            console.log("raiseTotalLossCut error");
         }
 
         resultObject = createJson.result("ok");
@@ -142,9 +138,13 @@ router.delete('/', async (req, res) => {
         if(!dropPoint(key, constObj.writeArticlePoint)){
             console.log("dropPoint error");
         }
-        // 총 손실액 내리는 메소드
-        if(!dropTotalLossCut(key, readResult.lossCut)){
-            console.log("dropTotalLossCut error");
+
+        // 글이 토탈 손실액을 올리는 기준에 포함되는지
+        if(isApproveLossCut(id)){
+            // 총 손실액 내리는 메소드
+            if(!dropTotalLossCut(key, id)){
+                console.log("dropTotalLossCut error");
+            }
         }
 
         resultObject = createJson.result(result);

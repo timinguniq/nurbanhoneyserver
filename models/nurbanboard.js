@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
         comment: "손실액",
       },
+      reflectLossCut: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        comment: "손실액이 User(totalLossCut)에 반영여부",
+      },
       content: {
         type: DataTypes.TEXT,
         allowNull: false,

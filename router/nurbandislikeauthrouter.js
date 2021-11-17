@@ -11,6 +11,9 @@ let extractArticleKey = require('../utils/extractarticlekey');
 let raisePoint = require('../utils/raisepoint');
 let dropPoint = require('../utils/droppoint');
 let constObj = require('../config/const');
+let isApproveLossCut = require('../utils/isapprovelosscut');
+let raiseTotalLossCut = require('../utils/raisetotallosscut');
+let dropTotalLossCut = require('../utils/droptotallosscut');
 
 // 싫어요 생성
 router.post('/', async (req, res) => {
