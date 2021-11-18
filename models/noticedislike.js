@@ -1,6 +1,6 @@
-// 너반꿀 게시판 싫어요 테이블
+// 공지사항 싫어요 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NurbanDislike = sequelize.define("NurbanDislike", {
+    const NoticeDislike = sequelize.define("NoticeDislike", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -12,21 +12,21 @@ module.exports = (sequelize, DataTypes) => {
     },{
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
-      tableName: "NurbanDislike", // 테이블 이름
+      tableName: "NoticeDislike", // 테이블 이름
       timestamps: true, // createAt & updateAt 활성화
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    NurbanDislike.associate = models => {
+    NoticeDislike.associate = models => {
       /**
-       * NurbanBoard모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
+       * NoticeDislike모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-       NurbanDislike.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+       NoticeDislike.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
 
-       // articleId 칼럼은 작성자의 NurbanBoard id값
-       NurbanDislike.belongsTo(models.NurbanBoard, {foreignKey: "articleId", sourceKey: 'id'});
+       // noticeId 칼럼은 작성자의 Notice id값
+       NoticeDislike.belongsTo(models.Notice, {foreignKey: "noticeId", sourceKey: 'id'});
     };
     
-    return NurbanDislike;
+    return NoticeDislike;
   };
