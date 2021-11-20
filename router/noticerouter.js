@@ -14,7 +14,7 @@ router.get('/detail', async (req, res) => {
     let token = req.headers.token;
     let userId = null;
 
-    if(token !== null && tokne !== undefined){
+    if(token !== null && token !== undefined){
         // 토큰에서 키 값 추출
         let key = extractKey(token);
 

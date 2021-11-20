@@ -17,6 +17,8 @@ var nurbanLikeAuthRouter = require('./router/nurbanlikeauthrouter');
 var nurbanDislikeAuthRouter = require('./router/nurbandislikeauthrouter');
 var profileAuthRouter = require('./router/profileauthrouter');
 var noticeRouter = require('./router/noticerouter');
+var noticeLikeAuthRouter = require('./router/noticelikeauthrouter');
+var noticeDislikeAuthRouter = require('./router/noticedislikeauthrouter');
 var rankRouter = require('./router/rankrouter');
 let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
@@ -131,6 +133,10 @@ app.use('/nurbanlike', nurbanLikeAuthRouter);
 app.use('/nurbandislike', nurbanDislikeAuthRouter);
 // profile
 app.use('/profile', profileAuthRouter);
+// noticelike router
+app.use('/noticelike', noticeLikeAuthRouter);
+// noticedislike router
+app.use('/noticedislike', noticeDislikeAuthRouter);
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
