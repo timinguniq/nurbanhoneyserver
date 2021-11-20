@@ -55,7 +55,6 @@ router.post('/', async (req, res) => {
     // 좋아요를 생성하는 코드
     try{
         nurbanLikeResult = await nurbanLikeDao.create(articleId, userId);
-        console.log(`post create result : ${result}`);
        
         // 좋아요 포인트를 추가하는 메소드
         if(!raisePoint(articleKey, constObj.likePoint)){
@@ -183,7 +182,6 @@ router.delete('/', async (req, res) => {
     try{
         nurbanLikeResult = await nurbanLikeDao.destoryUserId(articleId, userId);
         // result 1이면 성공 0이면 실패
-        console.log(`delete result : ${result}`);
 
         // 싫어요 포인트를 삭제하는 메소드
         if(!dropPoint(articleKey, constObj.likePoint)){

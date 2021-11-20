@@ -16,6 +16,7 @@ var nurbanCommentAuthRouter = require('./router/nurbancommentauthrouter');
 var nurbanLikeAuthRouter = require('./router/nurbanlikeauthrouter');
 var nurbanDislikeAuthRouter = require('./router/nurbandislikeauthrouter');
 var profileAuthRouter = require('./router/profileauthrouter');
+var noticeRouter = require('./router/noticerouter');
 var rankRouter = require('./router/rankrouter');
 let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
@@ -113,6 +114,8 @@ app.use('/nurbanboard', nurbanBoardRouter);
 app.use('/nurbancomment', nurbanCommentRouter);
 // rank router
 app.use('/rank', rankRouter);
+// notice router
+app.use('/notice', noticeRouter);
 // token router
 app.use('/token', tokenRouter);
 // token valid
