@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
     // 기사의 싫어요 카운터 수 가져오기
     let dislikeCount = -1
     try{
-        let result = await noticeDislikeDao.readCount(articleId);
+        let result = await noticeDislikeDao.readCount(noticeId);
         console.log(result.dataValues.n_ids)
         dislikeCount = result[0].dataValues.n_ids;
     }catch(err){

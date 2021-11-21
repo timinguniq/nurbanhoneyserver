@@ -7,6 +7,7 @@ var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let constObj = require('../config/const');
 var extractKey = require('../utils/extractkey');
+var extractUserId = require('../utils/extractuserid');
 
 // 토큰 없이 이용 가능한 통신들
 
@@ -16,7 +17,7 @@ router.get('/detail', async (req, res) => {
     let token = req.headers.token;
     let userId = null;
 
-    if(token !== null && tokne !== undefined){
+    if(token !== null && token !== undefined){
         // 토큰에서 키 값 추출
         let key = extractKey(token);
 

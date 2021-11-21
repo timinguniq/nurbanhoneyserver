@@ -46,7 +46,7 @@ router.get('/detail', async (req, res) => {
         let dislikeCount = result.dislikeCount;
         let myRating = null
 
-        if(userId !== null && userId !== undefined){
+        if(userId !== null && userId !== undefined && userId !== ""){
             // 좋아요 데이터 받아오는 코드
             try{
                 like = await noticeLikeDao.read(noticeId, userId);
@@ -69,7 +69,7 @@ router.get('/detail', async (req, res) => {
             }
         }
 
-        let nameList = ["id", "title", "content", "count", "likeCount", "dislikeCount", "updateAt", "myRating"];
+        let nameList = ["id", "title", "content", "count", "likeCount", "dislikeCount", "updatedAt", "myRating"];
         let valueList = [noticeId, title, content, count, likeCount, dislikeCount, updatedAt, myRating];
         resultObject = createJson.multi(nameList, valueList); 
         res.status(200).json(resultObject);

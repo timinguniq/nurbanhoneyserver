@@ -8,7 +8,7 @@ var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let raisePoint = require('../utils/raisepoint');
 let dropPoint = require('../utils/droppoint');
-
+let constObj = require('../config/const');
 
 // 토큰이 있어야 가능한 통신
 
@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
             console.log("raisePoint error");
         }
 
-        resultObject = createJson.result(result);
+        resultObject = createJson.result("ok");
         res.status(201).json(resultObject);
     }catch(err){
         console.log(`post create result err : ${err}`);
