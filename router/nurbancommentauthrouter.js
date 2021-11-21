@@ -115,6 +115,8 @@ router.patch('/', async (req, res) => {
 // 댓글 삭제
 router.delete('/', async (req, res) => {
     let id = req.query.id;
+    let articleId = req.query.articleId;
+    let commentCount = 0;
 
     let contentObject = new Object();
     let resultObject = new Object();
@@ -125,6 +127,20 @@ router.delete('/', async (req, res) => {
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
         return res.end();
+    }
+   
+    let token = req.headers.token;
+
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
+
+    // commentCount 추출하기
+    try{
+        let result = await nurbanBoardDao.readForId(articleId);
+        console.log(`post result nurbanBoardDao : ${JSON.stringify(result)}`);
+        commentCount = result.commentCount;
+    }catch(err){
+        console.log(`post error nurbanBoardDao : ${err}`);    
     }
 
     try{
@@ -141,6 +157,21 @@ router.delete('/', async (req, res) => {
         res.status(200).json(resultObject);
     }catch(err){
         console.log(`delete err : ${err}`)
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+        return res.end();
+    }
+
+    // 너반꿀 게시판 테이블에 commentCount 감소하는 코드
+    try{
+        console.log(`commentCount : ${commentCount}`);
+
+        if(commentCount >= 1){
+            let result = await nurbanBoardDao.updateCommentCount(articleId, --commentCount)
+            console.log(`commentCount result : ${result}`)     
+        }           
+    }catch(err){
+        console.log(`post create comment update result err : ${err}`);
         resultObject = createJson.error(err);
         res.status(500).json(resultObject);
         return res.end();
