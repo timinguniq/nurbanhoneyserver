@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
+const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 
@@ -36,6 +37,32 @@ router.get('/', async (req, res) => {
     }catch(err){
         console.log(`err : ${err}`);
         resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
+});
+
+// 댓글 갯수 얻는 통신
+router.get('/count', async (req, res) => {
+    let articleId = req.query.articleId;
+
+    let resultObject = new Object();
+
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [articleId];
+    if(await inputErrorHandler(inputArray)){
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
+        return res.end();
+    }
+
+    try{
+        let result = await nurbanBoardDao.readForId(articleId);
+        let commentCount = result.commentCount;
+
+        resultObject = createJson.result(commentCount);
+        res.status(200).json(resultObject);
+    }catch(err){
+        resultObject = createJson.error("article is not exist");
         res.status(500).json(resultObject);
     }
 });
