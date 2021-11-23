@@ -68,7 +68,7 @@ router.get('/count', async (req, res) => {
 });
 
 // 댓글 하나 가져오는 메소드
-router.get('/', async (req, res) => {
+router.get('/detail', async (req, res) => {
     let commentId = req.query.commentId
 
     let resultObject = new Object();
@@ -84,8 +84,11 @@ router.get('/', async (req, res) => {
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
         let result = await nurbanCommentDao.read(commentId);
-
-        res.status(200).json(result[0].dataValues)
+        if(result !== null){
+            res.status(200).json(result.dataValues);
+        }else{
+            res.status(700).json("comment is not exist");
+        }
     }catch(err){
         console.log(`err : ${err}`);
         resultObject = createJson.error(err);

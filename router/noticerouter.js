@@ -4,6 +4,8 @@ const noticeDao = require('../dbdao/noticedao');
 const noticeLikeDao = require('../dbdao/noticelikedao');
 const noticeDislikeDao = require('../dbdao/noticedislikedao');
 var createJson = require('../utils/createjson');
+var extractKey = require('../utils/extractkey');
+var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 
 // 토큰 없이 이용 가능한 통신들
@@ -14,8 +16,7 @@ router.get('/detail', async (req, res) => {
     let token = req.headers.token;
     let userId = null;
 
-    if(token !== null && token !== undefined){
-            
+    if(token !== null && token !== undefined){      
 
         // 토큰에서 키 값 추출
         let key = extractKey(token);
@@ -87,8 +88,7 @@ router.get('/detail', async (req, res) => {
     }catch(err){
         console.log(`nurbanboard detail updateCount err : ${err}`);
     }
-
-})
+});
 
 // 공지사항 리스트 데이터 받아오는 메소드
 router.get('/', async (req, res) => {
@@ -125,6 +125,71 @@ router.get('/', async (req, res) => {
     }catch(err){
         console.log(`err : ${err}`);
         resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
+});
+
+// 공지사항 내 투표 보는 메소드
+router.get('/myrating', async (req, res) => {
+    let id = req.query.noticeId;
+    let token = req.headers.token;
+    let userId = null;
+
+    if(token !== null && token !== undefined){      
+        // 토큰에서 키 값 추출
+        let key = extractKey(token);
+
+        // 키값으로 userId값 가져오기
+        userId = await extractUserId(key);
+    }
+
+    let resultObject = new Object();
+
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [id];
+    if(await inputErrorHandler(inputArray)){
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
+        return res.end();
+    }
+
+    let noticeCount = 0
+    // id 값으로 데이터 읽기
+    try{
+        let result = await noticeDao.readForId(id);
+        let likeCount = result.likeCount;
+        let dislikeCount = result.dislikeCount;
+        let myRating = null
+
+        if(userId !== null && userId !== undefined){
+            // 좋아요 데이터 받아오는 코드
+            try{
+                like = await noticeLikeDao.read(noticeId, userId);
+                console.log("like result", like);
+                if(like !== null){
+                    myRating = 'like'; 
+                }
+            }catch(err){
+                console.log("like err", err);
+            }
+            // 싫어요 데이터 받아오는 코드
+            try{
+                dislike = await noticeDislikeDao.read(noticeId, userId);
+                console.log("dislike result", dislike);
+                if(dislike !== null){
+                    myRating = 'dislike';
+                }
+            }catch(err){
+                console.log("dislike err", err);
+            }
+        }
+
+        let nameList = ["id", "likeCount", "dislikeCount", "myRating"];
+        let valueList = [id, likeCount, dislikeCount, myRating];
+        resultObject = createJson.multi(nameList, valueList); 
+        res.status(200).json(resultObject);
+    }catch(err){
+        resultObject = createJson.error("notice is not exist");
         res.status(500).json(resultObject);
     }
 });
