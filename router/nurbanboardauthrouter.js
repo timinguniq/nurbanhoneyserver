@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
+const nurbanLikeDao = require('../dbdao/nurbanlikedao');
+const nurbanDislikeDao = require('../dbdao/nurbandislikedao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
+var extractUserId = require('../utils/extractuserid');
 var s3upload = require('../utils/s3upload');
 var s3delete = require('../utils/s3delete');
 let inputErrorHandler = require('../utils/inputerrorhandler');
@@ -218,6 +221,32 @@ router.delete('/upload/image', async (req, res) => {
         resultObject = createJson.error("error");
         res.status(500).json(resultObject);
     }    
+});
+
+// 글 좋아요, 싫어요 갯수 및 myRating
+router.get('/myrating', async (req, res) => {
+    let articleId = req.query.articleId;
+    let token = req.headers.token;
+    let userId = null;
+
+    if(token !== null && token !== undefined){
+        // 토큰에서 키 값 추출
+        let key = extractKey(token);
+
+        // 키값으로 userId값 가져오기
+        userId = await extractUserId(key);
+    }
+
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [articleId];
+    if(await inputErrorHandler(inputArray)){
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
+        return res.end();
+    }
+
 });
 
 module.exports = router;

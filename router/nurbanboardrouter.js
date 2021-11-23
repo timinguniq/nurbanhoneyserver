@@ -155,4 +155,69 @@ router.get('/', async (req, res) => {
     }
 });
 
+// 글 좋아요, 싫어요 갯수 및 myRating
+router.get('/myrating', async (req, res) => {
+    let articleId = req.query.articleId;
+    let token = req.headers.token;
+    let userId = null;
+
+    if(token !== null && token !== undefined){
+        // 토큰에서 키 값 추출
+        let key = extractKey(token);
+
+        // 키값으로 userId값 가져오기
+        userId = await extractUserId(key);
+    }
+
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [articleId];
+    if(await inputErrorHandler(inputArray)){
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
+        return res.end();
+    }
+
+    // id 값으로 데이터 읽기
+    try{
+        let result = await nurbanBoardDao.readForId(articleId);
+        let likeCount = result.likeCount;
+        let dislikeCount = result.dislikeCount;
+        let myRating = null;
+
+        if(userId !== null && userId !== undefined){
+            // 좋아요 데이터 받아오는 코드
+            try{
+                like = await nurbanLikeDao.read(articleId, userId);
+                console.log("like result", like);
+                if(like !== null){
+                    myRating = 'like'; 
+                }
+            }catch(err){
+                console.log("like err", err);
+            }
+            // 싫어요 데이터 받아오는 코드
+            try{
+                dislike = await nurbanDislikeDao.read(articleId, userId);
+                console.log("dislike result", dislike);
+                if(dislike !== null){
+                    myRating = 'dislike';
+                }
+            }catch(err){
+                console.log("dislike err", err);
+            }
+        }
+
+        let nameList = ["id", "likeCount", "dislikeCount", "myRating"];
+        let valueList = [articleId, likeCount, dislikeCount, myRating];
+        resultObject = createJson.multi(nameList, valueList);
+        res.status(200).json(resultObject);
+    }catch(err){
+        resultObject = createJson.error("article is not exist");
+        res.status(500).json(resultObject);
+    }  
+});
+
+
 module.exports = router;

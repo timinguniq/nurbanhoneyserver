@@ -15,6 +15,8 @@ router.get('/detail', async (req, res) => {
     let userId = null;
 
     if(token !== null && token !== undefined){
+            
+
         // 토큰에서 키 값 추출
         let key = extractKey(token);
 
@@ -46,7 +48,7 @@ router.get('/detail', async (req, res) => {
         let dislikeCount = result.dislikeCount;
         let myRating = null
 
-        if(userId !== null && userId !== undefined && userId !== ""){
+        if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
             try{
                 like = await noticeLikeDao.read(noticeId, userId);
