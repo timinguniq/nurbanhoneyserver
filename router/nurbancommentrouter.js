@@ -67,4 +67,31 @@ router.get('/count', async (req, res) => {
     }
 });
 
+// 댓글 하나 가져오는 메소드
+router.get('/', async (req, res) => {
+    let commentId = req.query.commentId
+
+    let resultObject = new Object();
+    
+    // 필수 input 값이 null이거나 undefined면 에러
+    let inputArray = [commentId];
+    if(await inputErrorHandler(inputArray)){
+        resultObject = createJson.error("input is null");
+        res.status(400).json(resultObject);
+        return res.end();
+    }
+
+    // 컨텐츠, 글id, userId, profile, nickname, insignia
+    try{
+        let result = await nurbanCommentDao.read(commentId);
+
+        res.status(200).json(result[0].dataValues)
+    }catch(err){
+        console.log(`err : ${err}`);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
+});
+
+
 module.exports = router;

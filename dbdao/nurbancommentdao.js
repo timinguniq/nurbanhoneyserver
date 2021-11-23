@@ -41,6 +41,21 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
     })
 }
 
+// 글을 id로 comment 하나 데이터 가져오는 메소드
+exports.read = function read(id){
+    return NurbanComment.findOne({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+        ],
+        attributes: ['id', 'content', 'articleId'],
+        where: {
+            id: id
+        },
+        order: [['id', 'DESC']]
+    })
+}
+
 // userId에 따라 갯수 확인하는 메소드
 exports.readCountForUserId = function read(userId){
     return NurbanComment.findAll({
