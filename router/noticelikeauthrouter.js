@@ -98,20 +98,12 @@ router.post('/', async (req, res) => {
         if(noticeLikeResult !== null && noticeLikeResult !== undefined){
             // 생성 성공
 
-            // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-            let noticeResult = await noticeDao.readForId(noticeId);
-            
-            let likeCount = noticeResult.likeCount;
-            let dislikeCount = noticeResult.dislikeCount;
-        
-            let nameList = ["likeCount", "dislikeCount"];
-            let valueList = [likeCount, dislikeCount];
-            resultObject = createJson.multi(nameList, valueList);
+            resultObject = createJson.result("notice_like_posted");
             res.status(201).json(resultObject);
         }else{
             // 생성 실패
-            resultObject = createJson.result(0);
-            res.status(400).json(resultObject);
+            resultObject = createJson.result("notice_like_posted_fail");
+            res.status(700).json(resultObject);
         }
     }catch(err){
         resultObject = createJson.error(err);
@@ -206,20 +198,12 @@ router.delete('/', async (req, res) => {
         if(noticeLikeResult === 1){
             // 좋아요 삭제 성공
 
-            // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-            let noticeResult = await noticeDao.readForId(noticeId);
-                       
-            let likeCount = noticeResult.likeCount;
-            let dislikeCount = noticeResult.dislikeCount;
-        
-            let nameList = ["likeCount", "dislikeCount"];
-            let valueList = [likeCount, dislikeCount];
-            resultObject = createJson.multi(nameList, valueList);
+            resultObject = createJson.result("notice_like_deleted");
             res.status(200).json(resultObject);
         }else{
             // 싫어요 삭제 실패
-            resultObject = createJson.result(0);
-            res.status(400).json(resultObject);
+            resultObject = createJson.result("notice_like_deleted_fail");
+            res.status(700).json(resultObject);
         }
     }catch(err){
         resultObject = createJson.error(err);

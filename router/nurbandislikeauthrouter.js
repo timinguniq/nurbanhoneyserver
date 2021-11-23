@@ -128,12 +128,7 @@ router.post('/', async (req, res) => {
                 }
             }
 
-            let likeCount = nurbanBoardResult.likeCount;
-            let dislikeCount = nurbanBoardResult.dislikeCount;
-        
-            let nameList = ["likeCount", "dislikeCount"];
-            let valueList = [likeCount, dislikeCount];
-            resultObject = createJson.multi(nameList, valueList);
+            resultObject = createJson.result("nurbanboard_dislike_posted");
             res.status(201).json(resultObject);
         }else{
             // 생성 실패
@@ -257,12 +252,7 @@ router.delete('/', async (req, res) => {
                 }
             }
             
-            let likeCount = nurbanBoardResult.likeCount;
-            let dislikeCount = nurbanBoardResult.dislikeCount;
-        
-            let nameList = ["likeCount", "dislikeCount"];
-            let valueList = [likeCount, dislikeCount];
-            resultObject = createJson.multi(nameList, valueList);
+            resultObject = createJson.result("nurbanboard_dislike_deleted");
             res.status(200).json(resultObject);
         }else{
             // 싫어요 삭제 실패

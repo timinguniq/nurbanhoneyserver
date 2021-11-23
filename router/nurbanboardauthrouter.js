@@ -65,7 +65,7 @@ router.post('/', async (req, res) => {
             console.log("raisePoint error");
         }
 
-        resultObject = createJson.result("ok");
+        resultObject = createJson.result("nurbanboard_posted");
         res.status(201).json(resultObject);
     }catch(err){
         console.log(`create nurbanboardDao err : ${err}`);
@@ -97,8 +97,13 @@ router.patch('/', async (req, res) => {
         let result = await nurbanBoardDao.updateContent(id, thumbnail, title, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
-        resultObject = createJson.result(result[0]);
-        res.status(200).json(resultObject);
+        if(result[0] === 1){
+            resultObject = createJson.result("nurbanboard_updated");
+            res.status(200).json(resultObject);
+        }else{
+            resultObject = createJson.result("nurbanboard_updated_fail");
+            res.status(700).json(resultObject);
+        }
     }catch(err){
         console.log(`patch err : ${err}`)
         resultObject = createJson.error(err);
@@ -150,9 +155,13 @@ router.delete('/', async (req, res) => {
                 console.log("dropTotalLossCut error");
             }
         }
-
-        resultObject = createJson.result(result);
-        res.status(200).json(resultObject);
+        if(result === 1){
+            resultObject = createJson.result("nurbanboard_deleted");
+            res.status(200).json(resultObject);
+        }else{
+            resultObject = createJson.result("nurbanboard_deleted_fail");
+            res.status(700).json(resultObject);
+        }
     }catch(err){
         console.log(`delete err : ${err}`)
         resultObject = createJson.error(err);
@@ -215,7 +224,7 @@ router.delete('/upload/image', async (req, res) => {
         // s3에 글 이미지 삭제하기
         let result = await s3delete(awsObj.s3nurbanboardname, uuid);
 
-        resultObject = createJson.result("ok");
+        resultObject = createJson.result("nurbanboard_image_deleted");
         res.status(200).json(resultObject);
     }catch(err){
         resultObject = createJson.error("error");

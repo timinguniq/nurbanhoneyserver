@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
             console.log("raisePoint error");
         }
 
-        resultObject = createJson.result("ok");
+        resultObject = createJson.result("nurbancomment_posted");
         res.status(201).json(resultObject);
     }catch(err){
         console.log(`post create result err : ${err}`);
@@ -103,8 +103,13 @@ router.patch('/', async (req, res) => {
         let result = await nurbanCommentDao.updateContent(id, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
-        resultObject = createJson.result(result[0]);
-        res.status(200).json(resultObject);
+        if(result[0] === 1){
+            resultObject = createJson.result("nurbancomment_updated");
+            res.status(200).json(resultObject);
+        }else{
+            resultObject = createJson.result("nurbancomment_updated_fail");
+            res.status(700).json(resultObject);
+        }
     }catch(err){
         console.log(`patch err : ${result}`)
         resultObject = createJson.error(err);
@@ -153,8 +158,13 @@ router.delete('/', async (req, res) => {
             console.log("dropPoint error");
         }
 
-        resultObject = createJson.result(result);
-        res.status(200).json(resultObject);
+        if(result === 1){
+            resultObject = createJson.result("nurbancomment_deleted");
+            res.status(200).json(resultObject);
+        }else{
+            resultObject = createJson.result("nurbancomment_deleted_fail");
+            res.status(700).json(resultObject);
+        }
     }catch(err){
         console.log(`delete err : ${err}`)
         resultObject = createJson.error(err);

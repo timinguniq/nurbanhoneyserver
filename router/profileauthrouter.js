@@ -93,8 +93,13 @@ router.patch('/edit', async (req, res) => {
         let result = await userDao.updateEdit(key, nickname, description, insigniaShow);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
-        resultObject = createJson.result(result[0]);
-        res.status(200).json(resultObject);
+        if(result[0] === 1){
+            resultObject = createJson.result("profile_updated");
+            res.status(200).json(resultObject);
+        }else{
+            resultObject = createJson.result("profile_updated_fail");
+            res.status(700).json(resultObject);
+        }
     }catch(err){
         console.log(`patch err : ${err}`)
         resultObject = createJson.error(err);
@@ -251,13 +256,15 @@ router.delete('/withdrawal', async (req, res) => {
     try{
         let result = await userDao.destory(id);
         // result 1이면 성공 0이면 실패
-        resultObject = createJson.result(result);
-        res.status(200).json(resultObject);
+        if(result === 1){
+            resultObject = createJson.result("profile_withdrawal");
+            res.status(200).json(resultObject);
+        }else{
+            resultObject = createJson.result("profile_withdrawal_fail");
+            res.status(700).json(resultObject);
+        }
     }catch(err){
         console.log(`withdrawal err : ${err}`)
-        let nameList = ["result", "error"];
-        let valueList = [null, err];
-        contentObject = createJson.multi(nameList, valueList);
         resultObject = createJson.error(err);
         res.status(500).json(resultObject);
     }
