@@ -10,6 +10,7 @@ let inputErrorHandler = require('../utils/inputerrorhandler');
 
 // 토큰 없이 이용 가능한 통신들
 
+let preDate = 0;
 // 공지사항 상세 데이터 받아오는 메소드
 router.get('/detail', async (req, res) => {
     let id = req.query.id;
@@ -81,13 +82,17 @@ router.get('/detail', async (req, res) => {
         res.status(500).json(resultObject);
     }
   
+    let curDate = new Date();
     // 조회수 카운트 플러스하는 코드
     try{
-        let result = await noticeDao.updateCount(id, ++noticeCount);
-        console.log(`nurbanboard detail updateCount result : ${result}`);  
+        if(curDate - preDate >= 3000){
+            let result = await noticeDao.updateCount(id, ++noticeCount);
+            console.log(`nurbanboard detail updateCount result : ${result}`);    
+        }
     }catch(err){
         console.log(`nurbanboard detail updateCount err : ${err}`);
     }
+    preDate = curDate;
 });
 
 // 공지사항 리스트 데이터 받아오는 메소드

@@ -97,7 +97,7 @@ router.get('/detail', async (req, res) => {
     // 조회수 카운트 플러스하는 코드
     try{
         console.log(`curDate : ${curDate}, preDate : ${preDate}`);
-        if(curDate - preDate >= 5000){
+        if(curDate - preDate >= 3000){
             let result = await nurbanBoardDao.updateCount(id, ++articleCount);
             console.log(`nurbanboard detail updateCount result : ${result}`);      
         }
