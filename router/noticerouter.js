@@ -7,6 +7,8 @@ var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
+const constObj = require('../config/const');
+let createNoticeMyrating = require('../utils/createnoticemyrating');
 
 // 토큰 없이 이용 가능한 통신들
 
@@ -48,29 +50,11 @@ router.get('/detail', async (req, res) => {
         noticeCount = count;
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
-        let myRating = null
+        let myRating = null;
 
         if(userId !== null && userId !== undefined){
-            // 좋아요 데이터 받아오는 코드
-            try{
-                like = await noticeLikeDao.read(noticeId, userId);
-                console.log("like result", like);
-                if(like !== null){
-                    myRating = 'like'; 
-                }
-            }catch(err){
-                console.log("like err", err);
-            }
-            // 싫어요 데이터 받아오는 코드
-            try{
-                dislike = await noticeDislikeDao.read(noticeId, userId);
-                console.log("dislike result", dislike);
-                if(dislike !== null){
-                    myRating = 'dislike';
-                }
-            }catch(err){
-                console.log("dislike err", err);
-            }
+            // myRating 만드는 메소드
+            myRating = await createNoticeMyrating(noticeId, userId);
         }
 
         let nameList = ["id", "title", "content", "count", "likeCount", "dislikeCount", "updatedAt", "myRating"];
@@ -85,7 +69,7 @@ router.get('/detail', async (req, res) => {
     let curDate = new Date();
     // 조회수 카운트 플러스하는 코드
     try{
-        if(curDate - preDate >= 3000){
+        if(curDate - preDate >= constObj.countInterval){
             let result = await noticeDao.updateCount(id, ++noticeCount);
             console.log(`nurbanboard detail updateCount result : ${result}`);    
         }
@@ -93,6 +77,7 @@ router.get('/detail', async (req, res) => {
         console.log(`nurbanboard detail updateCount err : ${err}`);
     }
     preDate = curDate;
+
 });
 
 // 공지사항 리스트 데이터 받아오는 메소드
@@ -158,35 +143,16 @@ router.get('/myrating', async (req, res) => {
         return res.end();
     }
 
-    let noticeCount = 0
     // id 값으로 데이터 읽기
     try{
         let result = await noticeDao.readForId(id);
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
-        let myRating = null
+        let myRating = null;
 
         if(userId !== null && userId !== undefined){
-            // 좋아요 데이터 받아오는 코드
-            try{
-                like = await noticeLikeDao.read(noticeId, userId);
-                console.log("like result", like);
-                if(like !== null){
-                    myRating = 'like'; 
-                }
-            }catch(err){
-                console.log("like err", err);
-            }
-            // 싫어요 데이터 받아오는 코드
-            try{
-                dislike = await noticeDislikeDao.read(noticeId, userId);
-                console.log("dislike result", dislike);
-                if(dislike !== null){
-                    myRating = 'dislike';
-                }
-            }catch(err){
-                console.log("dislike err", err);
-            }
+            // myRating 만드는 메소드
+            myRating = await createNoticeMyrating(id, userId);
         }
 
         let nameList = ["id", "likeCount", "dislikeCount", "myRating"];

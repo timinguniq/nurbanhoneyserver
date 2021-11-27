@@ -46,7 +46,7 @@ exports.readForId = function read(id){
             {model: User, attributes: [['id', 'userId'], 'key', 'badge', 'nickname', 'insigniaShow']}
         ],
         where: {
-            id: id 
+            id: id
         }
     })
 }

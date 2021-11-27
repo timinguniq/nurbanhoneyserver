@@ -5,7 +5,7 @@ var createJson = require('../utils/createjson');
 let createJwtToken = require('../utils/createjwttoken');
 const kakaoauth = require('../utils/kakaoauth');
 let inputErrorHandler = require('../utils/inputerrorhandler');
-
+const constObj = require('../config/const');
 
 router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
@@ -60,7 +60,7 @@ router.post('/', async (req, res) => {
 
     let isRead = false
     let userId = 0
-    // 이메일이 있는지 DB에서 확인하는 코드  
+    // 이메일이 있는지 DB에서 확인하는 코드
     try{
         let result = await userDao.read(inputKey);
         console.log(`result : ${result}`);
@@ -88,14 +88,14 @@ router.post('/', async (req, res) => {
         // User LastLoginAt Update
         try{
             let result = await userDao.updateLastTime(userId);
-            console.log(`updateLastTime result : ${result}`)
+            console.log(`updateLastTime result : ${result}`);
         }catch(err){
-            console.log(`updateLastTime err : ${err}`)
+            console.log(`updateLastTime err : ${err}`);
         }
     }else{
         // User 데이터가 존재하지 않는다면.
         // user DB의 카운터 수 가져오기
-        let userCount = 0
+        let userCount = 0;
         try{
             let result = await userDao.readCount();
             console.log(result.dataValues.n_ids)
@@ -106,7 +106,7 @@ router.post('/', async (req, res) => {
 
         // 데이터베이스에 생성 후 토큰 보내기
         try{
-            let nickname = "너반꿀" + userCount;
+            let nickname = constObj.defaultNickname + userCount;
             let result = await userDao.create(inputLoginType, inputKey, inputPassword, nickname);
             if(result !== null){
                 let nameList = ["token", "userId"];

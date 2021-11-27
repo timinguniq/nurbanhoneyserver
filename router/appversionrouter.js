@@ -4,7 +4,6 @@ const appversionDao = require('../dbdao/appversiondao');
 var createJson = require('../utils/createjson');
 var inputErrorHandler = require('../utils/inputerrorhandler');
 
-
 router.get('/', async (req, res) => {
     let app = req.query.app;
     console.log(`app : ${app}`)

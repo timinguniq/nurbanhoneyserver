@@ -8,6 +8,7 @@ let inputErrorHandler = require('../utils/inputerrorhandler');
 let constObj = require('../config/const');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
+let createNurbanMyrating = require('../utils/createnurbanmyrating');
 
 // 토큰 없이 이용 가능한 통신들
 
@@ -61,25 +62,7 @@ router.get('/detail', async (req, res) => {
 
         if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
-            try{
-                like = await nurbanLikeDao.read(articleId, userId);
-                console.log("like result", like);
-                if(like !== null){
-                    myRating = 'like'; 
-                }
-            }catch(err){
-                console.log("like err", err);
-            }
-            // 싫어요 데이터 받아오는 코드
-            try{
-                dislike = await nurbanDislikeDao.read(articleId, userId);
-                console.log("dislike result", dislike);
-                if(dislike !== null){
-                    myRating = 'dislike';
-                }
-            }catch(err){
-                console.log("dislike err", err);
-            }
+            myRating = await createNurbanMyrating(articleId, userId);
         }
 
         let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
@@ -97,7 +80,7 @@ router.get('/detail', async (req, res) => {
     // 조회수 카운트 플러스하는 코드
     try{
         console.log(`curDate : ${curDate}, preDate : ${preDate}`);
-        if(curDate - preDate >= 3000){
+        if(curDate - preDate >= constObj.countInterval){
             let result = await nurbanBoardDao.updateCount(id, ++articleCount);
             console.log(`nurbanboard detail updateCount result : ${result}`);      
         }
@@ -193,26 +176,7 @@ router.get('/myrating', async (req, res) => {
         let myRating = null;
 
         if(userId !== null && userId !== undefined){
-            // 좋아요 데이터 받아오는 코드
-            try{
-                like = await nurbanLikeDao.read(articleId, userId);
-                console.log("like result", like);
-                if(like !== null){
-                    myRating = 'like'; 
-                }
-            }catch(err){
-                console.log("like err", err);
-            }
-            // 싫어요 데이터 받아오는 코드
-            try{
-                dislike = await nurbanDislikeDao.read(articleId, userId);
-                console.log("dislike result", dislike);
-                if(dislike !== null){
-                    myRating = 'dislike';
-                }
-            }catch(err){
-                console.log("dislike err", err);
-            }
+            myRating = await createNurbanMyrating(articleId, userId);
         }
 
         let nameList = ["id", "likeCount", "dislikeCount", "myRating"];

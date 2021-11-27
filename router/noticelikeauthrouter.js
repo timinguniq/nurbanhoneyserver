@@ -7,6 +7,8 @@ var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
+let settingNoticeDislikeCount = require('../utils/settingnoticedislikecount');
+let settingNoticeLikeCount = require('../utils/settingnoticelikecount');
 
 // 좋아요 생성
 router.post('/', async (req, res) => {
@@ -52,47 +54,11 @@ router.post('/', async (req, res) => {
         return res.end();
     }
 
-    // 기사의 싫어요 카운터 수 가져오기
-    let dislikeCount = -1
-    try{
-        let result = await noticeDislikeDao.readCount(noticeId);
-        //console.log(result.dataValues.n_ids)
-        dislikeCount = result[0].dataValues.n_ids;
-    }catch(err){
-        console.log(err);
-    }
+    // 공지사항의 싫어요 카운터 수 업데이트 하기
+    await settingNoticeDislikeCount(noticeId, resultObject, res);
 
-    // 기사의 좋아요 카우터 수 가져오기
-    let likeCount = -1;
-    try{
-        let result = await noticeLikeDao.readCount(noticeId);
-        //console.log(result.dataValues.n_ids)
-        likeCount = result[0].dataValues.n_ids;
-    }catch(err){
-        console.log(err);
-    }
-
-    // 너반꿀 게시판 테이블에 disLikeCount 증가하는 코드
-    try{
-        if(dislikeCount !== -1){
-            let result = await noticeDao.updateDislikeCount(noticeId, dislikeCount);
-        }        
-    }catch(err){
-        resultObject = createJson.error(err);
-        res.status(500).json(resultObject);
-        return res.end();   
-    }
-
-    // 너반꿀 게시판 테이블에 likeCount 증가하는 코드
-    try{
-        if(likeCount !== -1){
-            let result = await noticeDao.updateLikeCount(noticeId, likeCount);
-        }        
-    }catch(err){
-        resultObject = createJson.error(err);
-        res.status(500).json(resultObject);
-        return res.end();   
-    }
+    // 공지사항의 좋아요 카운터 수 업데이트 하기
+    await settingNoticeLikeCount(noticeId, resultObject, res);
 
     try{
         if(noticeLikeResult !== null && noticeLikeResult !== undefined){
@@ -152,47 +118,11 @@ router.delete('/', async (req, res) => {
         return res.end();
     }
 
-    // 기사의 싫어요 카운터 수 가져오기
-    let dislikeCount = -1
-    try{
-        let result = await noticeDislikeDao.readCount(noticeId);
-        //console.log(result.dataValues.n_ids)
-        dislikeCount = result[0].dataValues.n_ids;
-    }catch(err){
-        console.log(err);
-    }
+    // 공지사항의 싫어요 카운터 수 업데이트 하기
+    await settingNoticeDislikeCount(noticeId, resultObject, res);
 
-    // 기사의 좋아요 카우터 수 가져오기
-    let likeCount = -1;
-    try{
-        let result = await noticeLikeDao.readCount(noticeId);
-        //console.log(result.dataValues.n_ids)
-        likeCount = result[0].dataValues.n_ids;
-    }catch(err){
-        console.log(err);
-    }
-
-    // 너반꿀 게시판 테이블에 disLikeCount 증가하는 코드
-    try{
-        if(dislikeCount !== -1){
-            let result = await noticeDao.updateDislikeCount(noticeId, dislikeCount);
-        }        
-    }catch(err){
-        resultObject = createJson.error(err);
-        res.status(500).json(resultObject);
-        return res.end();   
-    }
-
-    // 너반꿀 게시판 테이블에 likeCount 증가하는 코드
-    try{
-        if(likeCount !== -1){
-            let result = await noticeDao.updateLikeCount(noticeId, likeCount);
-        }        
-    }catch(err){
-        resultObject = createJson.error(err);
-        res.status(500).json(resultObject);
-        return res.end();   
-    }
+    // 공지사항의 좋아요 카운터 수 업데이트 하기
+    await settingNoticeLikeCount(noticeId, resultObject, res);
 
     try{
         if(noticeLikeResult === 1){
