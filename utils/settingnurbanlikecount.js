@@ -7,7 +7,6 @@ module.exports = async (articleId, resultObject, res) => {
     let likeCount = -1
     try{
         let result = await nurbanLikeDao.readCount(articleId);
-        console.log(result.dataValues.n_ids)
         likeCount = result[0].dataValues.n_ids;
     }catch(err){
         console.log(err);

@@ -3,7 +3,7 @@ const noticeLikeDao = require('../dbdao/noticelikedao');
 
 // 공지사항 myrating을 만드는 통신
 module.exports = async (noticeId, userId) => {
-    let myRating = "";
+    let myRating = null;
     // 좋아요 데이터 받아오는 코드
     try{
         let like = await noticeLikeDao.read(noticeId, userId);

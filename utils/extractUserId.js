@@ -2,7 +2,7 @@ const userDao = require('../dbdao/userdao');
 
 // input값이 key값이고 userId 값을 추츨한다.
 module.exports = async (key) => {
-    let userId = "";
+    let userId = null;
     try{
         let result = await userDao.read(key);
         console.log(`post result : ${JSON.stringify(result)}`);
