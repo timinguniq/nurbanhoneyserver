@@ -154,6 +154,26 @@ exports.readForRank = function read(){
     });
 }
 
+// 인기게시판 검색 메소드 (조회수, 좋아요 순으로 데이터 가져오기)
+exports.readPopular = function read(offset, limit){
+    return NurbanBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insigniaShow']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'count', 'commentCount'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            }
+        },
+        offset: Number(offset),
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['likeCount', 'DESC'], ['id', 'DESC']]
+    });
+}
 
 // NurbanBoard content 업데이트
 exports.updateContent = function update(id, thumbnail, title, content){

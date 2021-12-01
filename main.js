@@ -20,6 +20,7 @@ var noticeRouter = require('./router/noticerouter');
 var noticeLikeAuthRouter = require('./router/noticelikeauthrouter');
 var noticeDislikeAuthRouter = require('./router/noticedislikeauthrouter');
 var rankRouter = require('./router/rankrouter');
+var popularBoardRouter = require('./router/popularboardrouter');
 let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
@@ -32,7 +33,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 // for parsing multipart/form-data
-app.use(upload.array('image')); 
+app.use(upload.array('image'));
 app.use(express.static('public'));
 
 sequelize.sync({ force: false })
@@ -118,6 +119,9 @@ app.use('/nurbancomment', nurbanCommentRouter);
 app.use('/rank', rankRouter);
 // notice router
 app.use('/notice', noticeRouter);
+// popularboard router
+app.use('/popularboard', popularBoardRouter);
+
 // token router
 app.use('/token', tokenRouter);
 // token valid

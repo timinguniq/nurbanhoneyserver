@@ -116,6 +116,7 @@ router.delete('/', async (req, res) => {
     let id = req.query.id;
     let uuid = req.query.uuid;
     let token = req.headers.token;
+    let key = null;
     let userId = null;
 
     let contentObject = new Object();
@@ -131,7 +132,7 @@ router.delete('/', async (req, res) => {
 
     if(token !== null && token !== undefined){      
         // 토큰에서 키 값 추출
-        let key = extractKey(token);
+        key = extractKey(token);
 
         // 키값으로 userId값 가져오기
         userId = await extractUserId(key);
@@ -142,20 +143,27 @@ router.delete('/', async (req, res) => {
         let readResult = await nurbanBoardDao.readForId(id);
         console.log("readResult userId : ", readResult);
         let articleUserId = readResult.userId;
-
+        console.log("readResult userId 2 : ", articleUserId);
         if(userId !== articleUserId){
             resultObject = createJson.error("access impossible");
             res.status(401).json(resultObject);
             return res.end();
         }else{
-            deleteResult = await nurbanBoardDao.destory(id);W
+            deleteResult = await nurbanBoardDao.destory(id);
         }
-        
-        console.log("delete article access");
-        
+                
         // deleteResult 1이면 성공 0이면 실패
         console.log(`delete result : ${deleteResult}`)
         
+        if(deleteResult === 1){
+            resultObject = createJson.result("nurbanboard_deleted");
+            res.status(200).json(resultObject);
+        }else{
+            resultObject = createJson.result("nurbanboard_deleted_fail");
+            res.status(700).json(resultObject);
+            return res.end();
+        }
+
         // 좋아요 수 - 싫어요 수
         let diffLikeDislikeCount = readResult.likeCount - readResult.dislikeCount;
         // 좋아요 싫어요 정산 포인트 
@@ -175,13 +183,6 @@ router.delete('/', async (req, res) => {
             if(!dropTotalLossCut(key, id)){
                 console.log("dropTotalLossCut error");
             }
-        }
-        if(result === 1){
-            resultObject = createJson.result("nurbanboard_deleted");
-            res.status(200).json(resultObject);
-        }else{
-            resultObject = createJson.result("nurbanboard_deleted_fail");
-            res.status(700).json(resultObject);
         }
     }catch(err){
         console.log(`delete err : ${err}`)
