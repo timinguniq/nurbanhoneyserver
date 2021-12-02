@@ -31,4 +31,33 @@ router.get('/', async (req, res) => {
     }
 });
 
+// 팝업 랭킹 데터 받아오는 통신
+router.get('/popup', async (req, res) => {
+    let offset = req.query.offset;
+    let limit = req.query.offset;
+
+    let contentObject = new Object();
+    let resultObject = new Object();
+
+    // 썸네일, 제목, 댓글 개수
+    try{
+        let result = await rankDao.readPopup(offset, limit);
+        console.log("result", result);
+
+        let contentObjectList = [];
+ 
+        for(var i = 0 ; i < result.length ; i++){
+            contentObjectList.push(result[i].dataValues);
+        }
+
+        console.log("contentObjectArrayList", contentObjectList);
+
+        res.status(200).json(contentObjectList);
+    }catch(err){
+        console.log(`err : ${err}`);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
+});
+
 module.exports = router;
