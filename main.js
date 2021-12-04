@@ -128,13 +128,13 @@ app.use('/token', tokenRouter);
 app.use('/', tokenMidRouter);
 // auth
 // nurbanboard router
-app.use('/nurbanboard', nurbanBoardAuthRouter);
+app.use('/nurban', nurbanBoardAuthRouter);
 // nurbancomment router
-app.use('/nurbancomment', nurbanCommentAuthRouter);
+app.use('/nurban/comment', nurbanCommentAuthRouter);
 // nurbanlike router
-app.use('/nurbanlike', nurbanLikeAuthRouter);
+app.use('/nurban/detail/like', nurbanLikeAuthRouter);
 // nurbandislike router
-app.use('/nurbandislike', nurbanDislikeAuthRouter);
+app.use('/nurban/detail/dislike', nurbanDislikeAuthRouter);
 // profile
 app.use('/profile', profileAuthRouter);
 // noticelike router
