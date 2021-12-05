@@ -120,7 +120,7 @@ app.use('/rank', rankRouter);
 // notice router
 app.use('/notice', noticeRouter);
 // popularboard router
-app.use('/popularboard', popularBoardRouter);
+app.use('/popular', popularBoardRouter);
 
 // token router
 app.use('/token', tokenRouter);
@@ -138,9 +138,9 @@ app.use('/nurban/detail/dislike', nurbanDislikeAuthRouter);
 // profile
 app.use('/profile', profileAuthRouter);
 // noticelike router
-app.use('/noticelike', noticeLikeAuthRouter);
+app.use('/notice/detail/like', noticeLikeAuthRouter);
 // noticedislike router
-app.use('/noticedislike', noticeDislikeAuthRouter);
+app.use('/notice/detail/dislike', noticeDislikeAuthRouter);
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
