@@ -112,9 +112,9 @@ app.use('/appversion', appversionRouter);
 // user router
 app.use('/login', loginRouter);
 // nurbanboard router
-app.use('/nurbanboard', nurbanBoardRouter);
+app.use('/nurban', nurbanBoardRouter);
 // nurbancomment router
-app.use('/nurbancomment', nurbanCommentRouter);
+app.use('/nurban/comment', nurbanCommentRouter);
 // rank router
 app.use('/rank', rankRouter);
 // notice router

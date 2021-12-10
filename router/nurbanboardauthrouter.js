@@ -80,6 +80,7 @@ router.patch('/', async (req, res) => {
     // 나중에 thumbanil 처리해줘야됨.
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
+    let lossCut = req.body.lossCut;
     let content = req.body.content;
     
     let contentObject = new Object();
@@ -94,7 +95,7 @@ router.patch('/', async (req, res) => {
     }
 
     try{
-        let result = await nurbanBoardDao.updateContent(id, thumbnail, title, content);
+        let result = await nurbanBoardDao.updateContent(id, thumbnail, title, lossCut, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         if(result[0] === 1){
