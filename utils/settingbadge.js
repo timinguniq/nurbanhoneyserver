@@ -2,7 +2,7 @@ var userDao = require('../dbdao/userdao');
 const constObj = require('../config/const');
 
 // 포인트에 따른 User Badge 셋팅
-module.exports = async (point) => {
+module.exports = async (key, point) => {
     let badge = "";    
     // TODO 포인트 기준은 아직 정해지진 않음
     if(point <= 10000){

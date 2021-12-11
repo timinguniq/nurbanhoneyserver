@@ -44,7 +44,7 @@ router.get('/detail', async (req, res) => {
         let result = await nurbanBoardDao.readForId(id);
         let articleId = result.id;
         let uuid = result.uuid;
-        let thumbanil = result.thumbanil;
+        let thumbnail = result.thumbnail;
         let title = result.title;
         let lossCut = result.lossCut;
         let content = result.content;
@@ -65,9 +65,9 @@ router.get('/detail', async (req, res) => {
             myRating = await createNurbanMyrating(articleId, userId);
         }
 
-        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updateAt", 
+        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt", 
                 "userId", "badge", "nickname", "insignia", "myRating"];
-        let valueList = [articleId, uuid, thumbanil, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
+        let valueList = [articleId, uuid, thumbnail, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
             authorUserId, badge, nickname, insignia, myRating];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);

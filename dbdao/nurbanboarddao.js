@@ -176,8 +176,8 @@ exports.readPopular = function read(offset, limit){
 }
 
 // NurbanBoard content 업데이트
-exports.updateContent = function update(id, thumbnail, title, content){
-    return NurbanBoard.update({thumbanil: thumbnail, title: title, content: content}, {where: {id: id}})
+exports.updateContent = function update(id, thumbnail, title, lossCut, content){
+    return NurbanBoard.update({thumbnail: thumbnail, title: title, lossCut: lossCut, content: content}, {where: {id: id}})
 }
 
 // NurbanBoard count 업데이트

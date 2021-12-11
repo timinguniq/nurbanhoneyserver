@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 
     let contentObject = new Object();
     let resultObject = new Object();
-
+    
     try{
         let result = await userDao.read(key);
         console.log("result", result);

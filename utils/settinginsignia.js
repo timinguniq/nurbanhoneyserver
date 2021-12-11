@@ -8,8 +8,8 @@ module.exports = async (key, insigniaOwn, point, totalLossCut, myArticleNumber, 
     console.log(`myCommentNumber : ${myCommentNumber}`);
     console.log("insignia : ", insignia);
 
-    for(var i = 0 ; i < insigniaOwn.length ; i++){
-        insignia.push(insigniaOwn[i])
+    if(insigniaOwn !== null){
+        insignia = JSON.parse(insigniaOwn);
     }
 
     //휘장 아이디어 공고(현재는 글 갯수 10개, 100개 달성, 포인트 100만 달성, 댓글 100개 달성, 1000개 달성)
@@ -57,7 +57,9 @@ module.exports = async (key, insigniaOwn, point, totalLossCut, myArticleNumber, 
     }
 
     try{        
-        let result = await userDao.updateInsigniaOwn(key, insignia);
+        let insigniaString = JSON.stringify(insignia);
+        let insigniaData = JSON.parse(insigniaString);
+        let result = await userDao.updateInsigniaOwn(key, insigniaData);
         // result 1이면 성공 0이면 실패
         console.log(`update insignia result : ${result}`)
         if(result === 1){
