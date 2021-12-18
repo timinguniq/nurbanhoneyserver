@@ -112,15 +112,15 @@ app.use('/appversion', appversionRouter);
 // user router
 app.use('/login', loginRouter);
 // nurbanboard router
-app.use('/nurban', nurbanBoardRouter);
+app.use('/board/nurban', nurbanBoardRouter);
 // nurbancomment router
-app.use('/nurban/comment', nurbanCommentRouter);
+app.use('/board/nurban/aritcle/comment', nurbanCommentRouter);
 // rank router
 app.use('/rank', rankRouter);
 // notice router
 app.use('/notice', noticeRouter);
 // popularboard router
-app.use('/popular', popularBoardRouter);
+app.use('/board/popular', popularBoardRouter);
 
 // token router
 app.use('/token', tokenRouter);
@@ -128,13 +128,13 @@ app.use('/token', tokenRouter);
 app.use('/', tokenMidRouter);
 // auth
 // nurbanboard router
-app.use('/nurban', nurbanBoardAuthRouter);
+app.use('/board/nurban/article', nurbanBoardAuthRouter);
 // nurbancomment router
-app.use('/nurban/comment', nurbanCommentAuthRouter);
+app.use('/board/nurban/article/comment', nurbanCommentAuthRouter);
 // nurbanlike router
-app.use('/nurban/detail/like', nurbanLikeAuthRouter);
+app.use('/board/nurban/article/like', nurbanLikeAuthRouter);
 // nurbandislike router
-app.use('/nurban/detail/dislike', nurbanDislikeAuthRouter);
+app.use('/board/nurban/article/dislike', nurbanDislikeAuthRouter);
 // profile
 app.use('/profile', profileAuthRouter);
 // noticelike router
