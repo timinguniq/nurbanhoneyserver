@@ -98,7 +98,7 @@ router.get('/', async (req, res) => {
 
     // 썸네일, 제목, 댓글 개수
     try{
-        let result = noticeDao.read(offset, limit);
+        let result = await noticeDao.read(offset, limit);
         console.log("result", result);
 
         let contentObjectList = [];

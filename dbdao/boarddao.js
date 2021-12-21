@@ -10,7 +10,6 @@ exports.create = function create(name, address){
 
 exports.read = function read(){
     return Board.findAll({
-        order: [['id', 'DESC']],
     })
 }
   

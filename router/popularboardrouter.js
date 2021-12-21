@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
 
         // 너반꿀 게시판
         for(var i = 0 ; i < nurbanBoardResult.length ; i++){
-            nurbanBoardResult[i].dataValues.flag = constObj.nurbanboard;
+            nurbanBoardResult[i].dataValues.address = constObj.nurbanboard;
             contentObjectList.push(nurbanBoardResult[i].dataValues);
         }
 

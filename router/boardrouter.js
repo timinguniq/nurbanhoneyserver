@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     let resultObject = new Object();
 
     try{
-        let result = boardDao.read();
+        let result = await boardDao.read();
         console.log("result", result);
 
         let contentObjectList = [];
