@@ -22,6 +22,9 @@ var noticeDislikeAuthRouter = require('./router/noticedislikeauthrouter');
 var rankRouter = require('./router/rankrouter');
 var popularBoardRouter = require('./router/popularboardrouter');
 var boardRouter = require('./router/boardrouter');
+var freeBoardRouter = require('./router/freeboardrouter');
+var freeBoardAuthRouter = require('./router/freeboardauthrouter');
+
 let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
 const nurbanboardDao = require('./dbdao/nurbanboarddao');
@@ -124,6 +127,8 @@ app.use('/notice', noticeRouter);
 app.use('/board/popular', popularBoardRouter);
 // board router
 app.use('/board', boardRouter);
+// freeboard router
+app.use('/board/free', freeBoardRouter);
 
 // token router
 app.use('/token', tokenRouter);
@@ -144,6 +149,9 @@ app.use('/profile', profileAuthRouter);
 app.use('/notice/detail/like', noticeLikeAuthRouter);
 // noticedislike router
 app.use('/notice/detail/dislike', noticeDislikeAuthRouter);
+// freeboard router
+app.use('/board/free/article', freeBoardAuthRouter);
+
 
 app.listen(8080, function(){
     console.log('Example app listening on port 8080!')
