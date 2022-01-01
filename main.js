@@ -24,6 +24,10 @@ var popularBoardRouter = require('./router/popularboardrouter');
 var boardRouter = require('./router/boardrouter');
 var freeBoardRouter = require('./router/freeboardrouter');
 var freeBoardAuthRouter = require('./router/freeboardauthrouter');
+var freeCommentRouter = require('./router/freecommentrouter');
+var freeCommentAuthRouter = require('./router/freecommentauthrouter');
+var freeLikeAuthRouter = require('./router/freelikeauthrouter');
+var freeDislikeAuthRouter = require('./router/freedislikeauthrouter');
 
 let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
@@ -129,6 +133,8 @@ app.use('/board/popular', popularBoardRouter);
 app.use('/board', boardRouter);
 // freeboard router
 app.use('/board/free', freeBoardRouter);
+// freeboard router
+app.use('/board/free/article/comment', freeCommentRouter);
 
 // token router
 app.use('/token', tokenRouter);
@@ -151,6 +157,12 @@ app.use('/notice/detail/like', noticeLikeAuthRouter);
 app.use('/notice/detail/dislike', noticeDislikeAuthRouter);
 // freeboard router
 app.use('/board/free/article', freeBoardAuthRouter);
+// freecomment router
+app.use('/board/free/article/comment', freeCommentAuthRouter);
+// freelike router
+app.use('/board/free/article/like', freeLikeAuthRouter);
+// freedislike router
+app.use('/board/free/article/dislike', freeDislikeAuthRouter);
 
 
 app.listen(8080, function(){

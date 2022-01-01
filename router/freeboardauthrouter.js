@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const freeBoardDao = require('../dbdao/nurbanboarddao');
+const freeBoardDao = require('../dbdao/freeboarddao');
 const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
@@ -68,7 +68,7 @@ router.post('/', async (req, res) => {
         res.status(400).json(resultObject);
     }
 });
-/*
+
 // 글 수정 관련 통신 메소드
 router.patch('/', async (req, res) => {
     let id = req.body.id;
@@ -90,14 +90,14 @@ router.patch('/', async (req, res) => {
     }
 
     try{
-        let result = await nurbanBoardDao.updateContent(id, thumbnail, title, lossCut, content);
+        let result = await freeBoardDao.updateContent(id, thumbnail, title, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         if(result[0] === 1){
-            resultObject = createJson.result("nurbanboard_updated");
+            resultObject = createJson.result("freeboard_updated");
             res.status(200).json(resultObject);
         }else{
-            resultObject = createJson.result("nurbanboard_updated_fail");
+            resultObject = createJson.result("freeboard_updated_fail");
             res.status(700).json(resultObject);
         }
     }catch(err){
@@ -136,7 +136,7 @@ router.delete('/', async (req, res) => {
 
     let deleteResult = null;
     try{
-        let readResult = await nurbanBoardDao.readForId(id);
+        let readResult = await freeBoardDao.readForId(id);
         console.log("readResult userId : ", readResult);
         let articleUserId = readResult.userId;
         console.log("readResult userId 2 : ", articleUserId);
@@ -145,17 +145,17 @@ router.delete('/', async (req, res) => {
             res.status(401).json(resultObject);
             return res.end();
         }else{
-            deleteResult = await nurbanBoardDao.destory(id);
+            deleteResult = await freeBoardDao.destory(id);
         }
                 
         // deleteResult 1이면 성공 0이면 실패
         console.log(`delete result : ${deleteResult}`)
         
         if(deleteResult === 1){
-            resultObject = createJson.result("nurbanboard_deleted");
+            resultObject = createJson.result("freeboard_deleted");
             res.status(200).json(resultObject);
         }else{
-            resultObject = createJson.result("nurbanboard_deleted_fail");
+            resultObject = createJson.result("freeboard_deleted_fail");
             res.status(700).json(resultObject);
             return res.end();
         }
@@ -172,14 +172,6 @@ router.delete('/', async (req, res) => {
         if(!dropPoint(key, constObj.writeArticlePoint)){
             console.log("dropPoint error");
         }
-        // totalLossCut에 반영이 됬는지 확인하는 변수
-        let reflectLossCut = readResult.reflectLossCut;
-        if(reflectLossCut){
-            // 총 손실액 내리는 메소드
-            if(!dropTotalLossCut(key, id)){
-                console.log("dropTotalLossCut error");
-            }
-        }
     }catch(err){
         console.log(`delete err : ${err}`)
         resultObject = createJson.error(err);
@@ -189,7 +181,7 @@ router.delete('/', async (req, res) => {
 
     if(deleteResult === 1){
         // s3에 글 이미지 삭제하기
-        s3delete(awsObj.s3nurbanboardname, uuid);
+        s3delete(awsObj.s3freeboardname, uuid);
     }
 });
 
@@ -216,7 +208,7 @@ router.post('/upload/image', async (req, res) => {
     let bodyBuffer = new Buffer.from(bufferObj.data);  
 
     // s3에 파일 업로드 하는 메소드
-    s3upload(awsObj.s3nurbanboardname, uuid, imageFileName, bodyBuffer, (resultObject) => {
+    s3upload(awsObj.s3freeboardname, uuid, imageFileName, bodyBuffer, (resultObject) => {
         if(resultObject.result !== null && resultObject.result !== undefined){
             res.status(200).json(resultObject);
         }else{
@@ -242,14 +234,14 @@ router.delete('/upload/image', async (req, res) => {
 
     try{
         // s3에 글 이미지 삭제하기
-        let result = await s3delete(awsObj.s3nurbanboardname, uuid);
+        let result = await s3delete(awsObj.s3freeboardname, uuid);
 
-        resultObject = createJson.result("nurbanboard_image_deleted");
+        resultObject = createJson.result("freeboard_image_deleted");
         res.status(200).json(resultObject);
     }catch(err){
         resultObject = createJson.error("error");
         res.status(500).json(resultObject);
     }    
 });
-*/
+
 module.exports = router;

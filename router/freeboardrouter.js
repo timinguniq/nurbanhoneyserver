@@ -6,7 +6,7 @@ let inputErrorHandler = require('../utils/inputerrorhandler');
 let constObj = require('../config/const');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
-let createNurbanMyrating = require('../utils/createnurbanmyrating');
+let createFreeMyrating = require('../utils/createfreemyrating');
 
 // 토큰 없이 이용 가능한 통신들
 
@@ -39,12 +39,11 @@ router.get('/article', async (req, res) => {
     let articleCount = 0
     // id 값으로 데이터 읽기
     try{
-        let result = await nurbanBoardDao.readForId(id);
+        let result = await freeBoardDao.readForId(id);
         let articleId = result.id;
         let uuid = result.uuid;
         let thumbnail = result.thumbnail;
         let title = result.title;
-        let lossCut = result.lossCut;
         let content = result.content;
         let count = result.count;
         articleCount = count;
@@ -60,12 +59,12 @@ router.get('/article', async (req, res) => {
 
         if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
-            myRating = await createNurbanMyrating(articleId, userId);
+            myRating = await createFreeMyrating(articleId, userId);
         }
 
-        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt", 
+        let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt", 
                 "userId", "badge", "nickname", "insignia", "myRating"];
-        let valueList = [articleId, uuid, thumbnail, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
+        let valueList = [articleId, uuid, thumbnail, title, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
             authorUserId, badge, nickname, insignia, myRating];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
@@ -79,11 +78,11 @@ router.get('/article', async (req, res) => {
     try{
         console.log(`curDate : ${curDate}, preDate : ${preDate}`);
         if(curDate - preDate >= constObj.countInterval){
-            let result = await nurbanBoardDao.updateCount(id, ++articleCount);
-            console.log(`nurbanboard detail updateCount result : ${result}`);      
+            let result = await freeBoardDao.updateCount(id, ++articleCount);
+            console.log(`freeboard detail updateCount result : ${result}`);      
         }
     }catch(err){
-        console.log(`nurbanboard detail updateCount err : ${err}`);
+        console.log(`freeboard detail updateCount err : ${err}`);
     }
 
     preDate = curDate;
@@ -111,11 +110,11 @@ router.get('/', async (req, res) => {
         let result;
         let iFlag = Number(flag);
         if(iFlag === constObj.defaultOrder){
-            result = await nurbanBoardDao.read(offset, limit);
+            result = await freeBoardDao.read(offset, limit);
         }else if(iFlag === constObj.countOrder){
-            result = await nurbanBoardDao.readCount(offset, limit);
+            result = await freeBoardDao.readCount(offset, limit);
         }else if(iFlag === constObj.likeCountOrder){
-            result = await nurbanBoardDao.readLikeCount(offset, limit);
+            result = await freeBoardDao.readLikeCount(offset, limit);
         }else{
             // 에러
             resultObject = createJson.error("flag is not correct");
@@ -133,7 +132,7 @@ router.get('/', async (req, res) => {
         console.log("contentObjectArrayList", contentObjectList);
 
         //console.log(`result.rows : ${result.rows}`);
-        //resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
+        //resultObject = createJson.one("freeboard_list_result", contentObjectList);
         res.status(200).json(contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
@@ -168,13 +167,13 @@ router.get('/article/myrating', async (req, res) => {
 
     // id 값으로 데이터 읽기
     try{
-        let result = await nurbanBoardDao.readForId(articleId);
+        let result = await freeBoardDao.readForId(articleId);
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let myRating = null;
 
         if(userId !== null && userId !== undefined){
-            myRating = await createNurbanMyrating(articleId, userId);
+            myRating = await createFreeMyrating(articleId, userId);
         }
 
         let nameList = ["id", "likeCount", "dislikeCount", "myRating"];
