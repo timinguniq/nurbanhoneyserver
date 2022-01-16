@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
     }
 
     // 로그인 타입 확인하는 코드
-    if(inputLoginType !== "kakao" && inputLoginType !== "google" && inputLoginType !== "email"){
+    if(inputLoginType !== "kakao" && inputLoginType !== "google" && inputLoginType !== "naver" && inputLoginType !== "email"){
         resultObject = createJson.error("loginType_error");        
         res.status(400).json(resultObject);
         return res.end();
@@ -48,9 +48,12 @@ router.post('/', async (req, res) => {
 
 
         inputKey = "G-" + inputKey;
+    }else if(inputLoginType === "naver"){
+        // TODO
+
+        inputKey = "N-" + inputKey;
     }else if(inputLoginType === "email"){
-        // TODO 
-        
+        // TODO         
 
         inputKey = "E-" + inputKey;
     }

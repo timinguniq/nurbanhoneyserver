@@ -3,23 +3,23 @@ const constObj = require('../config/const');
 
 // 포인트에 따른 User Badge 셋팅
 module.exports = async (key, point) => {
-    let badge = "";    
-    // TODO 포인트 기준은 아직 정해지진 않음
-    if(point <= 10000){
+    let badge = "";
+    // TODO 포인트 기준은 아직 정해지진 않음, 나중에 올려야됨.
+    if(point <= 200){
         badge = constObj.badge0;
-    }else if(point <= 100000){
+    }else if(point <= 250){
         badge = constObj.badge1;    
-    }else if(point <= 1000000){
+    }else if(point <= 300){
         badge = constObj.badge2;
-    }else if(point <= 10000000){
+    }else if(point <= 350){
         badge = constObj.badge3;
-    }else if(point <= 100000000){
+    }else if(point <= 400){
         badge = constObj.badge4;
-    }else if(point <= 1000000000){
+    }else if(point <= 450){
         badge = constObj.badge5;    
-    }else if(point <= 10000000000){
+    }else if(point <= 500){
         badge = constObj.badge6;    
-    }else if(point <= 100000000000){
+    }else if(point <= 550){
         badge = constObj.badge7;
     }
     
