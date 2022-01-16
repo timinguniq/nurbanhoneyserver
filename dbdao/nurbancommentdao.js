@@ -1,5 +1,6 @@
 const NurbanComment = require('../models').NurbanComment;
 const User = require('../models').User;
+const NurbanBoard = require('../models').NurbanBoard;
 const { sequelize } = require('../models');
 
 exports.create = function create(content, articleId, userId){
@@ -33,9 +34,9 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
     return NurbanComment.findAll({
         include: [
             // ['id', 'aritcleId'] === id AS articleId
-            {model: NurbanBoard, attributes: [['id', 'articleId'], 'title']}
+            {model: NurbanBoard, as: 'Board', attributes: [['id', 'articleId'], 'title']}
         ],
-        attributes: ['id', 'content', 'articleId', 'createdAt'],
+        attributes: ['id', 'content', 'createdAt'],
         offset: Number(offset),
         limit: Number(limit),
         where: {

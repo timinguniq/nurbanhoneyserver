@@ -35,7 +35,7 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
             // ['id', 'aritcleId'] === id AS articleId
             {model: FreeBoard, as: 'Board', attributes: [['id', 'articleId'], 'title']}
         ],
-        attributes: ['id', 'content', 'articleId', 'createdAt'],
+        attributes: ['id', 'content', 'createdAt'],
         offset: Number(offset),
         limit: Number(limit),
         where: {

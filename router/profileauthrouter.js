@@ -3,6 +3,8 @@ var router = express.Router();
 const userDao = require('../dbdao/userdao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
+const freeBoardDao = require('../dbdao/freeboarddao');
+const freeCommentDao = require('../dbdao/freecommentdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
@@ -114,9 +116,7 @@ router.get('/myarticle', async (req, res) => {
     // 토큰에서 키 값 추출
     let key = extractKey(token);
     // 키에서 userId 값 추출
-    let userId = extractUserId(key);
-
-    userId = "K-1936776651"
+    let userId = await extractUserId(key);
 
     let resultObject = new Object();
 
@@ -134,7 +134,7 @@ router.get('/myarticle', async (req, res) => {
         let nurbanBoardResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
         console.log("nurbanBoardResult", nurbanBoardResult);
         // TODO 자유게시판 내가 쓴 글 불러오기
-        let freeBoardResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
+        let freeBoardResult = await freeBoardDao.readForUserId(userId, offset, limit);
         console.log("freeBoardResult", freeBoardResult);
 
         let contentObjectList = [];
@@ -180,9 +180,7 @@ router.get('/mycomment', async (req, res) => {
     // 토큰에서 키 값 추출
     let key = extractKey(token);
     // 키에서 userId 값 추출
-    let userId = extractUserId(key);
-
-    userId = "K-1936776651"
+    let userId = await extractUserId(key);
 
     let resultObject = new Object();
 
@@ -200,7 +198,7 @@ router.get('/mycomment', async (req, res) => {
         let nurbanCommentResult = await nurbanCommentDao.readForUserId(userId, offset, limit);
         console.log("nurbanCommentResult", nurbanCommentResult);
         // TODO 자유게시판 내가 쓴 글 불러오기
-        let freeCommentResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
+        let freeCommentResult = await freeCommentDao.readForUserId(userId, offset, limit);
         console.log("freeCommentResult", freeCommentResult);
  
         let contentObjectList = [];
