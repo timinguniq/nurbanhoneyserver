@@ -116,6 +116,8 @@ router.get('/myarticle', async (req, res) => {
     // 키에서 userId 값 추출
     let userId = extractUserId(key);
 
+    userId = "K-1936776651"
+
     let resultObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
@@ -179,6 +181,8 @@ router.get('/mycomment', async (req, res) => {
     let key = extractKey(token);
     // 키에서 userId 값 추출
     let userId = extractUserId(key);
+
+    userId = "K-1936776651"
 
     let resultObject = new Object();
 

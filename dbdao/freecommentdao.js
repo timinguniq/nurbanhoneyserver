@@ -33,7 +33,7 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
     return FreeComment.findAll({
         include: [
             // ['id', 'aritcleId'] === id AS articleId
-            {model: NurbanBoard, attributes: [['id', 'articleId'], 'title']}
+            {model: FreeBoard, as: 'Board', attributes: [['id', 'articleId'], 'title']}
         ],
         attributes: ['id', 'content', 'articleId', 'createdAt'],
         offset: Number(offset),
