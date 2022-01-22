@@ -19,4 +19,4 @@ exports.update = function update(id, name, address){
 
 exports.destory = function destory(id){
     return Board.destroy({where: {id: id}})
-}  
+}

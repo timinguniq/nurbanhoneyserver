@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         comment: "id",
       },
+      authority: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        comment: "권한 지금은 0(유저), 1(운영자)"
+      },
       loginType: {
         type: DataTypes.STRING(100),
         allowNull: false,
