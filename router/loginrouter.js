@@ -4,6 +4,7 @@ const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 let createJwtToken = require('../utils/createjwttoken');
 const kakaoauth = require('../utils/kakaoauth');
+const naverauth = require('../utils/naverauth');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 const constObj = require('../config/const');
 
@@ -50,8 +51,15 @@ router.post('/', async (req, res) => {
         inputKey = "G-" + inputKey;
     }else if(inputLoginType === "naver"){
         // TODO
+        let naverProfileId = await naverauth(inputKey);
+        if(!naverProfileId){
+            // 카카오 토큰이 유효하지 않다.
+            resultObject = createJson.error("naver_auth_error");
+            res.status(401).json(resultObject);
+            return res.end()
+        }
 
-        inputKey = "N-" + inputKey;
+        inputKey = "N-" + naverProfileId;
     }else if(inputLoginType === "email"){
         // TODO         
 

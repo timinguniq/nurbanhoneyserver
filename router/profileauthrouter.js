@@ -39,7 +39,13 @@ router.get('/', async (req, res) => {
 
         // string으로 안 가고 array로 가게 수정하는 코드
         insigniaShow = JSON.parse(insigniaShow);
+        if(insigniaShow === ""){
+            insigniaShow = [];
+        }
         insigniaOwn = JSON.parse(insigniaOwn);
+        if(insigniaOwn === ""){
+            insigniaOwn = [];
+        }
 
         // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
