@@ -46,16 +46,21 @@ module.exports = (sequelize, DataTypes) => {
     });
     
     Notice.associate = models => {
+      /** 
+       * Notice모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
+       */
+       // userId 칼럼은 작성자의 User id값
+      Notice.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+
       /**
        * Notice안에 있는 "id값"을 "noticeId라는 컬럼 이름"으로 NoticeLike모델에 새로운 컬럼으로 추가한다.
        */
-       Notice.hasOne(models.NoticeLike, {foreignKey: "noticeId", sourceKey: 'id'});
+      Notice.hasOne(models.NoticeLike, {foreignKey: "noticeId", sourceKey: 'id'});
 
       /**
        * Notice안에 있는 "id값"을 "noticeId라는 컬럼 이름"으로 NoticeDislike모델에 새로운 컬럼으로 추가한다.
        */
-       Notice.hasOne(models.NoticeDislike, {foreignKey: "noticeId", sourceKey: 'id'});
-
+      Notice.hasOne(models.NoticeDislike, {foreignKey: "noticeId", sourceKey: 'id'});
     };
     
     return Notice;

@@ -100,6 +100,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.NoticeLike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
       User.hasOne(models.NoticeDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+
+      User.hasOne(models.Notice, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     };
     
     return User;

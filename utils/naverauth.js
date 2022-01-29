@@ -6,18 +6,18 @@ module.exports = async (naverToken) => {
         // 네이버 토큰이 유효하다.
         let naver_profile = await axios.get("https://openapi.naver.com/v1/nid/me", {
             headers:{
-                Authorization: 'Bearer ' + kakaoToken,
+                Authorization: 'Bearer ' + naverToken,
                 'Content-Type': 'application/json'
             }
         });
         Log.d("naver_profile", naver_profile)
-        if(naver_profile.data.id !== null){
-            return naver_profile.data.id;
+        if(naver_profile.data.response.id !== null){
+            return naver_profile.data.response.id;
         }else{
             return false
         }
     }catch(e){
-        // 카카오 토큰이 유효하지 않다.
+        // 네이버 토큰이 유효하지 않다.
         return false
     }   
 }

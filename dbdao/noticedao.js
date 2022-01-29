@@ -19,6 +19,10 @@ exports.create = function create(title, content){
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
 exports.read = function read(offset, limit){
     return Notice.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+        ],
         attributes: ['id', 'title', 'count', 'createdAt'],
         offset: Number(offset),
         limit: Number(limit),
