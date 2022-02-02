@@ -151,13 +151,13 @@ router.get('/myarticle', async (req, res) => {
 
         // 너반꿀 게시판
         for(var i = 0 ; i < nurbanBoardResult.length ; i++){
-            nurbanBoardResult[i].dataValues.flag = constObj.nurbanboard;
+            nurbanBoardResult[i].dataValues.address = constObj.nurbanboard;
             contentObjectList.push(nurbanBoardResult[i].dataValues);
         }
 
         // 자유게시판 
         for(var i = 0 ; i < freeBoardResult.length ; i++){
-            freeBoardResult[i].dataValues.flag = constObj.nurbanboard;
+            freeBoardResult[i].dataValues.address = constObj.nurbanboard;
             contentObjectList.push(freeBoardResult[i].dataValues);
         }
 
@@ -215,13 +215,13 @@ router.get('/mycomment', async (req, res) => {
 
         // 너반꿀 게시판
         for(var i = 0 ; i < nurbanCommentResult.length ; i++){
-            nurbanCommentResult[i].dataValues.flag = constObj.nurbanboard;
+            nurbanCommentResult[i].dataValues.address = constObj.nurbanboard;
             contentObjectList.push(nurbanCommentResult[i].dataValues);
         }
 
         // 자유게시판 
         for(var i = 0 ; i < freeCommentResult.length ; i++){
-            freeCommentResult[i].dataValues.flag = constObj.nurbanboard;
+            freeCommentResult[i].dataValues.address = constObj.nurbanboard;
             contentObjectList.push(freeCommentResult[i].dataValues);
         }
 
