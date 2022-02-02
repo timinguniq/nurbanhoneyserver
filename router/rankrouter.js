@@ -18,6 +18,13 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
  
         for(var i = 0 ; i < result.length ; i++){
+            // string으로 안 가고 array로 가게 수정하는 코드
+            result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
+            if(result[i].dataValues.User.dataValues.insignia === ""){
+                result[i].dataValues.User.dataValues.insignia = [];
+            }
+            //
+
             contentObjectList.push(result[i].dataValues);
         }
 
@@ -47,6 +54,13 @@ router.get('/popup', async (req, res) => {
         let contentObjectList = [];
  
         for(var i = 0 ; i < result.length ; i++){
+            // string으로 안 가고 array로 가게 수정하는 코드
+            result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
+            if(result[i].dataValues.User.dataValues.insignia === ""){
+                result[i].dataValues.User.dataValues.insignia = [];
+            }
+            //
+
             contentObjectList.push(result[i].dataValues);
         }
 

@@ -31,6 +31,12 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
+            // string으로 안 가고 array로 가게 수정하는 코드
+            result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
+            if(result[i].dataValues.User.dataValues.insignia === ""){
+                result[i].dataValues.User.dataValues.insignia = [];
+            }
+            //
             contentObjectList.push(result[i].dataValues);
         }
         res.status(200).json(contentObjectList)
@@ -84,6 +90,14 @@ router.get('/detail', async (req, res) => {
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
         let result = await nurbanCommentDao.read(commentId);
+
+        // string으로 안 가고 array로 가게 수정하는 코드
+        result.dataValues.User.dataValues.insignia = JSON.parse(result.dataValues.User.dataValues.insignia);
+        if(result.dataValues.User.dataValues.insignia === ""){
+            result.dataValues.User.dataValues.insignia = [];
+        }
+        //
+
         if(result !== null){
             res.status(200).json(result.dataValues);
         }else{
