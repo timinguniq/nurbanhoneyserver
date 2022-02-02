@@ -14,7 +14,7 @@ let createNoticeMyrating = require('../utils/createnoticemyrating');
 
 let preDate = 0;
 // 공지사항 상세 데이터 받아오는 메소드
-router.get('/detail', async (req, res) => {
+router.get('/article', async (req, res) => {
     let id = req.query.id;
     let token = req.headers.token;
     let userId = null;

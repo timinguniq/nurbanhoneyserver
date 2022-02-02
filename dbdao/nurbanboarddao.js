@@ -95,7 +95,7 @@ exports.readCount = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insigniaShow']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         where: {
@@ -116,7 +116,7 @@ exports.readLikeCount = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insigniaShow']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount'],
         where: {

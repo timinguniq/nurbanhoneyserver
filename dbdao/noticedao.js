@@ -1,4 +1,5 @@
 const Notice = require('../models').Notice;
+const User = require('../models').User;
 
 exports.create = function create(title, content){
     return Notice.create({
