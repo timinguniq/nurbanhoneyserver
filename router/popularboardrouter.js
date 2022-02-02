@@ -3,6 +3,7 @@ var router = express.Router();
 const userDao = require('../dbdao/userdao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
+const freeBoardDao = require('../dbdao/freeboarddao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
@@ -33,7 +34,7 @@ router.get('/', async (req, res) => {
         let nurbanBoardResult = await nurbanBoardDao.readPopular(offset, limit);
         console.log("nurbanBoardResult", nurbanBoardResult);
         // TODO 자유게시판 내가 쓴 글 불러오기
-        //let freeBoardResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
+        let freeBoardResult = await freeBoardDao.readPopular(offset, limit);
         //console.log("freeBoardResult", freeBoardResult);
 
         let contentObjectList = [];
@@ -51,10 +52,16 @@ router.get('/', async (req, res) => {
         }
 
         // 자유게시판 
-        //for(var i = 0 ; i < freeBoardResult.length ; i++){
-        //    freeBoardResult[i].dataValues.flag = constObj.nurbanboard;
-        //    contentObjectList.push(freeBoardResult[i].dataValues);
-        //}
+        for(var i = 0 ; i < freeBoardResult.length ; i++){
+            freeBoardResult[i].dataValues.address = constObj.nurbanboard;
+            // string으로 안 가고 array로 가게 수정하는 코드
+            result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
+            if(result[i].dataValues.User.dataValues.insignia === ""){
+                result[i].dataValues.User.dataValues.insignia = [];
+            }
+            //
+            contentObjectList.push(freeBoardResult[i].dataValues);
+        }
 
         // array sort 내림차순(최신께 위로)
         contentObjectList.sort((a, b) => {
