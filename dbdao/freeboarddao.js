@@ -136,7 +136,7 @@ exports.readPopular = function read(offset, limit){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insigniaShow']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
         ],
         attributes: ['id', 'thumbnail', 'title', 'count', 'commentCount'],
         where: {
