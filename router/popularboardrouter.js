@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
 
         // 너반꿀 게시판
         for(var i = 0 ; i < nurbanBoardResult.length ; i++){
-            nurbanBoardResult[i].dataValues.address = constObj.nurbanboard;
+            nurbanBoardResult[i].dataValues.board = constObj.nurbanboard;
             // string으로 안 가고 array로 가게 수정하는 코드
             result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
             if(result[i].dataValues.User.dataValues.insignia === ""){
@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
 
         // 자유게시판 
         for(var i = 0 ; i < freeBoardResult.length ; i++){
-            freeBoardResult[i].dataValues.address = constObj.nurbanboard;
+            freeBoardResult[i].dataValues.board = constObj.freeboard;
             // string으로 안 가고 array로 가게 수정하는 코드
             result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
             if(result[i].dataValues.User.dataValues.insignia === ""){
