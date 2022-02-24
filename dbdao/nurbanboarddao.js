@@ -208,4 +208,4 @@ exports.updateReflectLossCut = function update(id, reflectLossCut){
 // 글 삭제
 exports.destory = function destory(id){
     return NurbanBoard.destroy({where: {id: id}})
-} 
+}

@@ -34,6 +34,10 @@ exports.read = function read(offset, limit){
 // 글을 id로 갯수 가져오기
 exports.readForId = function read(id){
     return Notice.findOne({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+        ],
         where: {
             id: id 
         }
