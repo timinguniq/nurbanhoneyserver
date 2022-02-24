@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
        */
        // userId 칼럼은 작성자의 User id값
       Notice.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
-
+      
       /**
        * Notice안에 있는 "id값"을 "noticeId라는 컬럼 이름"으로 NoticeLike모델에 새로운 컬럼으로 추가한다.
        */

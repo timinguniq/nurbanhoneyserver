@@ -51,14 +51,18 @@ router.get('/article', async (req, res) => {
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let myRating = null;
+        let authorUserId = result.User.dataValues.userId;
+        let badge = result.User.badge;
+        let nickname = result.User.nickname;
+        let insignia = result.User.insignia;
 
         if(userId !== null && userId !== undefined){
             // myRating 만드는 메소드
             myRating = await createNoticeMyrating(noticeId, userId);
         }
 
-        let nameList = ["id", "title", "content", "count", "likeCount", "dislikeCount", "updatedAt", "myRating"];
-        let valueList = [noticeId, title, content, count, likeCount, dislikeCount, updatedAt, myRating];
+        let nameList = ["id", "title", "content", "count", "likeCount", "dislikeCount", "updatedAt", "myRating", "userId", "badge", "nickname", "insignia"];
+        let valueList = [noticeId, title, content, count, likeCount, dislikeCount, updatedAt, myRating, authorUserId, badge, nickname, insignia];
         resultObject = createJson.multi(nameList, valueList); 
         res.status(200).json(resultObject);
     }catch(err){
