@@ -50,11 +50,12 @@ router.get('/article', async (req, res) => {
         noticeCount = count;
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
+        let updatedAt = result.updatedAt;
         let myRating = null;
         let authorUserId = result.User.dataValues.userId;
         let badge = result.User.badge;
         let nickname = result.User.nickname;
-        let insignia = result.User.insignia;
+        let insignia = result.User.dataValues.insignia;
 
         if(userId !== null && userId !== undefined){
             // myRating 만드는 메소드

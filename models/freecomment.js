@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
        FreeComment.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
 
        // articleId 칼럼은 작성자의 FreeBoard id값
-       FreeComment.belongsTo(models.FreeBoard, {as: "Board", foreignKey: "articleId", sourceKey: 'id'});
+       FreeComment.belongsTo(models.FreeBoard, {foreignKey: "articleId", sourceKey: 'id'});
     };
     
     return FreeComment;
