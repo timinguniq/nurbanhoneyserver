@@ -9,10 +9,10 @@ module.exports = async (key, insigniaOwn, point, totalLossCut, myArticleNumber, 
     console.log("insignia : ", insignia);
 
     if(insigniaOwn !== null){
-        insignia = JSON.parse(insigniaOwn);
+        insignia = insigniaOwn;
     }
 
-    //휘장 아이디어 공고(현재는 글 갯수 10개, 100개 달성, 포인트 100만 달성, 댓글 100개 달성, 1000개 달성)
+    //휘장 아이디어 공고(현재는 글 갯수 10개, 100개 달성, 포인트 100만 달성, 댓글 100개 달성, 1000개 달성, 손절액 50만, 100만, 1000만)
     if(myArticleNumber >= 100){
         if(!insignia.includes(constObj.insigniaArticle100)){
             insignia.push(constObj.insigniaArticle100);

@@ -70,4 +70,4 @@ exports.updateLastTime = function update(id){
 
 exports.destory = function destory(id){
     return User.destroy({where: {id: id}})
-}  
+}

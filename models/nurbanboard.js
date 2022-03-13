@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       thumbnail: {
         type: DataTypes.STRING(256),
-        allowNull: true,
+        allowNull: false,
         defaultValue: "https://nurbanboard.s3.ap-northeast-2.amazonaws.com/default.png",
         comment: "썸네일 이미지 주소",
       },
@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanLike모델에 새로운 컬럼으로 추가한다.
-       */      
+       */
        NurbanBoard.hasOne(models.NurbanLike, {foreignKey: "articleId", sourceKey: 'id'});
 
       /**

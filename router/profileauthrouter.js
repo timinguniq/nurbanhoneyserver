@@ -82,14 +82,21 @@ router.patch('/edit', async (req, res) => {
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
     let token = req.headers.token;
+    let insigniaShowArr = [];
     
-    console.log("insigniaShow : ", insigniaShow);
+    if(insigniaShow === undefined){
+        insigniaShow = null;
+    }else if(typeof insigniaShow === 'string'){
+        insigniaShowArr.push(insigniaShow);
+        insigniaShow = insigniaShowArr;
+    }
+    
 
     let contentObject = new Object();
     let resultObject = new Object();
     
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [nickname, description, insigniaShow];
+    let inputArray = [nickname, description];
     if(await inputErrorHandler(inputArray)){
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);

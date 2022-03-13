@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       thumbnail: {
         type: DataTypes.STRING(256),
-        allowNull: true,
+        allowNull: false,
         defaultValue: "https://nurbanboard.s3.ap-northeast-2.amazonaws.com/default.png",
         comment: "썸네일 이미지 주소",
       },
