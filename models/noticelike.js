@@ -1,6 +1,6 @@
 // 공지사항 좋아요 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NoticeLike = sequelize.define("NoticeLike", {
+    const NoticeLike = sequelize.define("notice_like", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },{
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
-      tableName: "NoticeLike", // 테이블 이름
+      tableName: "notice_like", // 테이블 이름
       timestamps: true, // createAt & updateAt 활성화
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });

@@ -1,6 +1,6 @@
 // 너반꿀 게시판 댓글 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NurbanComment = sequelize.define("NurbanComment", {
+    const NurbanComment = sequelize.define("nurban_comment", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     },{
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
-      tableName: "NurbanComment", // 테이블 이름
+      tableName: "nurban_comment", // 테이블 이름
       timestamps: true, // createAt & updateAt 활성화
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });

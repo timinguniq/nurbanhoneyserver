@@ -132,4 +132,15 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.post('/token', async (req, res) => {
+    let inputKey = req.body.key;
+    let resultObject = {};
+
+    // token 만드는 코드
+    let token = createJwtToken(inputKey);
+
+    resultObject = createJson.one("token", token);
+    res.status(201).json(resultObject);    
+});
+
 module.exports = router;

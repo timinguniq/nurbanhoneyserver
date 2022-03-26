@@ -1,6 +1,6 @@
 // 랭크 게시판 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NurbanBoard = sequelize.define("Rank", {
+    const Rank = sequelize.define("rank", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -24,18 +24,18 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
-      tableName: "Rank", // 테이블 이름
+      tableName: "rank", // 테이블 이름
       timestamps: true, // createAt & updateAt 활성화
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    NurbanBoard.associate = models => {
+    Rank.associate = models => {
       /**
        * Rank모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */
        // userId 칼럼은 작성자의 User id값
-       NurbanBoard.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+       Rank.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
     };
     
-    return NurbanBoard;
+    return Rank;
   };

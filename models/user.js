@@ -1,6 +1,6 @@
 // 회원 테이블
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define("User", {
+    const User = sequelize.define("user", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
-      tableName: "User", // 테이블 이름
+      tableName: "user", // 테이블 이름
       timestamps: true, // createAt & updateAt 활성화
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
@@ -95,6 +95,14 @@ module.exports = (sequelize, DataTypes) => {
     
       User.hasOne(models.NurbanDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
+      User.hasOne(models.FreeBoard, {foreignKey: "userId", sourceKey: 'id'});
+
+      User.hasOne(models.FreeComment, {foreignKey: "userId", sourceKey: 'id'});
+
+      User.hasOne(models.FreeLike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+    
+      User.hasOne(models.FreeDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+
       User.hasOne(models.Rank, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
       User.hasOne(models.NoticeLike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
@@ -102,6 +110,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.NoticeDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
       User.hasOne(models.Notice, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+
+      User.hasOne(models.NoticeComment, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     };
     
     return User;
