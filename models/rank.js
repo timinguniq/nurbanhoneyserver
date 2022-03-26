@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: "랭크 토탈 좋아요 수(인정 수)",
       }
     }, {
+      freezeTableName: true,
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
       tableName: "rank", // 테이블 이름

@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: "싫어요 수",
       },
     }, {
+      freezeTableName: true,
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
       tableName: "freeboard", // 테이블 이름

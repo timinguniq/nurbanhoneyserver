@@ -1,6 +1,6 @@
 // 앱 버전 테이블
 module.exports = (sequelize, DataTypes) => {
-    const Appversion = sequelize.define("appversion", {
+    const appversion = sequelize.define("appversion", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: "업데이트 여부",
       },
     }, {
+      freezeTableName: true,
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정
       tableName: "appversion", // 테이블 이름
@@ -34,5 +35,5 @@ module.exports = (sequelize, DataTypes) => {
       Users.hasOne(models.UserInfo, {foreignKey: "user_id", sourceKey: 'id'});
     };
     */
-    return Appversion;
+    return appversion;
   };
