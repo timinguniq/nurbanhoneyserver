@@ -22,10 +22,10 @@ module.exports = (sequelize, DataTypes) => {
        * NoticeDislike모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-       NoticeDislike.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+       NoticeDislike.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
        // noticeId 칼럼은 작성자의 Notice id값
-       NoticeDislike.belongsTo(models.Notice, {foreignKey: "noticeId", sourceKey: 'id'});
+       NoticeDislike.belongsTo(models.notice, {foreignKey: "noticeId", sourceKey: 'id'});
     };
     
     return NoticeDislike;

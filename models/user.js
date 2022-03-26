@@ -87,31 +87,31 @@ module.exports = (sequelize, DataTypes) => {
       /**
        * User안에 있는 "id값"을 "userId라는 컬럼 이름"으로 NurbanBoard모델에 새로운 컬럼으로 추가한다.
        */      
-      User.hasOne(models.NurbanBoard, {foreignKey: "userId", sourceKey: 'id'});
+      User.hasOne(models.nurbanboard, {foreignKey: "userId", sourceKey: 'id'});
 
-      User.hasOne(models.NurbanComment, {foreignKey: "userId", sourceKey: 'id'});
+      User.hasOne(models.nurban_comment, {foreignKey: "userId", sourceKey: 'id'});
 
-      User.hasOne(models.NurbanLike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.nurban_like, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     
-      User.hasOne(models.NurbanDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.nurban_dislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
-      User.hasOne(models.FreeBoard, {foreignKey: "userId", sourceKey: 'id'});
+      User.hasOne(models.freeboard, {foreignKey: "userId", sourceKey: 'id'});
 
-      User.hasOne(models.FreeComment, {foreignKey: "userId", sourceKey: 'id'});
+      User.hasOne(models.free_comment, {foreignKey: "userId", sourceKey: 'id'});
 
-      User.hasOne(models.FreeLike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.free_like, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     
-      User.hasOne(models.FreeDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.free_dislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
-      User.hasOne(models.Rank, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.rank, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
-      User.hasOne(models.NoticeLike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.notice_like, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
-      User.hasOne(models.NoticeDislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.notice_dislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
-      User.hasOne(models.Notice, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.notice, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
-      User.hasOne(models.NoticeComment, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      User.hasOne(models.notice_comment, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     };
     
     return User;

@@ -27,10 +27,10 @@ module.exports = (sequelize, DataTypes) => {
        * FreeBoard모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-       FreeComment.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+       FreeComment.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
        // articleId 칼럼은 작성자의 FreeBoard id값
-       FreeComment.belongsTo(models.FreeBoard, {as: "Location", foreignKey: "articleId", sourceKey: 'id'});
+       FreeComment.belongsTo(models.freeboard, {as: "Location", foreignKey: "articleId", sourceKey: 'id'});
     };
     
     return FreeComment;

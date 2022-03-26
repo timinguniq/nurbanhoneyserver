@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
        * Rank모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */
        // userId 칼럼은 작성자의 User id값
-       Rank.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+       Rank.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
     };
     
     return Rank;

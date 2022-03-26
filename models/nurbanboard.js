@@ -79,22 +79,22 @@ module.exports = (sequelize, DataTypes) => {
        * NurbanBoard모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-       NurbanBoard.belongsTo(models.User, {foreignKey: "userId", sourceKey: 'id'});
+       NurbanBoard.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanComment모델에 새로운 컬럼으로 추가한다.
        */      
-       NurbanBoard.hasOne(models.NurbanComment, {foreignKey: "articleId", sourceKey: 'id'});
+       NurbanBoard.hasOne(models.nurban_comment, {foreignKey: "articleId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanLike모델에 새로운 컬럼으로 추가한다.
        */
-       NurbanBoard.hasOne(models.NurbanLike, {foreignKey: "articleId", sourceKey: 'id'});
+       NurbanBoard.hasOne(models.nurban_like, {foreignKey: "articleId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanDislike모델에 새로운 컬럼으로 추가한다.
        */      
-       NurbanBoard.hasOne(models.NurbanDislike, {foreignKey: "articleId", sourceKey: 'id'});
+       NurbanBoard.hasOne(models.nurban_dislike, {foreignKey: "articleId", sourceKey: 'id'});
     };
     
     return NurbanBoard;
