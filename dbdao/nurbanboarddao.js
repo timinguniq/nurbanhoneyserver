@@ -1,5 +1,5 @@
-const NurbanBoard = require('../models').NurbanBoard;
-const User = require('../models').User;
+const NurbanBoard = require('../models').nurbanboard;
+const User = require('../models').user;
 const { Op } = require("sequelize");
 const { sequelize } = require('../models');
 const constObj = require('../config/const');

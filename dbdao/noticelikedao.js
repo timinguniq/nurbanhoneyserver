@@ -1,4 +1,4 @@
-const NoticeLike = require('../models').NoticeLike;
+const NoticeLike = require('../models').notice_like;
 const { sequelize } = require('../models');
 
 // create

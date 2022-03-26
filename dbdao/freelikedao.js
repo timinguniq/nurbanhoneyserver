@@ -1,4 +1,4 @@
-const FreeLike = require('../models').FreeLike;
+const FreeLike = require('../models').free_like;
 const { sequelize } = require('../models');
 
 // create

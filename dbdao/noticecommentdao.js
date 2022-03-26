@@ -1,6 +1,6 @@
-const NoticeComment = require('../models').NoticeComment;
-const User = require('../models').User;
-const Notice = require('../models').Notice;
+const NoticeComment = require('../models').notice_comment;
+const User = require('../models').user;
+const Notice = require('../models').notice;
 const { sequelize } = require('../models');
 
 exports.create = function create(content, noticeId, userId){

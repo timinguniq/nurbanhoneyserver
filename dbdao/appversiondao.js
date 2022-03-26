@@ -1,4 +1,4 @@
-const Appversion = require('../models').Appversion;
+const Appversion = require('../models').appversion;
 
 exports.create = function create(version, update){
     return Appversion.create({

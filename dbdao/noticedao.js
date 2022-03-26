@@ -1,5 +1,5 @@
-const Notice = require('../models').Notice;
-const User = require('../models').User;
+const Notice = require('../models').notice;
+const User = require('../models').user;
 
 exports.create = function create(title, content){
     return Notice.create({

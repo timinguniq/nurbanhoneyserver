@@ -1,4 +1,4 @@
-const NoticeDislike = require('../models').NoticeDislike;
+const NoticeDislike = require('../models').notice_dislike;
 const { sequelize } = require('../models');
 
 // create

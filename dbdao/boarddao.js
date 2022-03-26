@@ -1,4 +1,4 @@
-const Board = require('../models').Board;
+const Board = require('../models').board;
 
 exports.create = function create(name, address){
     return Board.create({

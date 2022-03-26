@@ -1,6 +1,6 @@
-const NurbanComment = require('../models').NurbanComment;
-const User = require('../models').User;
-const NurbanBoard = require('../models').NurbanBoard;
+const NurbanComment = require('../models').nurban_comment;
+const User = require('../models').user;
+const NurbanBoard = require('../models').nurbanboard;
 const { sequelize } = require('../models');
 
 exports.create = function create(content, articleId, userId){

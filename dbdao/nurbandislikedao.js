@@ -1,4 +1,4 @@
-const NurbanDislike = require('../models').NurbanDislike;
+const NurbanDislike = require('../models').nurban_dislike;
 const { sequelize } = require('../models');
 
 // create

@@ -1,5 +1,5 @@
-const FreeComment = require('../models').FreeComment;
-const User = require('../models').User;
+const FreeComment = require('../models').free_comment;
+const User = require('../models').user;
 const { sequelize } = require('../models');
 
 exports.create = function create(content, articleId, userId){

@@ -1,5 +1,5 @@
-const FreeBoard = require('../models').FreeBoard;
-const User = require('../models').User;
+const FreeBoard = require('../models').freeboard;
+const User = require('../models').user;
 const { Op } = require("sequelize");
 const { sequelize } = require('../models');
 const constObj = require('../config/const');

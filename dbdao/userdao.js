@@ -1,4 +1,4 @@
-const User = require('../models').User;
+const User = require('../models').user;
 const { sequelize } = require('../models');
 
 exports.create = function create(loginType, key, password, nickname){
