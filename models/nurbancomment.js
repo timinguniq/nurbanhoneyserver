@@ -1,6 +1,6 @@
 // 너반꿀 게시판 댓글 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NurbanComment = sequelize.define("nurban_comment", {
+    const nurban_comment = sequelize.define("nurban_comment", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -22,16 +22,16 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    NurbanComment.associate = models => {
+    nurban_comment.associate = models => {
       /**
        * NurbanBoard모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-       NurbanComment.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
+       nurban_comment.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
        // articleId 칼럼은 작성자의 NurbanBoard id값
-       NurbanComment.belongsTo(models.nurbanboard, {as: "Location", foreignKey: "articleId", sourceKey: 'id'});
+       nurban_comment.belongsTo(models.nurbanboard, {as: "Location", foreignKey: "articleId", sourceKey: 'id'});
     };
     
-    return NurbanComment;
+    return nurban_comment;
   };

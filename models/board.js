@@ -1,6 +1,6 @@
 // 앱에 모든 게시판 테이블
 module.exports = (sequelize, DataTypes) => {
-    const Board = sequelize.define("board", {
+    const board = sequelize.define("board", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -26,5 +26,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true, // createAt & updateAt 활성화
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
-    return Board;
+    return board;
   };

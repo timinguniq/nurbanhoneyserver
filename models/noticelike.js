@@ -1,6 +1,6 @@
 // 공지사항 좋아요 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NoticeLike = sequelize.define("notice_like", {
+    const notice_like = sequelize.define("notice_like", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -17,16 +17,16 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    NoticeLike.associate = models => {
+    notice_like.associate = models => {
       /**
        * NoticeLike모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-       NoticeLike.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
+       notice_like.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
        // noticeId 칼럼은 작성자의 Notice id값
-       NoticeLike.belongsTo(models.notice, {foreignKey: "noticeId", sourceKey: 'id'});
+       notice_like.belongsTo(models.notice, {foreignKey: "noticeId", sourceKey: 'id'});
     };
     
-    return NoticeLike;
+    return notice_like;
   };

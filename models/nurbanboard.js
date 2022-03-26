@@ -1,6 +1,6 @@
 // 너반꿀 게시판 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NurbanBoard = sequelize.define("nurbanboard", {
+    const nurbanboard = sequelize.define("nurbanboard", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -74,28 +74,28 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    NurbanBoard.associate = models => {
+    nurbanboard.associate = models => {
       /**
        * NurbanBoard모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-       NurbanBoard.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
+       nurbanboard.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanComment모델에 새로운 컬럼으로 추가한다.
        */      
-       NurbanBoard.hasOne(models.nurban_comment, {foreignKey: "articleId", sourceKey: 'id'});
+       nurbanboard.hasOne(models.nurban_comment, {foreignKey: "articleId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanLike모델에 새로운 컬럼으로 추가한다.
        */
-       NurbanBoard.hasOne(models.nurban_like, {foreignKey: "articleId", sourceKey: 'id'});
+       nurbanboard.hasOne(models.nurban_like, {foreignKey: "articleId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 NurbanDislike모델에 새로운 컬럼으로 추가한다.
        */      
-       NurbanBoard.hasOne(models.nurban_dislike, {foreignKey: "articleId", sourceKey: 'id'});
+       nurbanboard.hasOne(models.nurban_dislike, {foreignKey: "articleId", sourceKey: 'id'});
     };
     
-    return NurbanBoard;
+    return nurbanboard;
   };

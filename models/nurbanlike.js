@@ -1,6 +1,6 @@
 // 너반꿀 게시판 싫어요 테이블
 module.exports = (sequelize, DataTypes) => {
-    const NurbanLike = sequelize.define("nurban_like", {
+    const nurban_like = sequelize.define("nurban_like", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -17,16 +17,16 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    NurbanLike.associate = models => {
+    nurban_like.associate = models => {
       /**
        * NurbanBoard모델 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */
        // userId 칼럼은 작성자의 User id값
-       NurbanLike.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
+       nurban_like.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
        // articleId 칼럼은 작성자의 NurbanBoard id값
-       NurbanLike.belongsTo(models.nurban_board, {foreignKey: "articleId", sourceKey: 'id'});
+       nurban_like.belongsTo(models.nurban_board, {foreignKey: "articleId", sourceKey: 'id'});
     };
     
-    return NurbanLike;
+    return nurban_like;
   };

@@ -1,6 +1,6 @@
 // 자유 게시판 테이블
 module.exports = (sequelize, DataTypes) => {
-    const FreeBoard = sequelize.define("freeboard", {
+    const freeboard = sequelize.define("freeboard", {
       id: {
         type: DataTypes.INTEGER,
         defaultValue: DataTypes.INTEGER,
@@ -62,29 +62,29 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true, // timestamps 가 활성화 되어야 사용 가능 > deleteAt 옵션 on
     });
     
-    FreeBoard.associate = models => {
+    freeboard.associate = models => {
       /**
        * FreeBoard 안에 "userId라는 컬럼 이름"으로 User모델에 있는 "id값"을 새로운 컬럼으로 추가한다.
        */      
        // userId 칼럼은 작성자의 User id값
-      FreeBoard.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
+      freeboard.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
         
       /**
        * FreeBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 FreeComment모델에 새로운 컬럼으로 추가한다.
        */      
-      FreeBoard.hasOne(models.free_comment, {foreignKey: "articleId", sourceKey: 'id'});
+      freeboard.hasOne(models.free_comment, {foreignKey: "articleId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 FreeLike모델에 새로운 컬럼으로 추가한다.
        */      
-      FreeBoard.hasOne(models.free_like, {foreignKey: "articleId", sourceKey: 'id'});
+      freeboard.hasOne(models.free_like, {foreignKey: "articleId", sourceKey: 'id'});
 
       /**
        * NorbanBoard안에 있는 "id값"을 "articleId라는 컬럼 이름"으로 FreeDislike모델에 새로운 컬럼으로 추가한다.
        */      
-      FreeBoard.hasOne(models.free_dislike, {foreignKey: "articleId", sourceKey: 'id'});
+      freeboard.hasOne(models.free_dislike, {foreignKey: "articleId", sourceKey: 'id'});
     
     };
     
-    return FreeBoard;
+    return freeboard;
   };
