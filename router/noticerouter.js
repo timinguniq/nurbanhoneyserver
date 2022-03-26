@@ -52,10 +52,10 @@ router.get('/article', async (req, res) => {
         let dislikeCount = result.dislikeCount;
         let updatedAt = result.updatedAt;
         let myRating = null;
-        let authorUserId = result.User.dataValues.userId;
-        let badge = result.User.badge;
-        let nickname = result.User.nickname;
-        let insignia = result.User.dataValues.insignia;
+        let authorUserId = result.user.dataValues.userId;
+        let badge = result.user.badge;
+        let nickname = result.user.nickname;
+        let insignia = result.user.dataValues.insignia;
         insignia = JSON.parse(insignia);
 
         if(userId !== null && userId !== undefined){
