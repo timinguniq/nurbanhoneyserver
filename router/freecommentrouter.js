@@ -32,9 +32,9 @@ router.get('/', async (req, res) => {
 
         for(var i = 0 ; i < result.length ; i++){
             // string으로 안 가고 array로 가게 수정하는 코드
-            result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
-            if(result[i].dataValues.User.dataValues.insignia === ""){
-                result[i].dataValues.User.dataValues.insignia = [];
+            result[i].dataValues.user.dataValues.insignia = JSON.parse(result[i].dataValues.user.dataValues.insignia);
+            if(result[i].dataValues.user.dataValues.insignia === ""){
+                result[i].dataValues.user.dataValues.insignia = [];
             }
             //
 
@@ -93,9 +93,9 @@ router.get('/detail', async (req, res) => {
         let result = await freeCommentDao.read(commentId);
         
         // string으로 안 가고 array로 가게 수정하는 코드
-        result.dataValues.User.dataValues.insignia = JSON.parse(result.dataValues.User.dataValues.insignia);
-        if(result.dataValues.User.dataValues.insignia === ""){
-            result.dataValues.User.dataValues.insignia = [];
+        result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);
+        if(result.dataValues.user.dataValues.insignia === ""){
+            result.dataValues.user.dataValues.insignia = [];
         }
         //
 
