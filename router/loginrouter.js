@@ -118,7 +118,7 @@ router.post('/', async (req, res) => {
         // 데이터베이스에 생성 후 토큰 보내기
         try{
             let nickname = constObj.defaultNickname + userCount;
-            let result = await userDao.create(inputLoginType, inputKey, inputPassword, nickname);
+            let result = await userDao.create("", inputKey, inputPassword, nickname);
             if(result !== null){
                 let nameList = ["token", "userId"];
                 let valueList = [token, userId];
@@ -139,8 +139,19 @@ router.post('/token', async (req, res) => {
     // token 만드는 코드
     let token = createJwtToken(inputKey);
 
-    resultObject = createJson.one("token", token);
-    res.status(201).json(resultObject);    
+    // 데이터베이스에 생성 후 토큰 보내기
+    try{
+        let result = await userDao.create("test", inputKey, "1111", "test");
+        if(result !== null){
+            let nameList = ["token", "userId"];
+            let valueList = [token, userId];
+            resultObject = createJson.multi(nameList, valueList);
+            res.status(201).json(resultObject);
+        }
+    }catch(err){
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
 });
 
 module.exports = router;
