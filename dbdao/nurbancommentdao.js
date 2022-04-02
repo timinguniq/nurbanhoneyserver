@@ -34,7 +34,7 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
     return NurbanComment.findAll({
         include: [
             // ['id', 'aritcleId'] === id AS articleId
-            {model: NurbanBoard, as: 'Location', attributes: [['id', 'articleId'], 'title']}
+            {model: NurbanBoard, as: 'location', attributes: [['id', 'articleId'], 'title']}
         ],
         attributes: ['id', 'content', 'createdAt'],
         offset: Number(offset),

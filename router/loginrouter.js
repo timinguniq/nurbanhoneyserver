@@ -141,11 +141,9 @@ router.post('/token', async (req, res) => {
 
     // 데이터베이스에 생성 후 토큰 보내기
     try{
-        let result = await userDao.create("test", inputKey, "1111", "test");
+        let result = await userDao.create("test", inputKey, "1111", Math.random().toString());
         if(result !== null){
-            let nameList = ["token", "userId"];
-            let valueList = [token, userId];
-            resultObject = createJson.multi(nameList, valueList);
+            resultObject = createJson.one("token", token);
             res.status(201).json(resultObject);
         }
     }catch(err){

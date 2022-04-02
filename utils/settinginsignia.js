@@ -38,7 +38,7 @@ module.exports = async (key, insigniaOwn, point, totalLossCut, myArticleNumber, 
     }else if(myCommentNumber >= 100){
         if(!insignia.includes(constObj.insigniaComment100)){
             insignia.push(constObj.insigniaComment100);       
-        }   
+        }
     }
 
     // 손절액이 50만, 100만, 1000만

@@ -6,8 +6,8 @@ let createJwtToken = require('../utils/createjwttoken');
 let extractKey = require('../utils/extractkey');
 
 // token valid
-router.post('/exam', async (req, res) => {
-    let token = req.body.token;
+router.get('/exam', async (req, res) => {
+    let token = req.headers.token;
     
     let resultObject = {};
     let contentObejct = new Object();

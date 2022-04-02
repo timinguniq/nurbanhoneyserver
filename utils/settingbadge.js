@@ -19,7 +19,7 @@ module.exports = async (key, point) => {
         badge = constObj.badge5;    
     }else if(point <= 500){
         badge = constObj.badge6;    
-    }else if(point <= 550){
+    }else{
         badge = constObj.badge7;
     }
     

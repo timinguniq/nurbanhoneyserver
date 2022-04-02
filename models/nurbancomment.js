@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
        nurban_comment.belongsTo(models.user, {foreignKey: "userId", sourceKey: 'id'});
 
        // articleId 칼럼은 작성자의 NurbanBoard id값
-       nurban_comment.belongsTo(models.nurbanboard, {as: "Location", foreignKey: "articleId", sourceKey: 'id'});
+       nurban_comment.belongsTo(models.nurbanboard, {as: "location", foreignKey: "articleId", sourceKey: 'id'});
     };
     
     return nurban_comment;
