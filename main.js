@@ -17,6 +17,8 @@ var nurbanLikeAuthRouter = require('./router/nurbanlikeauthrouter');
 var nurbanDislikeAuthRouter = require('./router/nurbandislikeauthrouter');
 var profileAuthRouter = require('./router/profileauthrouter');
 var noticeRouter = require('./router/noticerouter');
+var noticeCommentRouter = require('./router/noticecommentrouter');
+var noticeCommentAuthRouter = require('./router/noticecommentauthrouter');
 var noticeLikeAuthRouter = require('./router/noticelikeauthrouter');
 var noticeDislikeAuthRouter = require('./router/noticedislikeauthrouter');
 var rankRouter = require('./router/rankrouter');
@@ -126,7 +128,9 @@ app.use('/board/nurban/article/comment', nurbanCommentRouter);
 // rank router
 app.use('/rank', rankRouter);
 // notice router
-app.use('/notice', noticeRouter);
+app.use('/board/notice', noticeRouter);
+// noticecomment router
+app.use('/board/notice/article/comment', noticeCommentRouter);
 // popularboard router
 app.use('/board/popular', popularBoardRouter);
 // board router
@@ -151,10 +155,12 @@ app.use('/board/nurban/article/like', nurbanLikeAuthRouter);
 app.use('/board/nurban/article/dislike', nurbanDislikeAuthRouter);
 // profile
 app.use('/profile', profileAuthRouter);
+// noticecomment router
+app.use('/board/notice/article/comment', noticeCommentAuthRouter);
 // noticelike router
-app.use('/notice/detail/like', noticeLikeAuthRouter);
+app.use('/board/notice/article/like', noticeLikeAuthRouter);
 // noticedislike router
-app.use('/notice/detail/dislike', noticeDislikeAuthRouter);
+app.use('/board/notice/article/dislike', noticeDislikeAuthRouter);
 // freeboard router
 app.use('/board/free/article', freeBoardAuthRouter);
 // freecomment router

@@ -49,6 +49,11 @@ exports.updateCount = function update(id, count){
     return Notice.update({count: count}, {where: {id: id}})
 }
 
+// Notice commentCount 업데이트
+exports.updateCommentCount = function update(id, commentCount){
+    return Notice.update({commentCount: commentCount}, {where: {id: id}})
+}
+
 // Notice likeCount 업데이트
 exports.updateLikeCount = function update(id, likeCount){
     return Notice.update({likeCount: likeCount}, {where: {id: id}})

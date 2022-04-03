@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
         comment: "조회수",
       },
+      commentCount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        comment: "댓글 갯수",
+      },
       likeCount: {
         type: DataTypes.INTEGER,
         allowNull: false,

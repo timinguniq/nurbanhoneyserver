@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const nurbanCommentDao = require('../dbdao/nurbancommentdao');
-const nurbanBoardDao = require('../dbdao/nurbanboarddao');
+const noticeCommentDao = require('../dbdao/noticecommentdao');
+const noticeDao = require('../dbdao/noticedao');
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 
@@ -9,7 +9,7 @@ let inputErrorHandler = require('../utils/inputerrorhandler');
 
 // 댓글 리스트 읽기
 router.get('/', async (req, res) => {
-    let articleId = req.query.articleId
+    let noticeId = req.query.noticeId
     let offset = req.query.offset;
     let limit = req.query.limit;
 
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     let resultObject = new Object();
     
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [articleId, offset, limit];
+    let inputArray = [noticeId, offset, limit];
     if(await inputErrorHandler(inputArray)){
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
@@ -26,15 +26,15 @@ router.get('/', async (req, res) => {
 
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
-        let result = await nurbanCommentDao.readCount(articleId, offset, limit);
+        let result = await noticeCommentDao.readCount(noticeId, offset, limit);
  
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
             // string으로 안 가고 array로 가게 수정하는 코드
-            result[i].dataValues.User.dataValues.insignia = JSON.parse(result[i].dataValues.User.dataValues.insignia);
-            if(result[i].dataValues.User.dataValues.insignia === ""){
-                result[i].dataValues.User.dataValues.insignia = [];
+            result[i].dataValues.user.dataValues.insignia = JSON.parse(result[i].dataValues.user.dataValues.insignia);
+            if(result[i].dataValues.user.dataValues.insignia === ""){
+                result[i].dataValues.user.dataValues.insignia = [];
             }
             //
             contentObjectList.push(result[i].dataValues);
@@ -49,12 +49,12 @@ router.get('/', async (req, res) => {
 
 // 댓글 갯수 얻는 통신
 router.get('/count', async (req, res) => {
-    let articleId = req.query.articleId;
+    let noticeId = req.query.noticeId;
 
     let resultObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [articleId];
+    let inputArray = [noticeId];
     if(await inputErrorHandler(inputArray)){
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
@@ -62,7 +62,7 @@ router.get('/count', async (req, res) => {
     }
 
     try{
-        let result = await nurbanBoardDao.readForId(articleId);
+        let result = await noticeDao.readForId(noticeId);
         let commentCount = result.commentCount;
 
         resultObject = createJson.result(commentCount);
@@ -89,12 +89,12 @@ router.get('/detail', async (req, res) => {
 
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
-        let result = await nurbanCommentDao.read(commentId);
+        let result = await noticeCommentDao.read(commentId);
 
         // string으로 안 가고 array로 가게 수정하는 코드
-        result.dataValues.User.dataValues.insignia = JSON.parse(result.dataValues.User.dataValues.insignia);
-        if(result.dataValues.User.dataValues.insignia === ""){
-            result.dataValues.User.dataValues.insignia = [];
+        result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);
+        if(result.dataValues.user.dataValues.insignia === ""){
+            result.dataValues.user.dataValues.insignia = [];
         }
         //
 
