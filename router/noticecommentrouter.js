@@ -68,7 +68,7 @@ router.get('/count', async (req, res) => {
         resultObject = createJson.result(commentCount);
         res.status(200).json(resultObject);
     }catch(err){
-        resultObject = createJson.error("article is not exist");
+        resultObject = createJson.error("notice is not exist");
         res.status(500).json(resultObject);
     }
 });

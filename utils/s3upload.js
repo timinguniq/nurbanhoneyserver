@@ -26,7 +26,7 @@ module.exports = async (bucketName, folderName, imageFileName, bodyBuffer, callb
             return callback(resultObject)
         }else{
             // 에러가 없음
-            let resultObject = createJson.result(data.location);
+            let resultObject = createJson.result(data.Location);
             return callback(resultObject)
         }
     });

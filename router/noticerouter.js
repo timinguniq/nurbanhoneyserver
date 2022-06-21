@@ -126,7 +126,7 @@ router.get('/', async (req, res) => {
 });
 
 // 공지사항 내 투표 보는 메소드
-router.get('/myrating', async (req, res) => {
+router.get('/article/myrating', async (req, res) => {
     let id = req.query.noticeId;
     let token = req.headers.token;
     let userId = null;
