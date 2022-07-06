@@ -58,6 +58,11 @@ exports.updateInsigniaOwn = function update(key, insigniaOwn){
     return User.update({insigniaOwn: insigniaOwn}, {where: {key: key}})    
 }
 
+// User bookmark 업데이트
+exports.updateBookmark = function update(key, bookmark){
+    return User.update({bookmark: bookmark}, {where: {key: key}})
+}
+
 // User totalLossCut 업데이트
 exports.updateTotalLossCut = function update(key, totalLossCut){
     return User.update({totalLossCut: totalLossCut}, {where: {key: key}})    
