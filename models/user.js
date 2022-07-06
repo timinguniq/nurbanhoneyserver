@@ -64,6 +64,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         comment: "휘장(전체 소장한 휘장)"
       },
+      bookmark: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        comment: "휘장(전체 소장한 휘장)"
+      },
       totalLossCut: {
         type: DataTypes.BIGINT,
         allowNull: true,
