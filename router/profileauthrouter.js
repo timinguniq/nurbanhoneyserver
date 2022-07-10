@@ -283,5 +283,13 @@ router.delete('/withdrawal', async (req, res) => {
     }
 })
 
+// 회원탈퇴
+router.get('/bookmark', async (req, res) => {
+    let id = req.query.id;
+ 
+    let contentObject = new Object();
+    let resultObject = new Object();
+})
+
 
 module.exports = router;
