@@ -283,12 +283,41 @@ router.delete('/withdrawal', async (req, res) => {
     }
 })
 
-// 회원탈퇴
+// 북마크 데이터 가져오는 메소드
+// TODO : 북마크 임시로 해놓은 거 나중에 테스트 
 router.get('/bookmark', async (req, res) => {
-    let id = req.query.id;
- 
-    let contentObject = new Object();
+    let contentObject = new Object()
     let resultObject = new Object();
+
+    //TODO: 여기서 부터 시작 해 됨.
+    let token = req.headers.token;
+
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
+    // 키에서 userId 값 추출
+    let userId = await extractUserId(key);
+
+    try{
+        let result = await userDao.read(key);
+        console.log("result", result);
+        let id = result.id;
+        let bookmark = result.bookmark;
+
+        // string으로 안 가고 array로 가게 수정하는 코드
+        bookmark = JSON.parse(bookmark);
+        if(bookmark === ""){
+            bookmark = [];
+        }
+        
+        let nameList = ["id", "bookmark"];
+        let valueList = [id, bookmark];
+        resultObject = createJson.multi(nameList, valueList);
+        res.status(200).json(resultObject);
+    }catch(err){
+        console.log("err", err);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
 })
 
 

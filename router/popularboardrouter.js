@@ -43,9 +43,9 @@ router.get('/', async (req, res) => {
         for(var i = 0 ; i < nurbanBoardResult.length ; i++){
             nurbanBoardResult[i].dataValues.board = constObj.nurbanboard;
             // string으로 안 가고 array로 가게 수정하는 코드
-            nurbanBoardResult[i].dataValues.User.dataValues.insignia = JSON.parse(nurbanBoardResult[i].dataValues.User.dataValues.insignia);
-            if(nurbanBoardResult[i].dataValues.User.dataValues.insignia === ""){
-                nurbanBoardResult[i].dataValues.User.dataValues.insignia = [];
+            nurbanBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(nurbanBoardResult[i].dataValues.user.dataValues.insignia);
+            if(nurbanBoardResult[i].dataValues.user.dataValues.insignia === ""){
+                nurbanBoardResult[i].dataValues.user.dataValues.insignia = [];
             }
             //
             contentObjectList.push(nurbanBoardResult[i].dataValues);
@@ -55,9 +55,9 @@ router.get('/', async (req, res) => {
         for(var i = 0 ; i < freeBoardResult.length ; i++){
             freeBoardResult[i].dataValues.board = constObj.freeboard;
             // string으로 안 가고 array로 가게 수정하는 코드
-            freeBoardResult[i].dataValues.User.dataValues.insignia = JSON.parse(freeBoardResult[i].dataValues.User.dataValues.insignia);
-            if(freeBoardResult[i].dataValues.User.dataValues.insignia === ""){
-                freeBoardResult[i].dataValues.User.dataValues.insignia = [];
+            freeBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(freeBoardResult[i].dataValues.user.dataValues.insignia);
+            if(freeBoardResult[i].dataValues.user.dataValues.insignia === ""){
+                freeBoardResult[i].dataValues.user.dataValues.insignia = [];
             }
             //
             contentObjectList.push(freeBoardResult[i].dataValues);
