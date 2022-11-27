@@ -171,6 +171,6 @@ app.use('/board/free/article/like', freeLikeAuthRouter);
 app.use('/board/free/article/dislike', freeDislikeAuthRouter);
 
 
-app.listen(8080, function(){
+app.listen(8128, function(){
     console.log('Example app listening on port 8080!')
 });
