@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         comment: "id",
       },
+      type: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        comment: "타입형, 공지사항 0 기본 게시판 1 너반꿀 2",
+      },
       name: {
         type: DataTypes.STRING(100),
         allowNull: false,
