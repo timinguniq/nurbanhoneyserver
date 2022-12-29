@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       point: {
         type: DataTypes.INTEGER,
-        defaultValue: DataTypes.INTEGER,
+        defaultValue: 0,
         allowNull: false,
         comment: "포인트 (글쓰기나 베팅을 통한 포인트 적립)",
       },
