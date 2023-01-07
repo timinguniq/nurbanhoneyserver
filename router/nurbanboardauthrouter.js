@@ -82,7 +82,7 @@ router.patch('/', async (req, res) => {
     let title = req.body.title;
     let lossCut = req.body.lossCut;
     let content = req.body.content;
-    
+    console.log('req.header: ', req.headers);
     let contentObject = new Object();
     let resultObject = new Object();
 

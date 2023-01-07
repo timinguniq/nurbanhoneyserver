@@ -14,6 +14,7 @@ module.exports = (token) => {
             return false;
         }
     }catch(e){
+
         return false;
     }
     

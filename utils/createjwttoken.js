@@ -9,7 +9,7 @@ module.exports = (key) => {
     }, 
     secretObj.secret, // 비밀키
     {
-        expiresIn: '20m' // 유효기간
+        expiresIn: '365d' // 유효기간
     })
     return token
 }
