@@ -39,7 +39,8 @@ router.post('/', async (req, res) => {
         return res.end();
     }
 
-    let token = req.headers.token;
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
