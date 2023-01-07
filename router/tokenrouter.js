@@ -7,7 +7,8 @@ let extractKey = require('../utils/extractkey');
 
 // token valid
 router.get('/exam', async (req, res) => {
-    let token = req.headers.token;
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
     
     let resultObject = {};
     let contentObejct = new Object();
