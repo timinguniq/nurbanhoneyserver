@@ -16,7 +16,8 @@ const constObj = require('../config/const');
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
 router.get('/', async (req, res) => {
-    let token = req.headers.token;
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
