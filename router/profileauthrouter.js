@@ -82,7 +82,8 @@ router.patch('/edit', async (req, res) => {
     let nickname = req.body.nickname;
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
-    let token = req.headers.token;
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
     let insigniaShowArr = [];
     
     if(insigniaShow === undefined){
