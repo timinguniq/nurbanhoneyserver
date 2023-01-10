@@ -135,7 +135,7 @@ router.delete('/', async (req, res) => {
         return res.end();
     }
    
-    let auth = req.header.authorization;
+    let auth = req.headers.authorization;
     let token = auth.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
