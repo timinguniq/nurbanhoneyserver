@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 
     // 키값으로 userId값 가져오기
     userId = await extractUserId(key);
-    
+
     if(userId === null){
         console.log("userId error")
     }
@@ -111,7 +111,7 @@ router.post('/', async (req, res) => {
 
 // 좋아요 삭제
 router.delete('/', async (req, res) => {
-    let articleId = req.query.articleId;
+    let articleId = req.body.articleId;
     let userId = "";
 
     let contentObject = new Object();
