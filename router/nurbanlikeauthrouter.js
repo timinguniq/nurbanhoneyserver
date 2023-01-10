@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 
     // 키값으로 userId값 가져오기
     userId = await extractUserId(key);
-
+    console.log('like post userId : ', userId);
     if(userId === ""){
         console.log("userId error")
     }

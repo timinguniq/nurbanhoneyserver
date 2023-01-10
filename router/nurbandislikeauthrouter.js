@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
 
 // 싫어요 삭제
 router.delete('/', async (req, res) => {
-    let articleId = req.query.articleId;
+    let articleId = req.body.articleId;
     let userId = "";
 
     let contentObject = new Object();
