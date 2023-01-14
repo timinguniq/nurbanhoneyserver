@@ -257,7 +257,7 @@ router.get('/mycomment', async (req, res) => {
 
 // 회원탈퇴
 router.delete('/withdrawal', async (req, res) => {
-    let id = req.query.id;
+    let id = req.body.id;
  
     let contentObject = new Object();
     let resultObject = new Object();
