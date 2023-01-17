@@ -17,7 +17,7 @@ module.exports = async () => {
 
     try{
         let rankResult = await rankDao.read();
-        console.log('rankResult : ', rankResult);
+        console.log('rankResult : ', String(rankResult));
         if(rankResult === null){
             console.log('rankResult empty');
             for(var i = 0 ; i < contentObjectList.length ; i++){
