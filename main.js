@@ -66,7 +66,7 @@ sequelize.sync({ force: false })
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 
-const job = schedule.scheduleJob('1 0 0 0 * *', createRank);
+const job = schedule.scheduleJob('* * * * * 30', createRank);
 
 app.get('/', (req, res) => {
     res.send('Hello world1')
