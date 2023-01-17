@@ -16,6 +16,10 @@ module.exports = async () => {
     }
 
     try{
+        let rankResult = await rankDao.read();
+        console.log('rankResult : ', rankResult);
+
+
         let deleteResult = await rankDao.destoryAll();
         console.log("delete Result : ", deleteResult);
         if(deleteResult === 1){
