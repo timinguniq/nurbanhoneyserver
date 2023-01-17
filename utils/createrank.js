@@ -17,8 +17,7 @@ module.exports = async () => {
 
     try{
         let rankResult = await rankDao.read();
-        let sRankResult = String(rankResult);
-        if(sRankResult === ''){
+        if(rankResult.length === 0){
             console.log('rankResult empty');
             for(var i = 0 ; i < contentObjectList.length ; i++){
                 let result = await rankDao.create(contentObjectList[i].sumLossCut, 
