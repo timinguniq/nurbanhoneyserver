@@ -27,6 +27,7 @@ module.exports = async () => {
             console.log('rankResult not empty');
             let deleteResult = await rankDao.destoryAll();
             console.log("delete Result : ", deleteResult);
+            
             if(deleteResult === 1){
                 for(var i = 0 ; i < contentObjectList.length ; i++){
                     let result = await rankDao.create(contentObjectList[i].sumLossCut, 
@@ -35,7 +36,7 @@ module.exports = async () => {
             }     
         }   
     }catch(err){
-        console.log("rankDao destroyAll error")
+        console.log("rankDao destroyAll error : ", err)
     }
 
     console.log("1분 마다 실행");
