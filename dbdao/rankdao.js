@@ -43,8 +43,10 @@ exports.destoryAll = function destory() {
       })
       .then(() => {
         console.log('All records in MyModel have been deleted.');
+        return 1;
       })
       .catch(err => {
         console.error('Error deleting records:', err);
+        return 0;
       });
 } 
