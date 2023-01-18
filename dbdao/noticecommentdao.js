@@ -23,7 +23,7 @@ exports.readCount = function read(noticeId, offset = 0, limit = 10){
         offset: Number(offset),
         limit: Number(limit),
         where: {
-            id: noticeId
+            noticeId: noticeId
         },
         order: [['id', 'DESC']]
     })
