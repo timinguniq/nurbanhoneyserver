@@ -13,7 +13,7 @@ exports.create = function create(content, noticeId, userId){
 }
  
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.readCount = function read(articleId, offset = 0, limit = 10){
+exports.readCount = function read(noticeId, offset = 0, limit = 10){
         return NoticeComment.findAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -23,7 +23,7 @@ exports.readCount = function read(articleId, offset = 0, limit = 10){
         offset: Number(offset),
         limit: Number(limit),
         where: {
-            articleId: articleId
+            id: noticeId
         },
         order: [['id', 'DESC']]
     })
