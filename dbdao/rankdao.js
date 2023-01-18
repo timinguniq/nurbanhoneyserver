@@ -38,6 +38,6 @@ exports.readPopup = function read(offset = 0, limit = 3){
 exports.destoryAll = function destory(id){
     // 전체 데이터 삭제
     return Rank.destory({
-            truncate: true
+        truncate: true
         })
 } 
