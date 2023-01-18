@@ -71,10 +71,10 @@ router.post('/', async (req, res) => {
         return res.end();
     }
 
-    // 너반꿀 게시판 테이블에 commentCount 증가하는 코드
+    // 공지사항 테이블에 commentCount 증가하는 코드
     try{
         console.log(`commentCount : ${commentCount}`);
-        let result = await noticeDao.updateCommentCount(articleId, ++commentCount)
+        let result = await noticeDao.updateCommentCount(noticeId, ++commentCount)
         console.log(`commentCount result : ${result}`)    
     }catch(err){
         console.log(`post create comment update result err : ${err}`);
