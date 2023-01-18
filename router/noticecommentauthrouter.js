@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 
     // commentCount 추출하기
     try{
-        let result = await noticeDao.readForId(articleId);
+        let result = await noticeDao.readForId(noticeId);
         console.log(`post result nurbanBoardDao : ${JSON.stringify(result)}`);
         commentCount = result.commentCount;
     }catch(err){
