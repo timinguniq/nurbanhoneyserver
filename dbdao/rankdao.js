@@ -1,6 +1,5 @@
 const Rank = require('../models').rank;
 const User = require('../models').user;
-const sequelize = required('sequelize');
 
 exports.create = function create(totalLossCut, totalLikeCount, userId){
     return Rank.create({
