@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
 // 팝업 랭킹 데터 받아오는 통신
 router.get('/popup', async (req, res) => {
     let offset = req.query.offset;
-    let limit = req.query.offset;
+    let limit = req.query.limit;
 
     let contentObject = new Object();
     let resultObject = new Object();
