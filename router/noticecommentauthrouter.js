@@ -121,7 +121,7 @@ router.patch('/', async (req, res) => {
         //
 
         if(result !== null){
-            let commentUserId = result.dataValues.userId;
+            let commentUserId = result.dataValues.user.dataValues.userId;
             console.log("commentUserId1 : ", result.dataValues);
 
             console.log("commentUserId : ", commentUserId);
