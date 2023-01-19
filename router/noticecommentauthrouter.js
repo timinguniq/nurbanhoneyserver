@@ -122,9 +122,6 @@ router.patch('/', async (req, res) => {
 
         if(result !== null){
             let commentUserId = result.dataValues.user.dataValues.userId;
-            console.log("commentUserId1 : ", result.dataValues);
-
-            console.log("commentUserId : ", commentUserId);
             if(userId !== commentUserId){
                 resultObject = createJson.result("noticecomment_updated_fail");
                 return res.status(401).json(resultObject);
@@ -158,8 +155,8 @@ router.patch('/', async (req, res) => {
 
 // 댓글 삭제
 router.delete('/', async (req, res) => {
-    let id = req.query.id;
-    let noticeId = req.query.noticeId;
+    let id = req.body.id;
+    let noticeId = req.body.noticeId;
     let commentCount = 0;
 
     let contentObject = new Object();
