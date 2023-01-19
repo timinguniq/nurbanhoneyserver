@@ -122,6 +122,8 @@ router.patch('/', async (req, res) => {
 
         if(result !== null){
             let commentUserId = result.dataValues.userId;
+            console.log("commentUserId1 : ", result.dataValues);
+
             console.log("commentUserId : ", commentUserId);
             if(userId !== commentUserId){
                 resultObject = createJson.result("noticecomment_updated_fail");
