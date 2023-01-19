@@ -7,7 +7,6 @@ module.exports = async (noticeId, resultObject, res) => {
     let dislikeCount = -1
     try{
         let result = await noticeDislikeDao.readCount(noticeId);
-        console.log(result.dataValues.n_ids)
         dislikeCount = result[0].dataValues.n_ids;
     }catch(err){
         console.log(err);

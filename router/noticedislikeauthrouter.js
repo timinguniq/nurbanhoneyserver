@@ -27,7 +27,10 @@ router.post('/', async (req, res) => {
     }
 
     let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = null;
+    if(auth !== null && auth !== undefined){
+        token = auth.replace('Bearer ', '');
+    }
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
@@ -95,7 +98,10 @@ router.delete('/', async (req, res) => {
     }
 
     let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = null;
+    if(auth !== null && auth !== undefined){
+        token = auth.replace('Bearer ', '');
+    }
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
