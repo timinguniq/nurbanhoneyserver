@@ -100,6 +100,42 @@ router.patch('/', async (req, res) => {
         return res.end();
     }
 
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
+
+    // 토큰에서 키 값 추출
+    let key = extractKey(token);
+
+    // 키값으로 userId 값 얻어내기 
+    let userId = await extractUserId(key);
+
+    // 컨텐츠, 글id, userId, profile, nickname, insignia
+    try{
+        let result = await noticeCommentDao.read(id);
+
+        // string으로 안 가고 array로 가게 수정하는 코드
+        result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);
+        if(result.dataValues.user.dataValues.insignia === ""){
+            result.dataValues.user.dataValues.insignia = [];
+        }
+        //
+
+        if(result !== null){
+            let commentUserId = result.dataValues.user.userId;
+            console.log("commentUserId : ", commentUserId);
+            if(userId !== commentUserId){
+                resultObject = createJson.result("noticecomment_updated_fail");
+                return res.status(401).json(resultObject);
+            }
+        }else{
+            res.status(700).json("comment is not exist");
+        }
+    }catch(err){
+        console.log(`err : ${err}`);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+    }
+
     try{
         let result = await noticeCommentDao.updateContent(id, content);
         // result 1이면 성공 0이면 실패
