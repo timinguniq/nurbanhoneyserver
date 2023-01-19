@@ -80,7 +80,7 @@ router.post('/', async (req, res) => {
 
 // 싫어요 삭제
 router.delete('/', async (req, res) => {
-    let noticeId = req.query.noticeId;
+    let noticeId = req.body.noticeId;
     let userId = "";
 
     let contentObject = new Object();
