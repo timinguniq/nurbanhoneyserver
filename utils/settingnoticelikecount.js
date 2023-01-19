@@ -8,8 +8,9 @@ module.exports = async (noticeId, resultObject, res) => {
     try{
         let result = await noticeLikeDao.readCount(noticeId);
         console.log('noticelikeDao : ', result);
-        console.log(result.dataValues.n_ids)
+        console.log(result[0].dataValues.n_ids)
         likeCount = result[0].dataValues.n_ids;
+        console.log('noticelike : ', likeCount);
     }catch(err){
         console.log(err);
     }
@@ -18,6 +19,7 @@ module.exports = async (noticeId, resultObject, res) => {
     try{
         if(likeCount !== -1){
             let result = await noticeDao.updateLikeCount(noticeId, likeCount);
+            console.log('noticelike result : ', result);
         }        
     }catch(err){
         resultObject = createJson.error(err);
