@@ -26,7 +26,8 @@ router.post('/', async (req, res) => {
         return res.end();
     }
 
-    let token = req.headers.token;
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
@@ -63,7 +64,6 @@ router.post('/', async (req, res) => {
     try{
         if(noticeDislikeResult !== null && noticeDislikeResult !== undefined){
             // 생성 성공
-
             resultObject = createJson.result("notice_dislike_posted");
             res.status(201).json(resultObject);
         }else{
@@ -94,7 +94,8 @@ router.delete('/', async (req, res) => {
         return res.end();
     }
 
-    let token = req.headers.token;
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
