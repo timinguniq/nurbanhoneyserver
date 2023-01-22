@@ -10,7 +10,7 @@ router.use((req, res, next) => {
     //let token = req.headers.token;
     let auth = req.headers.authorization;
     console.log('auth : ', auth);
-    if(auth === null && auth === undefined){
+    if(auth === null || auth === undefined){
         let resultObject = createJson.error("token_not_exist");
         return res.status(403).json(resultObject);
     }
