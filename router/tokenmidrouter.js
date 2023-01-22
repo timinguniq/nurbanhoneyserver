@@ -11,11 +11,12 @@ router.use((req, res, next) => {
     let auth = req.headers.authorization;
     let token = auth.replace('Bearer ', '');
     console.log('token : ', token);
+    console.log('auth : ', auth);
     if(auth === null && auth === undefined){
         let resultObject = createJson.error("token_not_exist");
         res.status(403).json(resultObject);
     }
-    
+
     if(isValidToken(token)){
         // 토큰이 유효하다
         next();
