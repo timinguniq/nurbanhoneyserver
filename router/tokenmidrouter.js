@@ -17,7 +17,6 @@ router.use((req, res, next) => {
     let token = auth.replace('Bearer ', '');
     console.log('token : ', token);
 
-
     if(isValidToken(token)){
         // 토큰이 유효하다
         next();
