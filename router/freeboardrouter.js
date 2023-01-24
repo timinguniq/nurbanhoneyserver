@@ -14,7 +14,8 @@ let preDate = 0;
 // 글 상세 데이터 받아오는 메소드
 router.get('/article', async (req, res) => {
     let id = req.query.id;
-    let token = req.headers.token;
+    let auth = req.headers.authorization;
+    let token = auth.replace('Bearer ', '');
     let userId = null;
 
     if(token !== null && token !== undefined){
