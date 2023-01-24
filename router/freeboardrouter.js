@@ -15,7 +15,10 @@ let preDate = 0;
 router.get('/article', async (req, res) => {
     let id = req.query.id;
     let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = null;
+    if(auth !== null && auth !== undefined){
+        token = auth.replace('Bearer ', '');
+    }
     let userId = null;
 
     if(token !== null && token !== undefined){
