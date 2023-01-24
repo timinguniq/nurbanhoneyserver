@@ -14,11 +14,11 @@ let preDate = 0;
 // 글 상세 데이터 받아오는 메소드
 router.get('/article', async (req, res) => {
     let id = req.query.id;
-    let auth = req.headers.authorization;
-    let token = null;
-    if(auth !== null && auth !== undefined){
-        token = auth.replace('Bearer ', '');
-    }
+    //let auth = req.headers.authorization;
+    let token = req.headers.authorization.replace('Bearer ', '');
+    //if(auth !== null && auth !== undefined){
+    //   token = auth.replace('Bearer ', '');
+    //}
     let userId = null;
 
     if(token !== null && token !== undefined){
