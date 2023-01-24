@@ -144,8 +144,6 @@ router.get('/', async (req, res) => {
 
         console.log("contentObjectArrayList", contentObjectList);
 
-        //console.log(`result.rows : ${result.rows}`);
-        //resultObject = createJson.one("freeboard_list_result", contentObjectList);
         res.status(200).json(contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
