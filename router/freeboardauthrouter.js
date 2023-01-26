@@ -112,7 +112,7 @@ router.patch('/', async (req, res) => {
 router.delete('/', async (req, res) => {
     let id = req.body.id;
     let uuid = req.body.uuid;
-    let token = req.headers.authorization?.replace('Bearer ', '').trim();
+    let token = req.headers.authorization?.replace('Bearer ', '');
     let key = null;
     let userId = null;
 
@@ -130,9 +130,10 @@ router.delete('/', async (req, res) => {
     if(token !== null && token !== undefined){      
         // 토큰에서 키 값 추출
         key = extractKey(token);
-
+        console.log('key delete : ', key);
         // 키값으로 userId값 가져오기
         userId = await extractUserId(key);
+        console.log('userId delete : ', userId);
     }
 
     let deleteResult = null;
