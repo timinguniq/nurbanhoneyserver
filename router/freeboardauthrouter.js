@@ -142,6 +142,13 @@ router.delete('/', async (req, res) => {
         console.log("readResult userId : ", readResult);
         let articleUserId = readResult.userId;
         console.log("readResult userId 2 : ", articleUserId);
+
+        if(articleUserId === null){
+            resultObject = createJson.error("freeboard_article_not_exist");
+            res.status(404).json(resultObject);
+            return res.end();
+        }
+
         if(userId !== articleUserId){
             resultObject = createJson.error("access impossible");
             res.status(401).json(resultObject);
