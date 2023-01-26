@@ -110,9 +110,9 @@ router.patch('/', async (req, res) => {
 
 // 글 삭제 관련 통신 메소드
 router.delete('/', async (req, res) => {
-    let id = req.query.id;
-    let uuid = req.query.uuid;
-    let token = req.headers.token;
+    let id = req.body.id;
+    let uuid = req.body.uuid;
+    let token = req.headers.authorization?.replace('Bearer, ', '');
     let key = null;
     let userId = null;
 
