@@ -112,7 +112,7 @@ router.patch('/', async (req, res) => {
 router.delete('/', async (req, res) => {
     let id = req.body.id;
     let uuid = req.body.uuid;
-    let token = req.headers.authorization?.replace('Bearer, ', '');
+    let token = req.headers.authorization?.replace('Bearer ', '');
     let key = null;
     let userId = null;
 
