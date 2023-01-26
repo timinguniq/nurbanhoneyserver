@@ -118,7 +118,7 @@ router.delete('/', async (req, res) => {
 
     let contentObject = new Object();
     let resultObject = new Object();
-    console.log('token delete : ', token);
+
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [id, uuid];
     if(await inputErrorHandler(inputArray)){
@@ -130,10 +130,9 @@ router.delete('/', async (req, res) => {
     if(token !== null && token !== undefined){      
         // 토큰에서 키 값 추출
         key = extractKey(token);
-        console.log('key delete : ', key);
+
         // 키값으로 userId값 가져오기
         userId = await extractUserId(key);
-        console.log('userId delete : ', userId);
     }
 
     let deleteResult = null;
@@ -142,15 +141,13 @@ router.delete('/', async (req, res) => {
         console.log("readResult userId : ", readResult);
 
         if(readResult === null){
-            resultObject = createJson.error("freeboard_article_not_exist");
+            resultObject = createJson.error("article is not exist");
             res.status(404).json(resultObject);
             return res.end();
         }
 
         let articleUserId = readResult.userId;
         console.log("readResult userId 2 : ", articleUserId);
-
-
 
         if(userId !== articleUserId){
             resultObject = createJson.error("access impossible");
