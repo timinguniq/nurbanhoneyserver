@@ -119,8 +119,8 @@ router.patch('/', async (req, res) => {
 
 // 댓글 삭제
 router.delete('/', async (req, res) => {
-    let id = req.query.id;
-    let articleId = req.query.articleId;
+    let id = req.body.id;
+    let articleId = req.body.articleId;
     let commentCount = 0;
 
     let contentObject = new Object();
@@ -134,7 +134,7 @@ router.delete('/', async (req, res) => {
         return res.end();
     }
    
-    let token = req.headers.token;
+    let token = req.headers.authorization?.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
