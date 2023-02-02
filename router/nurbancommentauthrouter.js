@@ -30,8 +30,7 @@ router.post('/', async (req, res) => {
         return res.end();
     }
     
-    let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = req.headers.authorization.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
@@ -135,8 +134,7 @@ router.delete('/', async (req, res) => {
         return res.end();
     }
    
-    let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = req.headers.authorization?.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);

@@ -16,8 +16,7 @@ const constObj = require('../config/const');
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
 router.get('/', async (req, res) => {
-    let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = req.headers.authorization?.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
@@ -82,8 +81,7 @@ router.patch('/edit', async (req, res) => {
     let nickname = req.body.nickname;
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
-    let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = req.headers.authorization?.replace('Bearer ', '');
     let insigniaShowArr = [];
     
     if(insigniaShow === undefined){
@@ -130,8 +128,7 @@ router.patch('/edit', async (req, res) => {
 router.get('/myarticle', async (req, res) => {
     let offset = req.query.offset;
     let limit = req.query.limit;
-    let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = req.headers.authorization?.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
@@ -195,8 +192,7 @@ router.get('/myarticle', async (req, res) => {
 router.get('/mycomment', async (req, res) => {
     let offset = req.query.offset;
     let limit = req.query.limit;
-    let auth = req.headers.authorization;
-    let token = auth.replace('Bearer ', '');
+    let token = req.headers.authorization?.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
@@ -294,7 +290,7 @@ router.get('/bookmark', async (req, res) => {
     let resultObject = new Object();
 
     //TODO: 여기서 부터 시작 해 됨.
-    let token = req.headers.token;
+    let token = req.headers.authorization?.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);

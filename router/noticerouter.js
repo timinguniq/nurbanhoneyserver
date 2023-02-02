@@ -16,11 +16,7 @@ let preDate = 0;
 // 공지사항 상세 데이터 받아오는 메소드
 router.get('/article', async (req, res) => {
     let id = req.query.id;
-    let auth = req.headers.authorization;
-    let token = null;
-    if(auth !== null && auth !== undefined){
-        token = auth.replace('Bearer ', '');
-    }    
+    let token = req.headers.authorization?.replace('Bearer ', '');
     let userId = null;
 
     if(token !== null && token !== undefined){      
@@ -132,7 +128,7 @@ router.get('/', async (req, res) => {
 // 공지사항 내 투표 보는 메소드
 router.get('/article/myrating', async (req, res) => {
     let id = req.query.noticeId;
-    let token = req.headers.token;
+    let token = req.headers.authorization?.replace('Bearer ', '');
     let userId = null;
 
     if(token !== null && token !== undefined){      
