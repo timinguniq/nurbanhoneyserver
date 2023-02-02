@@ -79,8 +79,8 @@ router.post('/', async (req, res) => {
             res.status(201).json(resultObject);
         }else{
             // 생성 실패
-            resultObject = createJson.result(0);
-            res.status(400).json(resultObject);
+            resultObject = createJson.result("freeboard_like_posted_fail");
+            res.status(700).json(resultObject);
         }
     }catch(err){
         resultObject = createJson.error(err);
@@ -145,12 +145,12 @@ router.delete('/', async (req, res) => {
     try{
         if(freeLikeResult === 1){
             // 좋아요 삭제 성공
-            resultObject = createJson.result("freeboard_dislike_posted");
+            resultObject = createJson.result("freeboard_like_deleted");
             res.status(200).json(resultObject);
         }else{
             // 싫어요 삭제 실패
-            resultObject = createJson.result(0);
-            res.status(400).json(resultObject);
+            resultObject = createJson.result("freeboard_like_deleted_fail");
+            res.status(700).json(resultObject);
         }
     }catch(err){
         resultObject = createJson.error(err);
