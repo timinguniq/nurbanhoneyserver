@@ -90,7 +90,7 @@ router.post('/', async (req, res) => {
 
 // 싫어요 삭제
 router.delete('/', async (req, res) => {
-    let articleId = req.query.articleId;
+    let articleId = req.body.articleId;
     let userId = "";
 
     let contentObject = new Object();
@@ -104,7 +104,7 @@ router.delete('/', async (req, res) => {
         return res.end();
     }
 
-    let token = req.headers.token;
+    let token = req.headers.authorization?.replace('Bearer ', '');
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
