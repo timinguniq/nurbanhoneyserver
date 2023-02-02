@@ -91,7 +91,7 @@ router.post('/', async (req, res) => {
 
 // 좋아요 삭제
 router.delete('/', async (req, res) => {
-    let articleId = req.query.articleId;
+    let articleId = req.body.articleId;
     let userId = "";
 
     let contentObject = new Object();
