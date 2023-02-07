@@ -21,6 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         comment: "휘장을 보여줄 휘장인지 아닌지 보여주는 필드",
       },
     }, {
+      uniqueKeys: {
+        actions_unique: {
+            fields: ['insignia', 'userId']
+        }
+      }, 
       freezeTableName: true,
       charset: "utf8", // 한국어 설정
       collate: "utf8_general_ci", // 한국어 설정

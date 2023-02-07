@@ -1,0 +1,45 @@
+const Insignia = require('../models').insignia;
+const { sequelize } = require('../models');
+
+// create
+exports.create = function create(insignia, userId){
+    return Insignia.create({
+        id: 0,
+        insignia: insignia,
+        userId: userId
+    })
+}
+ 
+// read all insignia
+exports.readOwn = function read(userId){
+    return Insignia.findAll({
+        where: {
+            userId: userId
+        }
+    });
+}
+
+// read shonw insignia
+exports.readOwn = function read(userId){
+    return Insignia.findAll({
+        where: {
+            isShown: true,
+            userId: userId
+        }
+    });
+}
+
+// update 
+exports.updateSetShown = function update(insignia, userId){
+    return Insignia.update({isShown: true}, {where: {insignia: insignia, userId: userId}})
+}
+
+// update 
+exports.updateSetUnShown = function update(insignia, userId){
+    return Insignia.update({isShown: false}, {where: {insignia: insignia, userId: userId}})
+}
+
+// destory
+exports.destory = function destory(insignia, userId){
+    return Insignia.destroy({where: {insignia: insignia, userId: userId}})
+}
