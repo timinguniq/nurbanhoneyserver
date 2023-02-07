@@ -1,4 +1,4 @@
-var insigniaDao = required('../dbdao/insigniadao');
+const insigniaDao = require('../dbdao/insigniadao');
 const constObj = require('../config/const');
 
 // User insignia 셋팅
