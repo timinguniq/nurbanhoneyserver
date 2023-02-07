@@ -118,6 +118,8 @@ module.exports = (sequelize, DataTypes) => {
       user.hasOne(models.notice, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
       user.hasOne(models.notice_comment, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+
+      user.hasOne(models.insignia, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
     };
     
     return user;

@@ -1,14 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const userDao = require('../dbdao/userdao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
-const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 const freeBoardDao = require('../dbdao/freeboarddao');
 var createJson = require('../utils/createjson');
-var extractKey = require('../utils/extractkey');
-var extractUserId = require('../utils/extractuserid');
-let settingBadge = require('../utils/settingbadge');
-let settingInsignia = require('../utils/settinginsignia');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 const constObj = require('../config/const');
 
