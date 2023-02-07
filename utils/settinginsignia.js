@@ -1,74 +1,46 @@
-var userDao = require('../dbdao/userdao');
+var insigniaDao = required('../dbdao/insigniadao');
 const constObj = require('../config/const');
 
 // User insignia 셋팅
-module.exports = async (key, insigniaOwn, point, totalLossCut, myArticleNumber, myCommentNumber) => {
-    let insignia = [];
+module.exports = async (userId, point, totalLossCut, myArticleNumber, myCommentNumber) => {
     console.log(`myArticleNumber : ${myArticleNumber}`);
     console.log(`myCommentNumber : ${myCommentNumber}`);
-    console.log("insignia : ", insignia);
-
-    if(insigniaOwn !== null){
-        insignia = insigniaOwn;
-    }
 
     //휘장 아이디어 공고(현재는 글 갯수 10개, 100개 달성, 포인트 100만 달성, 댓글 100개 달성, 1000개 달성, 손절액 50만, 100만, 1000만)
     if(myArticleNumber >= 100){
-        if(!insignia.includes(constObj.insigniaArticle100)){
-            insignia.push(constObj.insigniaArticle100);
-        }
+        let result = await insigniaDao.create(constObj.insigniaArticle100, userId);
+        console.log(`insignia article100 create : ${result}`);
     }else if(myArticleNumber >= 10){
-        if(!insignia.includes(constObj.insigniaArticle10)){
-            insignia.push(constObj.insigniaArticle10);
-        }
+        let result = await insigniaDao.create(constObj.insigniaArticle10, userId);
+        console.log(`insignia article10 create : ${result}`);
     }
 
     // 포인트 100만 달성시 
     if(point >= 1000000){
-        if(!insignia.includes(constObj.insigniaPoint1000000)){
-            insignia.push(constObj.insigniaPoint1000000);    
-        }
+        let result = await insigniaDao.create(constObj.insigniaPoint1000000, userId);
+        console.log(`insignia point1000000 create : ${result}`);
     }
 
     // 내 댓글 1000개, 100개 달성시
     if(myCommentNumber >= 1000){
-        if(!insignia.includes(constObj.insigniaComment1000)){
-            insignia.push(constObj.insigniaComment1000);       
-        }
+        let result = await insigniaDao.create(constObj.insigniaComment1000, userId);
+        console.log(`insignia myCommentNumber1000 create : ${result}`);
     }else if(myCommentNumber >= 100){
-        if(!insignia.includes(constObj.insigniaComment100)){
-            insignia.push(constObj.insigniaComment100);       
-        }
+        let result = await insigniaDao.create(constObj.insigniaComment100, userId);
+        console.log(`insignia myCommentNumber100 create : ${result}`);
     }
 
     // 손절액이 50만, 100만, 1000만
     if(totalLossCut >= 500000){
-        if(!insignia.includes(constObj.insigniaLossCut50)){
-            insignia.push(constObj.insigniaLossCut50);       
-        }
-    }else if(totalLossCut >= 1000000){
-        if(!insignia.includes(constObj.insigniaLossCut100)){
-            insignia.push(constObj.insigniaLossCut100);       
-        }
-    }else if(totalLossCut >= 10000000){
-        if(!insignia.includes(constObj.insigniaLossCut1000)){
-            insignia.push(constObj.insigniaLossCut1000);       
-        }
-    }
+        let result = await insigniaDao.create(constObj.insigniaLossCut50, userId);
+        console.log(`insignia lossCut50 create : ${result}`);
 
-    try{        
-        let insigniaString = JSON.stringify(insignia);
-        let insigniaData = JSON.parse(insigniaString);
-        let result = await userDao.updateInsigniaOwn(key, insigniaData);
-        // result 1이면 성공 0이면 실패
-        console.log(`update insignia result : ${result}`)
-        if(result === 1){
-            return true;
-        }else{
-            return false;
-        }
-    }catch(err){
-        console.log(`update insignia err : ${err}`);
-        return false;
-    }   
+    }else if(totalLossCut >= 1000000){
+        let result = await insigniaDao.create(constObj.insigniaLossCut100, userId);
+        console.log(`insignia lossCut100 create : ${result}`);
+
+    }else if(totalLossCut >= 10000000){
+        let result = await insigniaDao.create(constObj.insigniaLossCut1000, userId);
+        console.log(`insignia lossCut1000 create : ${result}`);
+    }
 }

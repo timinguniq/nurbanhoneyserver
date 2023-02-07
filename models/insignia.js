@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       isShown: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false,
+        defaultValue: true,
         comment: "휘장을 보여줄 휘장인지 아닌지 보여주는 필드",
       },
     }, {

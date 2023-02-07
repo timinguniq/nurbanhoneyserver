@@ -20,6 +20,8 @@ router.get('/', async (req, res) => {
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
+    // 키에서 userId 값 추출
+    let userId = await extractUserId(key);
 
     let contentObject = new Object();
     let resultObject = new Object();
@@ -33,19 +35,7 @@ router.get('/', async (req, res) => {
         let nickname = result.nickname;
         let description = result.description;
         let point = result.point;
-        let insigniaShow = result.insigniaShow;
-        let insigniaOwn = result.insigniaOwn;
         let totalLossCut = result.totalLossCut;
-
-        // string으로 안 가고 array로 가게 수정하는 코드
-        insigniaShow = JSON.parse(insigniaShow);
-        if(insigniaShow === ""){
-            insigniaShow = [];
-        }
-        insigniaOwn = JSON.parse(insigniaOwn);
-        if(insigniaOwn === ""){
-            insigniaOwn = [];
-        }
 
         // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
@@ -61,12 +51,12 @@ router.get('/', async (req, res) => {
         }
 
         // 휘장 획득하는 코드
-        if(!settingInsignia(key, insigniaOwn, point, totalLossCut, myArticleCount, myCommentCount)){
+        if(!settingInsignia(userId, point, totalLossCut, myArticleCount, myCommentCount)){
             console.log("settingInsignia error");
         }
 
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "insigniaShow", "insigniaOwn", "myArticleCount", "myCommentCount"];
-        let valueList = [id, loginType, badge, nickname, description, point, insigniaShow, insigniaOwn, myArticleCount, myCommentCount];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "myArticleCount", "myCommentCount"];
+        let valueList = [id, loginType, badge, nickname, description, point, myArticleCount, myCommentCount];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
     }catch(err){
@@ -81,16 +71,7 @@ router.patch('/edit', async (req, res) => {
     let nickname = req.body.nickname;
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
-    let token = req.headers.authorization?.replace('Bearer ', '');
-    let insigniaShowArr = [];
-    
-    if(insigniaShow === undefined){
-        insigniaShow = null;
-    }else if(typeof insigniaShow === 'string'){
-        insigniaShowArr.push(insigniaShow);
-        insigniaShow = insigniaShowArr;
-    }
-    
+    let token = req.headers.authorization?.replace('Bearer ', '');   
 
     let contentObject = new Object();
     let resultObject = new Object();
@@ -107,7 +88,8 @@ router.patch('/edit', async (req, res) => {
     let key = extractKey(token);
 
     try{
-        let result = await userDao.updateEdit(key, nickname, description, insigniaShow);
+        let result = await userDao.updateEdit(key, nickname, description);
+        // TODO 휘장 업데이트하는 코드 작성해야 됨.
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         if(result[0] === 1){
