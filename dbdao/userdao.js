@@ -27,7 +27,7 @@ exports.read = function read(inputKey){
     return User.findOne({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: Insignia, attributes: [['id', 'userId'], ['insignia', 'insigniaShow']], where: {visible: true}}
+            {model: Insignia, attributes: [['id', 'userId'], ['insignia', 'insigniaShow']], where: {isShown: true}}
         ],
         where: {
             key: inputKey
