@@ -1,4 +1,5 @@
 const User = require('../models').user;
+const Insignia = require('../models').insignia;
 const { sequelize } = require('../models');
 
 exports.create = function create(loginType, key, password, nickname){
@@ -24,6 +25,10 @@ exports.create = function create(loginType, key, password, nickname){
 
 exports.read = function read(inputKey){
     return User.findOne({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: Insignia, attributes: [['id', 'userId'], ['insignia', 'insigniaShow']], where: {visible: true}}
+        ],
         where: {
             key: inputKey
         }
