@@ -25,11 +25,6 @@ exports.create = function create(loginType, key, password, nickname){
 
 exports.read = function read(inputKey){
     return User.findOne({
-        include: [
-            // ['id', 'userId] === id AS userId
-            {model: Insignia, attributes: [['id', 'userId'], ['insignia', 'insigniaShow']], where: {isShown: true}}
-        ],
-        attributes: ['id', 'loginType', 'badge', 'nickname', 'description', 'point', 'myArticleCount', 'myCommentCount'],
         where: {
             key: inputKey
         }
