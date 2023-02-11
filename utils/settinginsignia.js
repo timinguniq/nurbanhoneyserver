@@ -31,16 +31,14 @@ module.exports = async (userId, point, totalLossCut, myArticleNumber, myCommentN
     }
 
     // 손절액이 50만, 100만, 1000만
-    if(totalLossCut >= 500000){
-        let result = await insigniaDao.create(constObj.insigniaLossCut50, userId);
-        console.log(`insignia lossCut50 create : ${result}`);
-
+    if(totalLossCut >= 10000000){
+        let result = await insigniaDao.create(constObj.insigniaLossCut1000, userId);
+        console.log(`insignia lossCut1000 create : ${result}`);
     }else if(totalLossCut >= 1000000){
         let result = await insigniaDao.create(constObj.insigniaLossCut100, userId);
         console.log(`insignia lossCut100 create : ${result}`);
-
-    }else if(totalLossCut >= 10000000){
-        let result = await insigniaDao.create(constObj.insigniaLossCut1000, userId);
-        console.log(`insignia lossCut1000 create : ${result}`);
+    }else if(totalLossCut >= 500000){
+        let result = await insigniaDao.create(constObj.insigniaLossCut50, userId);
+        console.log(`insignia lossCut50 create : ${result}`);
     }
 }
