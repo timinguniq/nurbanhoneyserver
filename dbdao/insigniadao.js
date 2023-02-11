@@ -4,10 +4,18 @@ const { sequelize } = require('../models');
 // create
 exports.create = function create(insignia, userId){
     return Insignia.findOrCreate({
-        id: 0,
-        insignia: insignia,
-        userId: userId
-    })
+        where: {insignia: insignia, userId: userId},
+        defaults: {
+            id: 0,
+            insignia: insignia,
+            userId: userId,
+        }
+    }).then((insigniaRow, isCreated) => {
+        if(isCreated){            
+            //insignia created
+            console.log('create insignia', insigniaRow);
+        }
+    });
 }
  
 // read all insignia
