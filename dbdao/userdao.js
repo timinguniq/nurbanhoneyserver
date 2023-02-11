@@ -29,7 +29,7 @@ exports.read = function read(inputKey){
             // ['id', 'userId] === id AS userId
             {model: Insignia, attributes: [['id', 'userId'], ['insignia', 'insigniaShow']], where: {isShown: true}}
         ],
-        //attributes: ['id', 'totalLossCut', 'totalLikeCount'],
+        attributes: ['id', 'loginType', 'badge', 'nickname', 'description', 'point', 'myArticleCount', 'myCommentCount'],
         where: {
             key: inputKey
         }
