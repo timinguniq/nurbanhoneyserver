@@ -54,16 +54,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         comment: "포인트 (글쓰기나 베팅을 통한 포인트 적립)",
       },
-      insigniaShow: {
-        type: DataTypes.JSON,
-        allowNull: true,
-        comment: "휘장(보여주는 휘장)",
-      },
-      insigniaOwn: {
-        type: DataTypes.JSON,
-        allowNull: true,
-        comment: "휘장(전체 소장한 휘장)"
-      },
       bookmark: {
         type: DataTypes.JSON,
         allowNull: true,
