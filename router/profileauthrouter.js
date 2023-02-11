@@ -5,6 +5,7 @@ const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 const freeBoardDao = require('../dbdao/freeboarddao');
 const freeCommentDao = require('../dbdao/freecommentdao');
+const insigniaDao = require('../dbdao/insigniadao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
@@ -37,13 +38,17 @@ router.get('/', async (req, res) => {
         let point = result.point;
         let totalLossCut = result.totalLossCut;
 
-        // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
         let myArticleCount = nurbanBoardResult[0].dataValues.n_ids;
 
-        // TODO : 현재는 너반꿀 게시판만 갯수를 가져오고 추후 자유게시판도 갯수 
         let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
         let myCommentCount = nurbanCommentResult[0].dataValues.n_ids;
+
+        let insigniaOwn = await insigniaDao.readOwn(id);
+        console.log('insigniaOwn : ', insigniaOwn);
+        let insigniaShown = await insigniaDao.readShown(id);
+        console.log('insigniaShown : ', insigniaShown);
+        
         
         // point에 따른 badge 셋팅
         if(!settingBadge(key, point)){
