@@ -3,7 +3,7 @@ const { sequelize } = require('../models');
 
 // create
 exports.create = function create(insignia, userId){
-    return Insignia.create({
+    return Insignia.findOrCreate({
         id: 0,
         insignia: insignia,
         userId: userId

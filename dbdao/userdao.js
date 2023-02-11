@@ -53,11 +53,6 @@ exports.updateEdit = function update(key, nickname, description){
     return User.update({nickname: nickname, description: description}, {where: {key: key}})
 }
 
-// User insigniaOwn 업데이트
-exports.updateInsigniaOwn = function update(key, insigniaOwn){
-    return User.update({insigniaOwn: insigniaOwn}, {where: {key: key}})    
-}
-
 // User bookmark 업데이트
 exports.updateBookmark = function update(key, bookmark){
     return User.update({bookmark: bookmark}, {where: {key: key}})
