@@ -1,8 +1,8 @@
 const insigniaDao = require('../dbdao/insigniadao');
 // 전체 휘장 셋팅하는 하는 메소드
-module.exports = async () => {
+module.exports = async (userId) => {
     try{
-        let insigniaShown = await insigniaDao.readShown(id);
+        let insigniaShown = await insigniaDao.readShown(userId);
         console.log('insigniaShown : ', insigniaShown);
         var insigniaShownList = [];
         for(let i = 0 ; i < insigniaShown.length ; i++){
