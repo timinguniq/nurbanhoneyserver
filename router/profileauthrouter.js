@@ -12,6 +12,8 @@ var extractUserId = require('../utils/extractuserid');
 let settingBadge = require('../utils/settingbadge');
 let settingInsignia = require('../utils/settinginsignia');
 let inputErrorHandler = require('../utils/inputerrorhandler');
+let settingInsigniaOwn = require('../utils/settinginsigniaown');
+let settingInsigniaShown = require('../utils/settinginsigniaown');
 const constObj = require('../config/const');
 
 // 프로필 관련 통신
@@ -44,36 +46,19 @@ router.get('/', async (req, res) => {
         let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
         let myCommentCount = nurbanCommentResult[0].dataValues.n_ids;
 
-        // TODO insigniaOwn console 보고 정리.
-        let insigniaOwn = await insigniaDao.readOwn(id);
-        console.log('insigniaOwn : ', insigniaOwn);
-        var insigniaOwnList = [];
-        for(let i = 0 ; i < insigniaOwn.length ; i++){
-          let insigniaEle = insigniaOwn[i].dataValues.insignia;
-          insigniaOwnList.push(insigniaEle);
-        }
-        console.log('insigniaOwnList : ', insigniaOwnList);
-
-        let insigniaShown = await insigniaDao.readShown(id);
-        console.log('insigniaShown : ', insigniaShown);
-        var insigniaShownList = [];
-        for(let i = 0 ; i < insigniaShown.length ; i++){
-          let insigniaEle = insigniaShown[i].dataValues.insignia;
-          insigniaShownList.push(insigniaEle);
-        }
-        console.log('insigniaShownList : ', insigniaShownList);
-        
-        
         // point에 따른 badge 셋팅
-        if(!settingBadge(key, point)){
+        if(!await settingBadge(key, point)){
             console.log("settingBadge error");
         }
 
         // 휘장 획득하는 코드
-        if(!settingInsignia(userId, point, totalLossCut, myArticleCount, myCommentCount)){
+        if(!await settingInsignia(userId, point, totalLossCut, myArticleCount, myCommentCount)){
             console.log("settingInsignia error");
         }
 
+        var insigniaOwnList = settingInsigniaOwn();
+        var insigniaShownList = settingInsigniaShown();       
+        
         let nameList = ["id", "loginType", "badge", "nickname", "description", "point",
          "insigniaShow", "insigniaOwn", "myArticleCount", "myCommentCount"];
         let valueList = [id, loginType, badge, nickname, description, point, 
