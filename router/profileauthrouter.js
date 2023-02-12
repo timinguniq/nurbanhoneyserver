@@ -44,8 +44,16 @@ router.get('/', async (req, res) => {
         let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
         let myCommentCount = nurbanCommentResult[0].dataValues.n_ids;
 
+        // TODO insigniaOwn console 보고 정리.
         let insigniaOwn = await insigniaDao.readOwn(id);
         console.log('insigniaOwn : ', insigniaOwn);
+        var insigniaOwnList = [];
+        for(let i = 0 ; i < insigniaOwn.length ; i++){
+          let insigniaEle = insigniaOwn[i].dataValues.insignia;
+          insigniaOwnList.push(insigniaEle);
+        }
+        console.log('insigniaOwnList : ', insigniaOwnList);
+
         let insigniaShown = await insigniaDao.readShown(id);
         console.log('insigniaShown : ', insigniaShown);
         
