@@ -5,7 +5,6 @@ const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 const freeBoardDao = require('../dbdao/freeboarddao');
 const freeCommentDao = require('../dbdao/freecommentdao');
-const insigniaDao = require('../dbdao/insigniadao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
