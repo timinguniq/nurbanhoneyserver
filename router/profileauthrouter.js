@@ -55,8 +55,8 @@ router.get('/', async (req, res) => {
             console.log("settingInsignia error");
         }
 
-        var insigniaOwnList = settingInsigniaOwn(id);
-        var insigniaShownList = settingInsigniaShown(id);       
+        var insigniaOwnList = await settingInsigniaOwn(id);
+        var insigniaShownList = await settingInsigniaShown(id);       
         
         let nameList = ["id", "loginType", "badge", "nickname", "description", "point",
          "insigniaShow", "insigniaOwn", "myArticleCount", "myCommentCount"];
