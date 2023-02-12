@@ -74,8 +74,10 @@ router.get('/', async (req, res) => {
             console.log("settingInsignia error");
         }
 
-        let nameList = ["id", "loginType", "badge", "nickname", "description", "point", "myArticleCount", "myCommentCount"];
-        let valueList = [id, loginType, badge, nickname, description, point, myArticleCount, myCommentCount];
+        let nameList = ["id", "loginType", "badge", "nickname", "description", "point",
+         "insigniaShow", "insigniaOwn", "myArticleCount", "myCommentCount"];
+        let valueList = [id, loginType, badge, nickname, description, point, 
+            insigniaShownList, insigniaOwnList ,myArticleCount, myCommentCount];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
     }catch(err){
