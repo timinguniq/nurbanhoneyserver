@@ -56,6 +56,12 @@ router.get('/', async (req, res) => {
 
         let insigniaShown = await insigniaDao.readShown(id);
         console.log('insigniaShown : ', insigniaShown);
+        var insigniaShownList = [];
+        for(let i = 0 ; i < insigniaShownList.length ; i++){
+          let insigniaEle = insigniaShownList[i].dataValues.insignia;
+          insigniaShownList.push(insigniaEle);
+        }
+        console.log('insigniaShownList : ', insigniaShownList);
         
         
         // point에 따른 badge 셋팅
