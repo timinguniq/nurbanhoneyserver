@@ -28,7 +28,7 @@ exports.readOwn = function read(userId){
 }
 
 // read shonw insignia
-exports.readOwn = function read(userId){
+exports.readShown = function read(userId){
     return Insignia.findAll({
         where: {
             isShown: true,
