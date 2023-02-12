@@ -57,8 +57,8 @@ router.get('/', async (req, res) => {
         let insigniaShown = await insigniaDao.readShown(id);
         console.log('insigniaShown : ', insigniaShown);
         var insigniaShownList = [];
-        for(let i = 0 ; i < insigniaShownList.length ; i++){
-          let insigniaEle = insigniaShownList[i].dataValues.insignia;
+        for(let i = 0 ; i < insigniaShown.length ; i++){
+          let insigniaEle = insigniaShown[i].dataValues.insignia;
           insigniaShownList.push(insigniaEle);
         }
         console.log('insigniaShownList : ', insigniaShownList);
