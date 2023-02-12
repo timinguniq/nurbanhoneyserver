@@ -12,7 +12,7 @@ let settingBadge = require('../utils/settingbadge');
 let settingInsignia = require('../utils/settinginsignia');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let settingInsigniaOwn = require('../utils/settinginsigniaown');
-let settingInsigniaShown = require('../utils/settinginsigniaown');
+let settingInsigniaShown = require('../utils/settinginsigniashown');
 const constObj = require('../config/const');
 
 // 프로필 관련 통신
