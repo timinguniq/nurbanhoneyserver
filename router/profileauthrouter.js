@@ -5,6 +5,7 @@ const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 const freeBoardDao = require('../dbdao/freeboarddao');
 const freeCommentDao = require('../dbdao/freecommentdao');
+const insigniaDao = require('../dbdao/insigniadao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
@@ -79,15 +80,11 @@ router.patch('/edit', async (req, res) => {
 
     // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 지금은 jsonstring으로 와서 jsonobject로 변환해서 사용.
     console.log('insigniaShow : ', insigniaShow);
-
     let jsonInsigniaShow = JSON.parse(insigniaShow);
-    console.log('insignia1 : ', jsonInsigniaShow.insignia1);
-    console.log('insignia2 : ', jsonInsigniaShow.insignia2);
+
+
     let token = req.headers.authorization?.replace('Bearer ', '');   
 
-    for(let key in jsonInsigniaShow) {
-        console.log('key:' + key + ' / ' + 'value:' + jsonInsigniaShow[key]);
-    }
 
     let contentObject = new Object();
     let resultObject = new Object();
@@ -103,13 +100,24 @@ router.patch('/edit', async (req, res) => {
     // 토큰에서 키 값 추출
     let key = extractKey(token);
 
+    // 키에서 userId 값 추출
+    let userId = await extractUserId(key);
+
     try{
         let result = await userDao.updateEdit(key, nickname, description);
+
+        let insigniaUpdateResult = '';
+        for(let insigniaKey in jsonInsigniaShow) {
+            console.log('key:' + insigniaKey + ' / ' + 'value:' + jsonInsigniaShow[insigniaKey]);
+            insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId);
+            console.log('insigniaUpdateResult : ', insigniaUpdateResult);
+        }
+
         // TODO 휘장 업데이트하는 코드 작성해야 됨.
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         if(result[0] === 1){
-            resultObject = createJson.result("profile_updated");
+            resultObject = createJson.result("profile_updated");          
             res.status(200).json(resultObject);
         }else{
             resultObject = createJson.result("profile_updated_fail");
