@@ -116,8 +116,8 @@ router.patch('/edit', async (req, res) => {
         let insigniaUpdateResult = '';
         for(let insigniaKey in jsonInsigniaShow) {
             console.log('key:' + insigniaKey + ' / ' + 'value:' + jsonInsigniaShow[insigniaKey]);
-            insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId);
-            console.log('insigniaUpdateResult : ', insigniaUpdateResult[0]);
+            insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId)[0];
+            console.log('insigniaUpdateResult : ', insigniaUpdateResult);
         }
 
         // TODO 휘장 업데이트하는 코드 작성해야 됨.
