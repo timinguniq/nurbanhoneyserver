@@ -108,6 +108,7 @@ router.patch('/edit', async (req, res) => {
 
         let insigniaAll = await insigniaDao.readOwn(userId);
 
+        console.log('insigniaAll : ', insigniaAll);
         for(let insigniaEle in insigniaAll){
             console.log('insigniaEle : ', insigniaEle);
             await insigniaDao.updateSetUnShown(insigniaEle, userId);
