@@ -106,19 +106,18 @@ router.patch('/edit', async (req, res) => {
     try{
         let result = await userDao.updateEdit(key, nickname, description);
 
+        // 소유한 전체 휘장을 가져와서 안보이게 처리
         let insigniaAll = await insigniaDao.readOwn(userId);
-
-        console.log('insigniaAll : ', insigniaAll);
         for(let i in insigniaAll){
-            console.log('insigniaEle : ', insigniaAll[i].dataValues.insignia);
             await insigniaDao.updateSetUnShown(insigniaAll[i].dataValues.insignia, userId);
         }
+        // 여기까지
 
         let insigniaUpdateResult = '';
         for(let insigniaKey in jsonInsigniaShow) {
             console.log('key:' + insigniaKey + ' / ' + 'value:' + jsonInsigniaShow[insigniaKey]);
             insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId);
-            console.log('insigniaUpdateResult : ', insigniaUpdateResult);
+            console.log('insigniaUpdateResult : ', insigniaUpdateResult[0]);
         }
 
         // TODO 휘장 업데이트하는 코드 작성해야 됨.
