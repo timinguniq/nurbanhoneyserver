@@ -115,6 +115,7 @@ router.patch('/edit', async (req, res) => {
         for(let insigniaKey in jsonInsigniaShow) {
             console.log('key:' + insigniaKey + ' / ' + 'value:' + jsonInsigniaShow[insigniaKey]);
             insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId);
+            console.log('insigniaUpdateResult : ', insigniaUpdateResult[0]);
             if(insigniaUpdateResult[0] == 0){
                 resultObject = createJson.result("profile_updated_fail");
                 return res.status(700).json(resultObject);
