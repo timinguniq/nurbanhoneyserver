@@ -77,11 +77,17 @@ router.patch('/edit', async (req, res) => {
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
 
-    let jsonInsigniaShow = JSON.parse(insigniaShow);
+    // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 지금은 jsonstring으로 와서 jsonobject로 변환해서 사용.
     console.log('insigniaShow : ', insigniaShow);
+
+    let jsonInsigniaShow = JSON.parse(insigniaShow);
     console.log('insignia1 : ', jsonInsigniaShow.insignia1);
     console.log('insignia2 : ', jsonInsigniaShow.insignia2);
     let token = req.headers.authorization?.replace('Bearer ', '');   
+
+    for(key in jsonInsigniaShow) {
+        console.log('key:' + key + ' / ' + 'value:' + json[key]);
+    }
 
     let contentObject = new Object();
     let resultObject = new Object();
