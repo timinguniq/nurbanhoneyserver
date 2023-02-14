@@ -86,7 +86,7 @@ router.patch('/edit', async (req, res) => {
     let token = req.headers.authorization?.replace('Bearer ', '');   
 
     for(key in jsonInsigniaShow) {
-        console.log('key:' + key + ' / ' + 'value:' + json[key]);
+        console.log('key:' + key + ' / ' + 'value:' + jsonInsigniaShow[key]);
     }
 
     let contentObject = new Object();
