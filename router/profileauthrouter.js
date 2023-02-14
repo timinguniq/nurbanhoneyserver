@@ -76,6 +76,8 @@ router.patch('/edit', async (req, res) => {
     let nickname = req.body.nickname;
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
+
+    console.log('insigniaShow : ', insigniaShow);
     let token = req.headers.authorization?.replace('Bearer ', '');   
 
     let contentObject = new Object();
