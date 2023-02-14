@@ -81,10 +81,8 @@ router.patch('/edit', async (req, res) => {
     // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 지금은 jsonstring으로 와서 jsonobject로 변환해서 사용.
     console.log('insigniaShow : ', insigniaShow);
     let jsonInsigniaShow = JSON.parse(insigniaShow);
-
-
+    //
     let token = req.headers.authorization?.replace('Bearer ', '');   
-
 
     let contentObject = new Object();
     let resultObject = new Object();
@@ -99,7 +97,6 @@ router.patch('/edit', async (req, res) => {
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
-
     // 키에서 userId 값 추출
     let userId = await extractUserId(key);
 
@@ -113,14 +110,18 @@ router.patch('/edit', async (req, res) => {
         }
         // 여기까지
 
+        // input으로 들어온 휘장 업데이트하기!
         let insigniaUpdateResult = '';
         for(let insigniaKey in jsonInsigniaShow) {
             console.log('key:' + insigniaKey + ' / ' + 'value:' + jsonInsigniaShow[insigniaKey]);
-            insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId)[0];
-            console.log('insigniaUpdateResult : ', insigniaUpdateResult);
+            insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId);
+            if(insigniaUpdateResult[0] == 0){
+                resultObject = createJson.result("profile_updated_fail");
+                return res.status(700).json(resultObject);
+            }
         }
-
-        // TODO 휘장 업데이트하는 코드 작성해야 됨.
+        // 여기까지
+        
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         if(result[0] === 1){
