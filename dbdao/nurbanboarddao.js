@@ -71,7 +71,7 @@ exports.read = function read(offset, limit){
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
-            {model: Insignia, attributes: ['insignia']}
+            {model: Insignia, attributes: [['insignia']]}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
         offset: Number(offset),
