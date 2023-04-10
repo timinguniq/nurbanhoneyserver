@@ -4,7 +4,6 @@ const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const nurbanLikeDao = require('../dbdao/nurbanlikedao');
 const nurbanDislikeDao = require('../dbdao/nurbandislikedao');
 const insigniaDao = require('../dbdao/insigniadao');
-console.log('insigniaShown : ', insigniaShown);
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let constObj = require('../config/const');
