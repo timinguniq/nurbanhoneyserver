@@ -134,10 +134,11 @@ router.get('/', async (req, res) => {
         }
         console.log("result", result);
 
-        console.log("result user ", result[1].dataValue.user);
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
+            console.log("result user ", result[i].dataValue.user);
+
             // string으로 안 가고 array로 가게 수정하는 코드
             let insigniaShown = await insigniaDao.readShown(result[i].dataValue.user.dataValues.userId);
 
