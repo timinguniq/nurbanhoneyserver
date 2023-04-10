@@ -146,7 +146,7 @@ router.get('/', async (req, res) => {
             if(insigniaShown === ""){
                 result[i].dataValues.user.dataValues.insignia = [];
             }else{
-                result[i].dataValues.user.dataValues.insignia = insigniaShown;
+                result[i].dataValues.user.dataValues.insignia = insigniaShown.dataValues.insignia;
             }
             //
             contentObjectList.push(result[i].dataValues);
