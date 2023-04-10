@@ -134,7 +134,7 @@ router.get('/', async (req, res) => {
         }
         console.log("result", result);
 
-        console.log("result user ", result[0].dataValue.user);
+        console.log("result user ", result[1].dataValue.user);
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
