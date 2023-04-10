@@ -138,7 +138,7 @@ router.get('/', async (req, res) => {
 
         for(var i = 0 ; i < result.length ; i++){
             // string으로 안 가고 array로 가게 수정하는 코드
-            let insigniaShown = await insigniaDao.readShown(result[i].dataValue.user.userId);
+            let insigniaShown = await insigniaDao.readShown(result[i].dataValue.user.dataValues.userId);
 
             console.log('insigniaShown : ', insigniaShown);
             if(insigniaShown === ""){
