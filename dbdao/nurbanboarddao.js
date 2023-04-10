@@ -1,5 +1,6 @@
 const NurbanBoard = require('../models').nurbanboard;
 const User = require('../models').user;
+const Insignia = require('../models').insignia;
 const { Op } = require("sequelize");
 const { sequelize } = require('../models');
 const constObj = require('../config/const');
@@ -69,7 +70,8 @@ exports.read = function read(offset, limit){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
+            {model: Insignia, attributes: ['insignia']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
         offset: Number(offset),
