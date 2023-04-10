@@ -153,6 +153,8 @@ router.get('/', async (req, res) => {
             result[i].dataValues.user.dataValues.insignia = insigniaList
             //
             contentObjectList.push(result[i].dataValues);
+            
+            insigniaList = [];
         }      
 
         console.log("contentObjectArrayList", contentObjectList);
