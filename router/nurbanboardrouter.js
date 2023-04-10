@@ -146,9 +146,9 @@ router.get('/', async (req, res) => {
             console.log('insigniaShown : ', insigniaShown);
 
             for(var j = 0 ; insigniaShown.length ; j++){
-                insigniaList.push(insigniaShown[j].dataValues.insignia);
+                insigniaList.push(insigniaShown[j].insignia);
             }
-            
+
             result[i].dataValues.user.dataValues.insignia = insigniaList
             //
             contentObjectList.push(result[i].dataValues);
