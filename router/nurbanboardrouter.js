@@ -135,6 +135,7 @@ router.get('/', async (req, res) => {
         console.log("result", result);
 
         let contentObjectList = [];
+        let insigniaList = [];
 
         for(var i = 0 ; i < result.length ; i++){
             console.log("result user ", result[i].dataValues.user.dataValues);
@@ -143,11 +144,12 @@ router.get('/', async (req, res) => {
             let insigniaShown = await insigniaDao.readShown(result[i].dataValues.user.dataValues.userId);
 
             console.log('insigniaShown : ', insigniaShown);
-            if(insigniaShown === ""){
-                result[i].dataValues.user.dataValues.insignia = [];
-            }else{
-                result[i].dataValues.user.dataValues.insignia = insigniaShown.dataValues.insignia;
+
+            for(var j = 0 ; insigniaShown.length ; j++){
+                insigniaList.push(insigniaShown[j].dataValues.insignia);
             }
+            
+            result[i].dataValues.user.dataValues.insignia = insigniaList
             //
             contentObjectList.push(result[i].dataValues);
         }      
