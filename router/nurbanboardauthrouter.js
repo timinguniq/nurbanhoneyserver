@@ -114,8 +114,8 @@ router.patch('/', async (req, res) => {
 
 // 글 삭제 관련 통신 메소드
 router.delete('/', async (req, res) => {
-    let id = req.query.id;
-    let uuid = req.query.uuid;
+    let id = req.body.id;
+    let uuid = req.body.uuid;
     let token = req.headers.authorization?.replace('Bearer ', '');
     let key = null;
     let userId = null;
@@ -232,7 +232,7 @@ router.post('/upload/image', async (req, res) => {
 
 // 글 관련 이미지 삭제하는 통신
 router.delete('/upload/image', async (req, res) => {
-    let uuid = req.query.uuid;
+    let uuid = req.body.uuid;
     
     let contentObject = new Object();
     let resultObject = new Object();
