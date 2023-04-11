@@ -12,5 +12,7 @@ module.exports = async (userId) => {
         insigniaList.push(insigniaShown[j].dataValues.insignia);
     }
 
+    console.log('get insigniaList : ', insigniaList);
+
     return insigniaList;
 }
