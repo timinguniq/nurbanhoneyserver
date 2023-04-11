@@ -59,7 +59,7 @@ router.get('/article', async (req, res) => {
         let authorUserId = result.user.dataValues.userId;
         let badge = result.user.badge;
         let nickname = result.user.nickname;
-        let insignia = result.user.insigniaShow;
+        let insignia = await getInsigniaShown(authorUserId);
         let myRating = null;
 
         if(userId !== null && userId !== undefined){
@@ -142,8 +142,6 @@ router.get('/', async (req, res) => {
             console.log("result user ", result[i].dataValues.user.dataValues);
 
             insigniaList = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
-
-            console.log('nurbanboardrouter insigniaList : ', insigniaList);
 
             result[i].dataValues.user.dataValues.insignia = insigniaList
             //

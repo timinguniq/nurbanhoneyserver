@@ -8,11 +8,8 @@ module.exports = async (userId) => {
     let insigniaShown = await insigniaDao.readShown(userId);
 
     for(var j = 0 ; j < insigniaShown.length ; j++){
-        console.log('insigniaShown[j] : ', insigniaShown[j].dataValues);
         insigniaList.push(insigniaShown[j].dataValues.insignia);
     }
-
-    console.log('get insigniaList : ', insigniaList);
 
     return insigniaList;
 }

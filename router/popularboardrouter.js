@@ -5,6 +5,7 @@ const freeBoardDao = require('../dbdao/freeboarddao');
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 const constObj = require('../config/const');
+let getInsigniaShown = require('../utils/getinsigniashown');
 
 // 인기 게시판 통신
 // 인기 게시판 리스트 받는 통신
@@ -36,6 +37,8 @@ router.get('/', async (req, res) => {
         // 너반꿀 게시판
         for(var i = 0 ; i < nurbanBoardResult.length ; i++){
             nurbanBoardResult[i].dataValues.board = constObj.nurbanboard;
+
+            nurbanBoardResult[i].dataValues.user.dataValues.insignia = await getInsigniaShown(nurbanBoardResult[i].dataValues.user.dataValues.userId);
             // string으로 안 가고 array로 가게 수정하는 코드
             nurbanBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(nurbanBoardResult[i].dataValues.user.dataValues.insignia);
             if(nurbanBoardResult[i].dataValues.user.dataValues.insignia === ""){
@@ -48,6 +51,8 @@ router.get('/', async (req, res) => {
         // 자유게시판 
         for(var i = 0 ; i < freeBoardResult.length ; i++){
             freeBoardResult[i].dataValues.board = constObj.freeboard;
+
+            freeBoardResult[i].dataValues.user.dataValues.insignia = await getInsigniaShown(freeBoardResult[i].dataValues.user.dataValues.userId);
             // string으로 안 가고 array로 가게 수정하는 코드
             freeBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(freeBoardResult[i].dataValues.user.dataValues.insignia);
             if(freeBoardResult[i].dataValues.user.dataValues.insignia === ""){

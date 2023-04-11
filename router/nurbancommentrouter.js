@@ -4,6 +4,7 @@ const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
+let getInsigniaShown = require('../utils/getinsigniashown');
 
 // 토큰이 없어도 통신이 가능
 
@@ -31,6 +32,7 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
+            result[i].dataValues.user.dataValues.insignia = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
             // string으로 안 가고 array로 가게 수정하는 코드
             result[i].dataValues.user.dataValues.insignia = JSON.parse(result[i].dataValues.user.dataValues.insignia);
             if(result[i].dataValues.user.dataValues.insignia === ""){
@@ -91,6 +93,7 @@ router.get('/detail', async (req, res) => {
     try{
         let result = await nurbanCommentDao.read(commentId);
 
+        result.dataValues.user.dataValues.insignia = await getInsigniaShown(result.dataValues.user.dataValues.userId);
         // string으로 안 가고 array로 가게 수정하는 코드
         result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);
         if(result.dataValues.user.dataValues.insignia === ""){

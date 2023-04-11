@@ -9,6 +9,7 @@ var extractUserId = require('../utils/extractuserid');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 const constObj = require('../config/const');
 let createNoticeMyrating = require('../utils/createnoticemyrating');
+let getInsigniaShown = require('../utils/getinsigniashown');
 
 // 토큰 없이 이용 가능한 통신들
 
@@ -55,7 +56,7 @@ router.get('/article', async (req, res) => {
         let authorUserId = result.user.dataValues.userId;
         let badge = result.user.badge;
         let nickname = result.user.nickname;
-        let insignia = result.user.dataValues.insignia;
+        let insignia = await getInsigniaShown(authorUserId);
         insignia = JSON.parse(insignia);
 
         if(userId !== null && userId !== undefined){

@@ -16,6 +16,7 @@ let settingInsigniaOwn = require('../utils/settinginsigniaown');
 let settingInsigniaShown = require('../utils/settinginsigniashown');
 const constObj = require('../config/const');
 
+
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
 router.get('/', async (req, res) => {
