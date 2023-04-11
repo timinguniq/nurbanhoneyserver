@@ -45,6 +45,7 @@ router.get('/article', async (req, res) => {
     try{
         console.log('article detail id : ', id);
         let result = await nurbanBoardDao.readForId(id);
+        console.log('article detail result : ', result);
         let articleId = result.id;
         let uuid = result.uuid;
         let thumbnail = result.thumbnail;
