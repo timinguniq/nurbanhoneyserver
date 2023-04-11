@@ -59,10 +59,13 @@ router.get('/article', async (req, res) => {
         let authorUserId = result.user.dataValues.userId;
         let badge = result.user.badge;
         let nickname = result.user.nickname;
+
+        console.log('article detail authorUserId : ', authorUserId);
         let insignia = await getInsigniaShown(authorUserId);
         let myRating = null;
 
         console.log('article detail insignia : ', insignia);
+
         if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
             myRating = await createNurbanMyrating(articleId, userId);
@@ -82,6 +85,7 @@ router.get('/article', async (req, res) => {
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
     }catch(err){
+        console.log('article detail err : ', err);
         resultObject = createJson.error("article is not exist");
         res.status(500).json(resultObject);
     }
