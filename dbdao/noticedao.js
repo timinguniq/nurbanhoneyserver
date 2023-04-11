@@ -22,7 +22,7 @@ exports.read = function read(offset, limit){
     return Notice.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'title', 'count', 'createdAt'],
         offset: Number(offset),
@@ -36,7 +36,7 @@ exports.readForId = function read(id){
     return Notice.findOne({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         where: {
             id: id 

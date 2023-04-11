@@ -10,6 +10,7 @@ let constObj = require('../config/const');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
 let createNurbanMyrating = require('../utils/createnurbanmyrating');
+let getInsigniaShown = require('../utils/getinsigniashown');
 
 // 토큰 없이 이용 가능한 통신들
 
@@ -140,15 +141,7 @@ router.get('/', async (req, res) => {
         for(var i = 0 ; i < result.length ; i++){
             console.log("result user ", result[i].dataValues.user.dataValues);
 
-            // string으로 안 가고 array로 가게 수정하는 코드
-            let insigniaShown = await insigniaDao.readShown(result[i].dataValues.user.dataValues.userId);
-
-            console.log('insigniaShown : ', insigniaShown);
-
-            for(var j = 0 ; j < insigniaShown.length ; j++){
-                console.log('insigniaShown[j] : ', insigniaShown[j].dataValues);
-                insigniaList.push(insigniaShown[j].dataValues.insignia);
-            }
+            insigniaList = getInsigniaShown(result[i].dataValues.user.dataValues.userId);
 
             result[i].dataValues.user.dataValues.insignia = insigniaList
             //

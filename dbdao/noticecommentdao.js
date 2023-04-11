@@ -17,7 +17,7 @@ exports.readCount = function read(noticeId, offset = 0, limit = 10){
         return NoticeComment.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'content', 'noticeId'],
         offset: Number(offset),
@@ -51,7 +51,7 @@ exports.read = function read(id){
     return NoticeComment.findOne({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'content', 'noticeId'],
         where: {

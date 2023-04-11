@@ -10,16 +10,7 @@ exports.create = function create(loginType, key, password, nickname){
         nickname: nickname,
         lastLoginAt: Date.now()
     })
-/*
-    id: {
-      email: {
-      password: {
-      thumbnail: {
-      nickname: {
-      description: {
-      insignia: {
-      lastLoginAt: {
-  }*/
+
 }
 
 exports.read = function read(inputKey){

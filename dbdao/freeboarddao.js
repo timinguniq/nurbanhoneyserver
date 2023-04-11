@@ -42,7 +42,7 @@ exports.readForId = function read(id){
     return FreeBoard.findOne({
         include:[
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'key', 'badge', 'nickname', 'insigniaShow']}
+            {model: User, attributes: [['id', 'userId'], 'key', 'badge', 'nickname']}
         ],
         where: {
             id: id
@@ -68,7 +68,7 @@ exports.read = function read(offset, limit){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
         offset: Number(offset),
@@ -94,7 +94,7 @@ exports.readCount = function read(offset, limit){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insigniaShow']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
         where: {
@@ -115,7 +115,7 @@ exports.readLikeCount = function read(offset, limit){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', 'insigniaShow']}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
         where: {
@@ -136,7 +136,7 @@ exports.readPopular = function read(offset, limit){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'count', 'commentCount'],
         where: {

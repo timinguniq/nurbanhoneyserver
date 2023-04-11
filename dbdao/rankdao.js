@@ -15,7 +15,7 @@ exports.read = function read(){
     return Rank.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'totalLossCut', 'totalLikeCount'],
     })
@@ -26,7 +26,7 @@ exports.readPopup = function read(offset = 0, limit = 3){
     return Rank.findAll({
         include: [
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname', ['insigniaShow', 'insignia']]}
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id'],
         offset: Number(offset),
