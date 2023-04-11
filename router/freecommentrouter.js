@@ -95,6 +95,8 @@ router.get('/detail', async (req, res) => {
     try{
         let result = await freeCommentDao.read(commentId);
         
+        result.dataValues.user.dataValues.insignia = await getInsigniaShown(result.dataValues.user.dataValues.userId);
+
         // string으로 안 가고 array로 가게 수정하는 코드
         result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);
         if(result.dataValues.user.dataValues.insignia === ""){

@@ -7,6 +7,8 @@ let constObj = require('../config/const');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
 let createFreeMyrating = require('../utils/createfreemyrating');
+let getInsigniaShown = require('../utils/getinsigniashown');
+
 
 // 토큰 없이 이용 가능한 통신들
 
@@ -54,7 +56,7 @@ router.get('/article', async (req, res) => {
         let authorUserId = result.user.dataValues.userId;
         let badge = result.user.badge;
         let nickname = result.user.nickname;
-        let insignia = result.user.insigniaShow;
+        let insignia = await getInsigniaShown(authorUserId);
         let myRating = null;
 
         if(userId !== null && userId !== undefined){
@@ -133,6 +135,8 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
+            result[i].dataValues.user.dataValues.insignia = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
+
             // string으로 안 가고 array로 가게 수정하는 코드
             result[i].dataValues.user.dataValues.insignia = JSON.parse(result[i].dataValues.user.dataValues.insignia);
             if(result[i].dataValues.user.dataValues.insignia === ""){

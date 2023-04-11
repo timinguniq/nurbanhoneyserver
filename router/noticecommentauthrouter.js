@@ -9,6 +9,7 @@ let inputErrorHandler = require('../utils/inputerrorhandler');
 let raisePoint = require('../utils/raisepoint');
 let dropPoint = require('../utils/droppoint');
 let constObj = require('../config/const');
+let getInsigniaShown = require('../utils/getinsigniashown');
 
 // 토큰이 있어야 가능한 통신
 
@@ -110,6 +111,8 @@ router.patch('/', async (req, res) => {
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
         let result = await noticeCommentDao.read(id);
+
+        result.dataValues.user.dataValues.insignia = await getInsigniaShown(result.dataValues.user.dataValues.userId);
 
         // string으로 안 가고 array로 가게 수정하는 코드
         result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);

@@ -43,7 +43,7 @@ exports.readForId = function read(id){
     return NurbanBoard.findOne({
         include:[
             // ['id', 'userId] === id AS userId
-            {model: User, attributes: [['id', 'userId'], 'key', 'badge', 'nickname', 'insigniaShow']}
+            {model: User, attributes: [['id', 'userId'], 'key', 'badge', 'nickname']}
         ],
         where: {
             id: id
