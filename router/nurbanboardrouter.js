@@ -62,6 +62,7 @@ router.get('/article', async (req, res) => {
         let insignia = await getInsigniaShown(authorUserId);
         let myRating = null;
 
+        console.log('article detail insignia : ', insignia);
         if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
             myRating = await createNurbanMyrating(articleId, userId);
