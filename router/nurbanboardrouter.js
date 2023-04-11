@@ -141,7 +141,7 @@ router.get('/', async (req, res) => {
         for(var i = 0 ; i < result.length ; i++){
             console.log("result user ", result[i].dataValues.user.dataValues);
 
-            insigniaList = getInsigniaShown(result[i].dataValues.user.dataValues.userId);
+            insigniaList = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
 
             console.log('nurbanboardrouter insigniaList : ', insigniaList);
 
