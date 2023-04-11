@@ -73,13 +73,6 @@ router.get('/article', async (req, res) => {
             myRating = await createNurbanMyrating(articleId, userId);
         }
 
-        // string으로 안 가고 array로 가게 수정하는 코드
-        insignia = JSON.parse(insignia);
-        if(insignia === ""){
-            insignia = [];
-        }
-        //
-
         let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt", 
                 "userId", "badge", "nickname", "insignia", "myRating"];
         let valueList = [articleId, uuid, thumbnail, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
