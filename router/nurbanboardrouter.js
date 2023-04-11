@@ -43,6 +43,7 @@ router.get('/article', async (req, res) => {
     let articleCount = 0
     // id 값으로 데이터 읽기
     try{
+        console.log('article detail id : ', id);
         let result = await nurbanBoardDao.readForId(id);
         let articleId = result.id;
         let uuid = result.uuid;
