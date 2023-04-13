@@ -214,8 +214,16 @@ router.post('/upload/image', async (req, res) => {
         return res.end();
     }
 
+    // uuid인 아티클이 없으면 에러
     let nurbanArticle = await nurbanBoardDao.readForUuid(uuid);
     console.log('nurbanArticle : ', nurbanArticle);
+
+    if(nurbanArticle === null){
+        resultObject = createJson.error("article is not exist");
+        res.status(404).json(resultObject);
+        return res.end();
+    }
+    //
 
     let imageFileNameSize = JSON.stringify(imageFiles[0].originalname).split('\\').length;
     let imageFileName = JSON.stringify(imageFiles[0].originalname).split('\\')[imageFileNameSize-1];
