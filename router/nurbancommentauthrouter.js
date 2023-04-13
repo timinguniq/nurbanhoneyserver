@@ -159,6 +159,8 @@ router.delete('/', async (req, res) => {
         authorId = result.dataValues.user.dataValues.userId;
         let userResult = await userDao.readForUserId(authorId);
         authorKey = userResult.dataValues.key;
+        console.log('authorid : ', authorId);
+        console.log('userId : ', userId);
         if(authorId !== userId){
             resultObject = createJson.result('nurbancomment_auth_fail');
             res.status(403).json(resultObject);
