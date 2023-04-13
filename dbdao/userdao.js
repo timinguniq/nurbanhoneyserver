@@ -13,10 +13,20 @@ exports.create = function create(loginType, key, password, nickname){
 
 }
 
+// key 값을 가지고 검색.
 exports.read = function read(inputKey){
     return User.findOne({
         where: {
             key: inputKey
+        }
+    });
+}
+
+// UserId를 가지고 검색
+exports.readForUserId = function read(userId){
+    return User.findOne({
+        where: {
+            id: userId
         }
     });
 }
@@ -28,6 +38,8 @@ exports.readCount = function read(){
         ]
     });
 }
+
+
   
 // User badge 업데이트
 exports.updateBadge = function update(key, badge){
