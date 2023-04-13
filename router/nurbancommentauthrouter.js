@@ -156,9 +156,9 @@ router.delete('/', async (req, res) => {
     try{
         let result = await nurbanCommentDao.read(id);
         console.log('nurbanCommentDao.read : ', result);
-        authorId = result.dataValues.user.dataValues.userId;
+        authorId = result?.dataValues?.user?.dataValues?.userId;
         let userResult = await userDao.readForUserId(authorId);
-        authorKey = userResult.dataValues.key;
+        authorKey = userResult?.dataValues?.key;
         console.log('authorid : ', authorId);
         console.log('userId : ', userId);
         if(authorId !== userId){
