@@ -153,6 +153,8 @@ router.delete('/', async (req, res) => {
     try{
         let result = await nurbanCommentDao.read(id);
         console.log('nurbanCommentDao.read : ', result);
+        authorId = result.dataValues.user.dataValues.userId;
+        console.log('authorId : ', authorId);
     }catch(err){
 
     }
