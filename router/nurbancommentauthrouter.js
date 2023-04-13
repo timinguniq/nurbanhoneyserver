@@ -150,25 +150,27 @@ router.delete('/', async (req, res) => {
         console.log(`post error nurbanBoardDao : ${err}`);    
     }
 
+    // 댓글 지우는 사람과 작성한 사람이 다른 케이스
     let authorId = null;
     let authorKey = null;
     try{
         let result = await nurbanCommentDao.read(id);
         console.log('nurbanCommentDao.read : ', result);
         authorId = result.dataValues.user.dataValues.userId;
-        console.log('authorId : ', authorId);
         let userResult = await userDao.readForUserId(authorId);
-        console.log('userResult : ', userResult);
         authorKey = userResult.dataValues.key;
-        console.log('authorKey : ', authorKey);
-
+        if(authorId !== userId){
+            resultObject = createJson.result('nurbancomment_auth_fail');
+            res.status(403).json(resultObject);
+            return res.end();
+        }
     }catch(err){
         console.log(`delete comment result err : ${err}`);
         resultObject = createJson.error(err);
         res.status(500).json(resultObject);
         return res.end();
     }
-
+    //
 
     try{
        let result = await nurbanCommentDao.destory(id);
@@ -177,7 +179,7 @@ router.delete('/', async (req, res) => {
         console.log(`delete result : ${result}`)
 
         // 포인트를 내리는 메소드
-        if(!dropPoint(key, constObj.writeCommentPoint)){
+        if(!dropPoint(authorKey, constObj.writeCommentPoint)){
             console.log("dropPoint error");
         }
 
