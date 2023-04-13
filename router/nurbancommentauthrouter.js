@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const userDao = require('../dbdao/userdao');
 const nurbanCommentDao = require('../dbdao/nurbancommentdao');
 const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 var createJson = require('../utils/createjson');
@@ -150,13 +151,21 @@ router.delete('/', async (req, res) => {
     }
 
     let authorId = null;
+    let authorKey = null;
     try{
         let result = await nurbanCommentDao.read(id);
         console.log('nurbanCommentDao.read : ', result);
         authorId = result.dataValues.user.dataValues.userId;
         console.log('authorId : ', authorId);
-    }catch(err){
+        let userResult = userDao.readForUserId(authorId);
+        authorKey = userResult.key;
+        console.log('authorKey : ', authorKey);
 
+    }catch(err){
+        console.log(`delete comment result err : ${err}`);
+        resultObject = createJson.error(err);
+        res.status(500).json(resultObject);
+        return res.end();
     }
 
 
