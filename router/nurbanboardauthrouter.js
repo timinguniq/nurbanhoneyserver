@@ -214,6 +214,9 @@ router.post('/upload/image', async (req, res) => {
         return res.end();
     }
 
+    let nurbanArticle = nurbanBoardDao.readForUuid(uuid);
+    console.log('nurbanArticle : ', nurbanArticle);
+
     let imageFileNameSize = JSON.stringify(imageFiles[0].originalname).split('\\').length;
     let imageFileName = JSON.stringify(imageFiles[0].originalname).split('\\')[imageFileNameSize-1];
     

@@ -175,6 +175,15 @@ exports.readPopular = function read(offset, limit){
     });
 }
 
+// uuid로 글 검색
+exports.readForUuid = function read(uuid){
+    return NurbanBoard.findOne({
+        where: {
+            uuid: uuid
+        }
+    })
+}
+
 // NurbanBoard content 업데이트
 exports.updateContent = function update(id, thumbnail, title, lossCut, content){
     return NurbanBoard.update({thumbnail: thumbnail, title: title, lossCut: lossCut, content: content}, {where: {id: id}})
