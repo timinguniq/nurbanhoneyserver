@@ -138,6 +138,7 @@ router.delete('/', async (req, res) => {
 
     // 토큰에서 키 값 추출
     let key = extractKey(token);
+    let userId = extractUserId(key);
 
     // commentCount 추출하기
     try{
@@ -148,8 +149,18 @@ router.delete('/', async (req, res) => {
         console.log(`post error nurbanBoardDao : ${err}`);    
     }
 
+    let authorId = null;
     try{
-        let result = await nurbanCommentDao.destory(id);
+        let result = await nurbanCommentDao.read(id);
+        console.log('nurbanCommentDao.read : ', result);
+    }catch(err){
+
+    }
+
+
+    try{
+       let result = await nurbanCommentDao.destory(id);
+        
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
 
