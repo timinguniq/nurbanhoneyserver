@@ -158,7 +158,7 @@ router.delete('/', async (req, res) => {
         authorId = result.dataValues.user.dataValues.userId;
         console.log('authorId : ', authorId);
         let userResult = userDao.readForUserId(authorId);
-        authorKey = userResult.key;
+        authorKey = userResult.dataValues.key;
         console.log('authorKey : ', authorKey);
 
     }catch(err){
