@@ -81,7 +81,9 @@ router.patch('/edit', async (req, res) => {
 
     // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 지금은 jsonstring으로 와서 jsonobject로 변환해서 사용.
     console.log('insigniaShow : ', insigniaShow);
-    for(let insigniaEle in insigniaShow){
+    let insigniaArrsy = [];
+    insigniaArrsy = insigniaShow.replace('[', '').replace(']', '').trim().split(',');
+    for(let insigniaEle in insigniaArrsy){
         console.log('insigniaEle : ', insigniaEle);
     }
 
