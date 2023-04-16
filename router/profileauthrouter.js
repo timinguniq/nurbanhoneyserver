@@ -84,7 +84,9 @@ router.patch('/edit', async (req, res) => {
     console.log('insigniaShow : ', insigniaShow);
     let insigniaArray = [];
     insigniaArray = insigniaShow.replace('[', '').replace(']', '').split(',');
-    insigniaArray = insigniaArray.map(e => e.trim());
+    insigniaArray = insigniaArray.map(element => {
+        return element.trim();
+    });
     console.log('insigniaArray : ', insigniaArray);
     //
     let token = req.headers.authorization?.replace('Bearer ', '');   
