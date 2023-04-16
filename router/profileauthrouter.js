@@ -118,6 +118,8 @@ router.patch('/edit', async (req, res) => {
         // input으로 들어온 휘장 업데이트하기!
         let insigniaUpdateResult = '';
         for(let key in insigniaArray) {
+            console.log('insigniaShow 12 : ', insigniaArray[key]);
+            console.log('insigniaShow 12 userId : ', userId);
             insigniaUpdateResult = await insigniaDao.updateSetShown(insigniaArray[key], userId);
             console.log('insigniaUpdateResult : ', insigniaUpdateResult[0]);
         }
