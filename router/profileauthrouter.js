@@ -122,7 +122,7 @@ router.patch('/edit', async (req, res) => {
         for(let key in insigniaArray) {
             console.log('insigniaShow 12 :', insigniaArray[key]);
             console.log('insigniaShow 12 userId : ', userId);
-            insigniaUpdateResult = await insigniaDao.updateSetShown(insigniaArray[key], userId);
+            insigniaUpdateResult = await insigniaDao.updateSetShown(insigniaArray[key].toString(), userId);
             console.log('insigniaUpdateResult : ', insigniaUpdateResult[0]);
         }
         // 여기까지
