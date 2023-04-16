@@ -84,7 +84,7 @@ router.patch('/edit', async (req, res) => {
     let insigniaArrsy = [];
     insigniaArrsy = insigniaShow.replace('[', '').replace(']', '').trim().split(',');
     for(let insigniaEle in insigniaArrsy){
-        console.log('insigniaEle : ', insigniaEle);
+        console.log('insigniaEle : ', insigniaArrsy[insigniaEle]);
     }
 
     let jsonInsigniaShow = JSON.parse(insigniaShow);
