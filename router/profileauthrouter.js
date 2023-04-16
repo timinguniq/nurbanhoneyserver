@@ -79,13 +79,13 @@ router.patch('/edit', async (req, res) => {
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
 
-    // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 지금은 jsonstring으로 와서 jsonobject로 변환해서 사용.
+    // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 
+    // 지금은 '['A', 'B']' 이런 배열 형태의 스트링을 인풋을 받는 것으로 처리하고 있다.
     console.log('insigniaShow : ', insigniaShow);
     let insigniaArrsy = [];
-    insigniaArrsy = insigniaShow.replace('[', '').replace(']', '').trim().split(',');
-    for(let insigniaEle in insigniaArrsy){
-        console.log('insigniaEle : ', insigniaArrsy[insigniaEle]);
-    }
+    insigniaArrsy = insigniaShow.replace('[', '').replace(']', '').split(',');
+    insigniaArrsy = insigniaArrsy.map(e => e.trim());
+    insigniaArrsy.map(e => console.log('insigniaArray e : ', e));
 
     let jsonInsigniaShow = JSON.parse(insigniaShow);
     //
