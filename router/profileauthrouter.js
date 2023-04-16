@@ -82,12 +82,10 @@ router.patch('/edit', async (req, res) => {
     // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 
     // 지금은 '['A', 'B']' 이런 배열 형태의 스트링을 인풋을 받는 것으로 처리하고 있다.
     console.log('insigniaShow : ', insigniaShow);
-    let insigniaArrsy = [];
-    insigniaArrsy = insigniaShow.replace('[', '').replace(']', '').split(',');
-    insigniaArrsy = insigniaArrsy.map(e => e.trim());
-    insigniaArrsy.map(e => console.log('insigniaArray e : ', e));
-
-    let jsonInsigniaShow = JSON.parse(insigniaShow);
+    let insigniaArray = [];
+    insigniaArray = insigniaShow.replace('[', '').replace(']', '').split(',');
+    insigniaArray = insigniaArray.map(e => e.trim());
+    console.log('insigniaArray : ', insigniaArray);
     //
     let token = req.headers.authorization?.replace('Bearer ', '');   
 
@@ -119,9 +117,8 @@ router.patch('/edit', async (req, res) => {
 
         // input으로 들어온 휘장 업데이트하기!
         let insigniaUpdateResult = '';
-        for(let insigniaKey in jsonInsigniaShow) {
-            console.log('key:' + insigniaKey + ' / ' + 'value:' + jsonInsigniaShow[insigniaKey]);
-            insigniaUpdateResult = await insigniaDao.updateSetShown(jsonInsigniaShow[insigniaKey], userId);
+        for(let key in insigniaArray) {
+            insigniaUpdateResult = await insigniaDao.updateSetShown(insigniaArray[key], userId);
             console.log('insigniaUpdateResult : ', insigniaUpdateResult[0]);
             if(insigniaUpdateResult[0] == 0){
                 resultObject = createJson.result("profile_updated_fail");
