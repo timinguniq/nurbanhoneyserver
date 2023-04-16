@@ -85,7 +85,7 @@ router.patch('/edit', async (req, res) => {
     let insigniaArray = [];
     insigniaArray = insigniaShow.replace('[', '').replace(']', '').split(',');
     insigniaArray = insigniaArray.map(element => {
-        return element.trim();
+        return element.replace('"', '').trim();
     });
     console.log('insigniaArray : ', insigniaArray);
     //
@@ -120,9 +120,9 @@ router.patch('/edit', async (req, res) => {
         // input으로 들어온 휘장 업데이트하기!
         let insigniaUpdateResult = '';
         for(let key in insigniaArray) {
-            console.log('insigniaShow 12 : ', insigniaArray[key]);
+            console.log('insigniaShow 12 :', insigniaArray[key]);
             console.log('insigniaShow 12 userId : ', userId);
-            insigniaUpdateResult = await insigniaDao.updateSetShown(insigniaArray[key].trim(), userId);
+            insigniaUpdateResult = await insigniaDao.updateSetShown(insigniaArray[key], userId);
             console.log('insigniaUpdateResult : ', insigniaUpdateResult[0]);
         }
         // 여기까지
