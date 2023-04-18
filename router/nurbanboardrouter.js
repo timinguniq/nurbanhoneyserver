@@ -125,9 +125,9 @@ router.get('/', async (req, res) => {
         if(iFlag === constObj.defaultOrder){
             result = await nurbanBoardDao.read(articleId, limit);
         }else if(iFlag === constObj.countOrder){
-            result = await nurbanBoardDao.readCount(offset, limit);
+            result = await nurbanBoardDao.readCount(articleId, limit);
         }else if(iFlag === constObj.likeCountOrder){
-            result = await nurbanBoardDao.readLikeCount(offset, limit);
+            result = await nurbanBoardDao.readLikeCount(articleId, limit);
         }else{
             // 에러
             resultObject = createJson.error("flag is not correct");
