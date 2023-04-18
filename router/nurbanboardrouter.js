@@ -123,7 +123,7 @@ router.get('/', async (req, res) => {
         let result;
         let iFlag = Number(flag);
         if(iFlag === constObj.defaultOrder){
-            result = await nurbanBoardDao.readListForId(articleId, limit);
+            result = await nurbanBoardDao.read(articleId, limit);
         }else if(iFlag === constObj.countOrder){
             result = await nurbanBoardDao.readCount(offset, limit);
         }else if(iFlag === constObj.likeCountOrder){
