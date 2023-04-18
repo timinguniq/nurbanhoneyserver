@@ -11,14 +11,14 @@ let getInsigniaShown = require('../utils/getinsigniashown');
 // 댓글 리스트 읽기
 router.get('/', async (req, res) => {
     let articleId = req.query.articleId
-    let offset = req.query.offset;
+    let commentId = req.query.commentId;
     let limit = req.query.limit;
 
     let contentObject = new Object();
     let resultObject = new Object();
     
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [articleId, offset, limit];
+    let inputArray = [articleId];
     if(await inputErrorHandler(inputArray)){
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
-        let result = await nurbanCommentDao.readCount(articleId, offset, limit);
+        let result = await nurbanCommentDao.readCount(articleId, commentId, limit);
  
         let contentObjectList = [];
 

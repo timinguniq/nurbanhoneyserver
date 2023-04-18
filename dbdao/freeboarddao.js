@@ -140,7 +140,7 @@ exports.readLikeCount = function read(articleId = 0, limit = 10){
 }
 
 // 인기게시판 검색 메소드 (조회수, 좋아요 순으로 데이터 가져오기)
-exports.readPopular = function read(offset, limit){
+exports.readPopular = function read(articleId = 0, limit = 10){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -152,9 +152,11 @@ exports.readPopular = function read(offset, limit){
                 // createdAt < [timestamp] AND createdAt > [timestamp]
                 [Op.lte]: new Date(),
                 [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.gte]: articleId
             }
         },
-        offset: Number(offset),
         limit: Number(limit),
         order: [['count', 'DESC'], ['likeCount', 'DESC'], ['id', 'DESC']]
     });

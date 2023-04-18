@@ -10,13 +10,13 @@ let getInsigniaShown = require('../utils/getinsigniashown');
 // 인기 게시판 통신
 // 인기 게시판 리스트 받는 통신
 router.get('/', async (req, res) => {
-    let offset = req.query.offset;
+    let articleid = req.query.articleId;
     let limit = req.query.limit; 
 
     let resultObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [offset, limit];
+    let inputArray = [];
     if(await inputErrorHandler(inputArray)){
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
@@ -26,10 +26,10 @@ router.get('/', async (req, res) => {
     // 썸네일, 제목, 댓글 개수
     try{
         // 너반꿀 게시판에서 내가 쓴 글 불러오기
-        let nurbanBoardResult = await nurbanBoardDao.readPopular(offset, limit);
+        let nurbanBoardResult = await nurbanBoardDao.readPopular(articleid, limit);
         console.log("nurbanBoardResult", nurbanBoardResult);
         // TODO 자유게시판 내가 쓴 글 불러오기
-        let freeBoardResult = await freeBoardDao.readPopular(offset, limit);
+        let freeBoardResult = await freeBoardDao.readPopular(articleid, limit);
         //console.log("freeBoardResult", freeBoardResult);
 
         let contentObjectList = [];
