@@ -99,8 +99,8 @@ router.get('/article', async (req, res) => {
 
 // 글 리스트 데이터 받아오는 메소드
 router.get('/', async (req, res) => {
+    let articleId = req.query.articleId;
     let flag = req.query.flag;
-    let offset = req.query.offset;
     let limit = req.query.limit;    
 
     let contentObject = new Object();
@@ -119,11 +119,11 @@ router.get('/', async (req, res) => {
         let result;
         let iFlag = Number(flag);
         if(iFlag === constObj.defaultOrder){
-            result = await freeBoardDao.read(offset, limit);
+            result = await freeBoardDao.read(articleId, limit);
         }else if(iFlag === constObj.countOrder){
-            result = await freeBoardDao.readCount(offset, limit);
+            result = await freeBoardDao.readCount(articleId, limit);
         }else if(iFlag === constObj.likeCountOrder){
-            result = await freeBoardDao.readLikeCount(offset, limit);
+            result = await freeBoardDao.readLikeCount(articleId, limit);
         }else{
             // 에러
             resultObject = createJson.error("flag is not correct");

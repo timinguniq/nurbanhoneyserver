@@ -104,7 +104,6 @@ router.get('/article', async (req, res) => {
 router.get('/', async (req, res) => {
     let articleId = req.query.articleId;
     let flag = req.query.flag;
-    let offset = req.query.offset;
     let limit = req.query.limit;    
 
     let contentObject = new Object();

@@ -65,7 +65,7 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
 }
 
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.read = function read(articleId, limit){
+exports.read = function read(articleId = 0, limit = 10){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -95,7 +95,7 @@ exports.readCountForUserId = function read(userId){
 }
 
 // 조회수 순으로 데이터 가져오기
-exports.readCount = function read(articleId, limit){
+exports.readCount = function read(articleId = 0, limit = 10){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -118,7 +118,7 @@ exports.readCount = function read(articleId, limit){
 }
 
 // 좋아요 순으로 데이터 가져오기
-exports.readLikeCount = function read(articleId, limit){
+exports.readLikeCount = function read(articleId = 0, limit = 10){
     return NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId

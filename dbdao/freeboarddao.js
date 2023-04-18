@@ -64,16 +64,20 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
 }
 
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.read = function read(offset, limit){
+exports.read = function read(articleId = 0, limit = 10){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
         attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
-        offset: Number(offset),
         limit: Number(limit),
-        order: [['id', 'DESC']]
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+                [Op.gte]: articleId // use greater than operator to select records with id > specificId
+            }
+          },
     })
 }
 
@@ -90,7 +94,7 @@ exports.readCountForUserId = function read(userId){
 }
 
 // 조회수 순으로 데이터 가져오기
-exports.readCount = function read(offset, limit){
+exports.readCount = function read(articleId = 0, limit = 10){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -102,16 +106,18 @@ exports.readCount = function read(offset, limit){
                 // createdAt < [timestamp] AND createdAt > [timestamp]
                 [Op.lte]: new Date(),
                 [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.gte]: articleId
             }
         },
-        offset: Number(offset),
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
     });
 }
 
 // 좋아요 순으로 데이터 가져오기
-exports.readLikeCount = function read(offset, limit){
+exports.readLikeCount = function read(articleId = 0, limit = 10){
     return FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
@@ -123,9 +129,11 @@ exports.readLikeCount = function read(offset, limit){
                 // createdAt < [timestamp] AND createdAt > [timestamp]
                 [Op.lte]: new Date(),
                 [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.gte]: articleId
             }
         },
-        offset: Number(offset),
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
     });
