@@ -71,7 +71,7 @@ exports.read = function read(articleId, limit){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'count', 'createdAt'],
         limit: Number(limit),
         order: [['id', 'DESC']],
         where: {
@@ -101,7 +101,7 @@ exports.readCount = function read(articleId, limit){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'count', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -124,7 +124,7 @@ exports.readLikeCount = function read(articleId, limit){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'count', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
