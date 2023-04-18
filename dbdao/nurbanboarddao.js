@@ -78,6 +78,24 @@ exports.read = function read(offset, limit){
     })
 }
 
+// 글을 articleId로 글 리스트 가져오는 메소드
+exports.readListForId = function read(articleId, limit){
+    return NurbanBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        limit: Number(limit),
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+              [sequelize.Op.gt]: articleId // use greater than operator to select records with id > specificId
+            }
+          },
+    })
+}
+
 // userId에 따라 갯수 확인하는 메소드
 exports.readCountForUserId = function read(userId){
     return NurbanBoard.findAll({

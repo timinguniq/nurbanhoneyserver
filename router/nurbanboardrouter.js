@@ -102,6 +102,7 @@ router.get('/article', async (req, res) => {
 
 // 글 리스트 데이터 받아오는 메소드
 router.get('/', async (req, res) => {
+    let articleId = req.query.articleId;
     let flag = req.query.flag;
     let offset = req.query.offset;
     let limit = req.query.limit;    
@@ -122,7 +123,7 @@ router.get('/', async (req, res) => {
         let result;
         let iFlag = Number(flag);
         if(iFlag === constObj.defaultOrder){
-            result = await nurbanBoardDao.read(offset, limit);
+            result = await nurbanBoardDao.readListForId(articleId, limit);
         }else if(iFlag === constObj.countOrder){
             result = await nurbanBoardDao.readCount(offset, limit);
         }else if(iFlag === constObj.likeCountOrder){
