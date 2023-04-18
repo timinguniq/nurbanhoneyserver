@@ -110,7 +110,7 @@ router.get('/', async (req, res) => {
     let resultObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [articleId, flag, limit];
+    let inputArray = [flag];
     if(await inputErrorHandler(inputArray)){
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
