@@ -90,7 +90,7 @@ exports.readListForId = function read(articleId, limit){
         order: [['id', 'DESC']],
         where: {
             id: {
-              [sequelize.Op.gt]: articleId // use greater than operator to select records with id > specificId
+              [Op.gt]: articleId // use greater than operator to select records with id > specificId
             }
           },
     })
