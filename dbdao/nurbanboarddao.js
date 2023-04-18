@@ -90,7 +90,7 @@ exports.readListForId = function read(articleId, limit){
         order: [['id', 'DESC']],
         where: {
             id: {
-              [Op.gt]: articleId // use greater than operator to select records with id > specificId
+              [Op.gte]: articleId // use greater than operator to select records with id > specificId
             }
           },
     })
