@@ -181,7 +181,7 @@ router.get('/myarticle', async (req, res) => {
             contentObjectList.push(nurbanBoardResult[i].dataValues);
         }
 
-        // 자유게시판 
+        // 자유게시판
         for(var i = 0 ; i < freeBoardResult.length ; i++){
             freeBoardResult[i].dataValues.board = constObj.freeboard;
             contentObjectList.push(freeBoardResult[i].dataValues);
@@ -204,7 +204,6 @@ router.get('/myarticle', async (req, res) => {
         resultObject = createJson.error(err);
         res.status(500).json(resultObject);
     }
-
 });
 
 // 내가 작성한 댓글 리스트 보는 통신

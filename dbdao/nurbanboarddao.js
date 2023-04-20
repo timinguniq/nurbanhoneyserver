@@ -58,7 +58,7 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
         offset: Number(offset),
         limit: Number(limit),
         where: {
-            userId: userId 
+            userId: userId,
         },
         order: [['id', 'DESC']]
     })
@@ -76,7 +76,7 @@ exports.read = function read(articleId = 0, limit = 10){
         order: [['id', 'DESC']],
         where: {
             id: {
-              [Op.gte]: articleId // use greater than operator to select records with id > specificId
+              [Op.lte]: articleId // use greater than operator to select records with id > specificId
             }
           },
     })
