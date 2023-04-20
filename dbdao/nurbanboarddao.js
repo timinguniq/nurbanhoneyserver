@@ -93,7 +93,7 @@ exports.read = function read(articleId = -1, limit = 10){
               [Op.lte]: articleId // use greater than operator to select records with id > specificId
             }
           },
-    })
+    });
 }
 
 // userId에 따라 갯수 확인하는 메소드
@@ -109,8 +109,8 @@ exports.readCountForUserId = function read(userId){
 }
 
 // 조회수 순으로 데이터 가져오기
-exports.readCount = function read(articleId = 0, limit = 10){
-    return NurbanBoard.findAll({
+exports.readCount = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -128,12 +128,31 @@ exports.readCount = function read(articleId = 0, limit = 10){
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
+    })
+    : NurbanBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            }
+        },
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['id', 'DESC']]
     });
 }
 
 // 좋아요 순으로 데이터 가져오기
-exports.readLikeCount = function read(articleId = 0, limit = 10){
-    return NurbanBoard.findAll({
+exports.readLikeCount = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -151,7 +170,26 @@ exports.readLikeCount = function read(articleId = 0, limit = 10){
         },
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
-    });
+    })
+    : NurbanBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            }
+        },
+        limit: Number(limit),
+        order: [['likeCount', 'DESC'], ['id', 'DESC']]
+    })
 }
 
 // 랭크 생성을 위한 데이터 가져오기
