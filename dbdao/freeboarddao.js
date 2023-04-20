@@ -64,8 +64,8 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
 }
 
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.read = function read(articleId = 0, limit = 10){
-    return FreeBoard.findAll({
+exports.read = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -79,6 +79,20 @@ exports.read = function read(articleId = 0, limit = 10){
             }
           },
     })
+    : FreeBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        limit: Number(limit),
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+                [Op.lte]: articleId // use greater than operator to select records with id > specificId
+            }
+          },
+    });
 }
 
 // userId에 따라 갯수 확인하는 메소드
@@ -94,8 +108,8 @@ exports.readCountForUserId = function read(userId){
 }
 
 // 조회수 순으로 데이터 가져오기
-exports.readCount = function read(articleId = 0, limit = 10){
-    return FreeBoard.findAll({
+exports.readCount = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -113,12 +127,31 @@ exports.readCount = function read(articleId = 0, limit = 10){
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
+    })
+    : FreeBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            }
+        },
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['id', 'DESC']]
     });
 }
 
 // 좋아요 순으로 데이터 가져오기
-exports.readLikeCount = function read(articleId = 0, limit = 10){
-    return FreeBoard.findAll({
+exports.readLikeCount = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -132,6 +165,25 @@ exports.readLikeCount = function read(articleId = 0, limit = 10){
             },
             id: {
                 [Op.gte]: articleId
+            }
+        },
+        limit: Number(limit),
+        order: [['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+    : FreeBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
             }
         },
         limit: Number(limit),

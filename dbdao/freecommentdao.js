@@ -1,6 +1,7 @@
 const FreeComment = require('../models').free_comment;
 const User = require('../models').user;
 const FreeBoard = require('../models').freeboard;
+const { Op } = require("sequelize");
 const { sequelize } = require('../models');
 
 exports.create = function create(content, articleId, userId){
@@ -13,8 +14,8 @@ exports.create = function create(content, articleId, userId){
 }
  
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.readCount = function read(articleId, offset = 0, limit = 10){
-        return FreeComment.findAll({
+exports.readCount = function read(articleId, commentId = -1, limit = 10){
+        return commentId == -1 ? FreeComment.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -23,10 +24,29 @@ exports.readCount = function read(articleId, offset = 0, limit = 10){
         offset: Number(offset),
         limit: Number(limit),
         where: {
-            articleId: articleId
+            articleId: articleId,
+            id: {
+                [Op.gte]: commentId
+            }
         },
         order: [['id', 'DESC']]
     })
+    : FreeComment.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'content', 'articleId'],
+        offset: Number(offset),
+        limit: Number(limit),
+        where: {
+            articleId: articleId,
+            id: {
+                [Op.lte]: commentId
+            }
+        },
+        order: [['id', 'DESC']]
+    });
 }
 
 // 댓글을 userId로 검색

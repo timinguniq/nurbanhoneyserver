@@ -14,8 +14,8 @@ exports.create = function create(content, articleId, userId){
 }
  
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.readCount = function read(articleId, commentId = 0, limit = 10){
-        return NurbanComment.findAll({
+exports.readCount = function read(articleId, commentId = -1, limit = 10){
+        return commentId == -1 ? NurbanComment.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -26,6 +26,21 @@ exports.readCount = function read(articleId, commentId = 0, limit = 10){
             articleId: articleId,
             id: {
                 [Op.gte]: commentId
+            }
+        },
+        order: [['id', 'DESC']]
+    })
+    : NurbanComment.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'content', 'articleId'],
+        limit: Number(limit),
+        where: {
+            articleId: articleId,
+            id: {
+                [Op.lte]: commentId
             }
         },
         order: [['id', 'DESC']]
