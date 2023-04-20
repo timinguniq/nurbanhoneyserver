@@ -65,8 +65,22 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
 }
 
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.read = function read(articleId = 0, limit = 10){
-    return NurbanBoard.findAll({
+exports.read = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? NurbanBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        limit: Number(limit),
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+              [Op.gte]: articleId // use greater than operator to select records with id > specificId
+            }
+          },
+    })
+    : NurbanBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
