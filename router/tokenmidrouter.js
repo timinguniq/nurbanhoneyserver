@@ -12,7 +12,7 @@ router.use((req, res, next) => {
     console.log('auth : ', auth);
     if(auth === null || auth === undefined){
         let resultObject = createJson.error("token_not_exist");
-        return res.status(403).json(resultObject);
+        return res.status(401).json(resultObject);
     }
     let token = auth.replace('Bearer ', '');
     console.log('token : ', token);
