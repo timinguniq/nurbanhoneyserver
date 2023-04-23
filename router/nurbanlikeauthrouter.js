@@ -83,7 +83,7 @@ router.post('/', async (req, res) => {
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
             let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
             console.log('nurbanBoradResult : ', nurbanBoardResult);
-
+            let likeCount = nurbanBoardResult.dataValues.likeCount;
 
             let reflectLossCut = nurbanBoardResult.reflectLossCut;
             if(!reflectLossCut){
@@ -95,8 +95,8 @@ router.post('/', async (req, res) => {
                     }
                 }
             }
-            
-            resultObject = createJson.result("nurbanboard_like_posted");
+            // likeCount return
+            resultObject = createJson.result(likeCount);
             res.status(201).json(resultObject);
         }else{
             // 생성 실패
