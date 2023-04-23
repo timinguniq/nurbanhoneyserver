@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
  
         for(var i = 0 ; i < result.length ; i++){
+            console.log('result[i].dataValues.user.dataValues.userId : ', result[i].dataValues.user.dataValues.userId);
             result[i].dataValues.user.dataValues.insignia = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
             // string으로 안 가고 array로 가게 수정하는 코드
             result[i].dataValues.user.dataValues.insignia = JSON.parse(result[i].dataValues.user.dataValues.insignia);
