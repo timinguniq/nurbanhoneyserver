@@ -82,6 +82,7 @@ router.post('/', async (req, res) => {
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
             let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
+            let dislikeCount = nurbanBoardResult.dataValues.dislikeCount;
 
             let reflectLossCut = nurbanBoardResult.reflectLossCut;
             if(reflectLossCut){
@@ -94,7 +95,7 @@ router.post('/', async (req, res) => {
                 }
             }
 
-            resultObject = createJson.result("nurbanboard_dislike_posted");
+            resultObject = createJson.result(dislikeCount);
             res.status(201).json(resultObject);
         }else{
             // 생성 실패
@@ -167,7 +168,8 @@ router.delete('/', async (req, res) => {
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
             let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
-            
+            let dislikeCount = nurbanBoardResult.dataValues.dislikeCount;
+
             let reflectLossCut = nurbanBoardResult.reflectLossCut;
             if(!reflectLossCut){
                 if(isApproveLossCut(articleId)){
@@ -179,7 +181,7 @@ router.delete('/', async (req, res) => {
                 }
             }
             
-            resultObject = createJson.result("nurbanboard_dislike_deleted");
+            resultObject = createJson.result(dislikeCount);
             res.status(200).json(resultObject);
         }else{
             // 싫어요 삭제 실패
