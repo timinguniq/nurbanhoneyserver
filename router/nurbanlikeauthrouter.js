@@ -82,7 +82,6 @@ router.post('/', async (req, res) => {
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
             let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
-            console.log('nurbanBoradResult : ', nurbanBoardResult);
             let likeCount = nurbanBoardResult.dataValues.likeCount;
 
             let reflectLossCut = nurbanBoardResult.reflectLossCut;
@@ -169,7 +168,8 @@ router.delete('/', async (req, res) => {
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
             let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
-            
+            let likeCount = nurbanBoardResult.dataValues.likeCount;
+
             let reflectLossCut = nurbanBoardResult.reflectLossCut;
             if(reflectLossCut){
                 if(!isApproveLossCut(articleId)){
@@ -181,7 +181,7 @@ router.delete('/', async (req, res) => {
                 }
             }
 
-            resultObject = createJson.result("nurbanboard_like_deleted");
+            resultObject = createJson.result(likeCount);
             res.status(200).json(resultObject);
         }else{
             // 싫어요 삭제 실패
