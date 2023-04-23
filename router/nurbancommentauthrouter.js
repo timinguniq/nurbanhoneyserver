@@ -163,7 +163,7 @@ router.delete('/', async (req, res) => {
         }
         authorId = result.dataValues.user.dataValues.userId;
         let userResult = await userDao.readForUserId(authorId);
-        if(resultResult === null){
+        if(userResult === null){
             resultObject = createJson.result('nurbancomment_user_not_exist');
             res.status(404).json(resultObject);
             return res.end();
