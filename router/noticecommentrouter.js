@@ -87,17 +87,10 @@ router.get('/detail', async (req, res) => {
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
         let result = await noticeCommentDao.read(commentId);
-        
-        result.dataValues.user.dataValues.insignia = await getInsigniaShown(result.dataValues.user.dataValues.userId);
-
-        // string으로 안 가고 array로 가게 수정하는 코드
-        //result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);
-        //if(result.dataValues.user.dataValues.insignia === ""){
-        //    result.dataValues.user.dataValues.insignia = [];
-        //}
-        //
-
+               
         if(result !== null){
+            result.dataValues.user.dataValues.insignia = await getInsigniaShown(result.dataValues.user.dataValues.userId);
+
             res.status(200).json(result.dataValues);
         }else{
             res.status(700).json("comment is not exist");
