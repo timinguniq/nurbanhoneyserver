@@ -57,7 +57,7 @@ router.get('/article', async (req, res) => {
         let badge = result.user.badge;
         let nickname = result.user.nickname;
         let insignia = await getInsigniaShown(authorUserId);
-        insignia = JSON.parse(insignia);
+        //insignia = JSON.parse(insignia);
 
         if(userId !== null && userId !== undefined){
             // myRating 만드는 메소드
