@@ -23,9 +23,6 @@ router.post('/', async (req, res) => {
     let contentObject = new Object();
     let resultObject = new Object();
     
-    console.log('content : ', content);
-    console.log('noticeId : ', noticeId);
-
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [content, noticeId];
     if(await inputErrorHandler(inputArray)){
