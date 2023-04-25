@@ -40,10 +40,10 @@ router.get('/', async (req, res) => {
 
             nurbanBoardResult[i].dataValues.user.dataValues.insignia = await getInsigniaShown(nurbanBoardResult[i].dataValues.user.dataValues.userId);
             // string으로 안 가고 array로 가게 수정하는 코드
-            nurbanBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(nurbanBoardResult[i].dataValues.user.dataValues.insignia);
-            if(nurbanBoardResult[i].dataValues.user.dataValues.insignia === ""){
-                nurbanBoardResult[i].dataValues.user.dataValues.insignia = [];
-            }
+            //nurbanBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(nurbanBoardResult[i].dataValues.user.dataValues.insignia);
+            //if(nurbanBoardResult[i].dataValues.user.dataValues.insignia === ""){
+            //    nurbanBoardResult[i].dataValues.user.dataValues.insignia = [];
+            //}
             //
             contentObjectList.push(nurbanBoardResult[i].dataValues);
         }
@@ -54,10 +54,10 @@ router.get('/', async (req, res) => {
 
             freeBoardResult[i].dataValues.user.dataValues.insignia = await getInsigniaShown(freeBoardResult[i].dataValues.user.dataValues.userId);
             // string으로 안 가고 array로 가게 수정하는 코드
-            freeBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(freeBoardResult[i].dataValues.user.dataValues.insignia);
-            if(freeBoardResult[i].dataValues.user.dataValues.insignia === ""){
-                freeBoardResult[i].dataValues.user.dataValues.insignia = [];
-            }
+            //freeBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(freeBoardResult[i].dataValues.user.dataValues.insignia);
+            //if(freeBoardResult[i].dataValues.user.dataValues.insignia === ""){
+            //    freeBoardResult[i].dataValues.user.dataValues.insignia = [];
+            //}
             //
             contentObjectList.push(freeBoardResult[i].dataValues);
         }
