@@ -204,6 +204,21 @@ router.delete('/', async (req, res) => {
         }
 
         if(result === 1){
+            // 너반꿀 게시판 테이블에 commentCount 감소하는 코드
+            try{
+                console.log(`commentCount delete : ${commentCount}`);
+
+                if(commentCount >= 1){
+                    let result = await noticeDao.updateCommentCount(articleId, --commentCount)
+                    console.log(`commentCount delete result : ${result}`)     
+                }           
+            }catch(err){
+                console.log(`post create comment update result err : ${err}`);
+                resultObject = createJson.error(err);
+                res.status(500).json(resultObject);
+                return res.end();
+            }
+
             resultObject = createJson.result("noticecomment_deleted");
             res.status(200).json(resultObject);
         }else{
@@ -217,20 +232,7 @@ router.delete('/', async (req, res) => {
         return res.end();
     }
 
-    // 너반꿀 게시판 테이블에 commentCount 감소하는 코드
-    try{
-        console.log(`commentCount : ${commentCount}`);
-
-        if(commentCount >= 1){
-            let result = await noticeDao.updateCommentCount(articleId, --commentCount)
-            console.log(`commentCount result : ${result}`)     
-        }           
-    }catch(err){
-        console.log(`post create comment update result err : ${err}`);
-        resultObject = createJson.error(err);
-        res.status(500).json(resultObject);
-        return res.end();
-    }
+    
 });
 
 module.exports = router;
