@@ -209,7 +209,7 @@ router.delete('/', async (req, res) => {
                 console.log(`commentCount delete : ${commentCount}`);
 
                 if(commentCount >= 1){
-                    let result = await noticeDao.updateCommentCount(articleId, --commentCount)
+                    let result = await noticeDao.updateCommentCount(noticeId, --commentCount)
                     console.log(`commentCount delete result : ${result}`)     
                 }           
             }catch(err){
