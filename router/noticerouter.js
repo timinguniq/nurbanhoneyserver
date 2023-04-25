@@ -69,6 +69,7 @@ router.get('/article', async (req, res) => {
         resultObject = createJson.multi(nameList, valueList); 
         res.status(200).json(resultObject);
     }catch(err){
+        console.log('notice detail err : ', err);
         resultObject = createJson.error("notice is not exist");
         res.status(500).json(resultObject);
     }
