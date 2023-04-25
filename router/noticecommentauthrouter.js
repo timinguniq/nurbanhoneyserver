@@ -114,18 +114,11 @@ router.patch('/', async (req, res) => {
 
         result.dataValues.user.dataValues.insignia = await getInsigniaShown(result.dataValues.user.dataValues.userId);
 
-        // string으로 안 가고 array로 가게 수정하는 코드
-        //result.dataValues.user.dataValues.insignia = JSON.parse(result.dataValues.user.dataValues.insignia);
-        //if(result.dataValues.user.dataValues.insignia === ""){
-        //   result.dataValues.user.dataValues.insignia = [];
-        //}
-        //
-
         if(result !== null){
             let commentUserId = result.dataValues.user.dataValues.userId;
             if(userId !== commentUserId){
                 resultObject = createJson.result("noticecomment_updated_fail");
-                return res.status(401).json(resultObject);
+                return res.status(403).json(resultObject);
             }
         }else{
             res.status(700).json("comment is not exist");
@@ -176,6 +169,9 @@ router.delete('/', async (req, res) => {
     // 토큰에서 키 값 추출
     let key = extractKey(token);
 
+    // 키값으로 userId 값 얻어내기 
+    let userId = await extractUserId(key);
+
     // commentCount 추출하기
     try{
         let result = await noticeDao.readForId(noticeId);
@@ -186,6 +182,18 @@ router.delete('/', async (req, res) => {
     }
 
     try{
+        let resultNoticeComment = await noticeCommentDao.read(id);
+
+        if(resultNoticeComment !== null){
+            let commentUserId = resultNoticeComment.dataValues.user.dataValues.userId;
+            if(userId !== commentUserId){
+                resultObject = createJson.result("noticecomment_deleted_fail");
+                return res.status(403).json(resultObject);
+            }
+        }else{
+            res.status(700).json("comment is not exist");
+        }
+
         let result = await noticeCommentDao.destory(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
