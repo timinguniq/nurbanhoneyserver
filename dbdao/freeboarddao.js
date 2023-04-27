@@ -192,8 +192,8 @@ exports.readLikeCount = function read(articleId = -1, limit = 10){
 }
 
 // 인기게시판 검색 메소드 (조회수, 좋아요 순으로 데이터 가져오기)
-exports.readPopular = function read(articleId = 0, limit = 10){
-    return FreeBoard.findAll({
+exports.readPopular = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? FreeBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -207,6 +207,25 @@ exports.readPopular = function read(articleId = 0, limit = 10){
             },
             id: {
                 [Op.gte]: articleId
+            }
+        },
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+    : FreeBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'count', 'commentCount'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
             }
         },
         limit: Number(limit),

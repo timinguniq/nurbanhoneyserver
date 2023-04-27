@@ -25,6 +25,7 @@ router.get('/', async (req, res) => {
 
     // 썸네일, 제목, 댓글 개수
     try{
+        /// TODO : readPopular 이거 아티클 아래로 바꿔야 된다..
         // 너반꿀 게시판에서 내가 쓴 글 불러오기
         let nurbanBoardResult = await nurbanBoardDao.readPopular(articleid, limit);
         console.log("nurbanBoardResult", nurbanBoardResult);
@@ -39,12 +40,7 @@ router.get('/', async (req, res) => {
             nurbanBoardResult[i].dataValues.board = constObj.nurbanboard;
 
             nurbanBoardResult[i].dataValues.user.dataValues.insignia = await getInsigniaShown(nurbanBoardResult[i].dataValues.user.dataValues.userId);
-            // string으로 안 가고 array로 가게 수정하는 코드
-            //nurbanBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(nurbanBoardResult[i].dataValues.user.dataValues.insignia);
-            //if(nurbanBoardResult[i].dataValues.user.dataValues.insignia === ""){
-            //    nurbanBoardResult[i].dataValues.user.dataValues.insignia = [];
-            //}
-            //
+
             contentObjectList.push(nurbanBoardResult[i].dataValues);
         }
 
@@ -53,12 +49,7 @@ router.get('/', async (req, res) => {
             freeBoardResult[i].dataValues.board = constObj.freeboard;
 
             freeBoardResult[i].dataValues.user.dataValues.insignia = await getInsigniaShown(freeBoardResult[i].dataValues.user.dataValues.userId);
-            // string으로 안 가고 array로 가게 수정하는 코드
-            //freeBoardResult[i].dataValues.user.dataValues.insignia = JSON.parse(freeBoardResult[i].dataValues.user.dataValues.insignia);
-            //if(freeBoardResult[i].dataValues.user.dataValues.insignia === ""){
-            //    freeBoardResult[i].dataValues.user.dataValues.insignia = [];
-            //}
-            //
+
             contentObjectList.push(freeBoardResult[i].dataValues);
         }
 
