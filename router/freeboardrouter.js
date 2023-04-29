@@ -64,13 +64,6 @@ router.get('/article', async (req, res) => {
             myRating = await createFreeMyrating(articleId, userId);
         }
 
-        // string으로 안 가고 array로 가게 수정하는 코드
-        //insignia = JSON.parse(insignia);
-        //if(insignia === ""){
-        //    insignia = [];
-        //}
-        //
-
         let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt", 
                 "userId", "badge", "nickname", "insignia", "myRating"];
         let valueList = [articleId, uuid, thumbnail, title, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
