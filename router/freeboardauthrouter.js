@@ -75,7 +75,6 @@ router.patch('/', async (req, res) => {
     // 나중에 thumbanil 처리해줘야됨.
     let thumbnail = req.body.thumbnail;
     let title = req.body.title;
-    let lossCut = req.body.lossCut;
     let content = req.body.content;
     
     let contentObject = new Object();
