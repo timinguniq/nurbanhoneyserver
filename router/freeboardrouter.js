@@ -65,10 +65,10 @@ router.get('/article', async (req, res) => {
         }
 
         // string으로 안 가고 array로 가게 수정하는 코드
-        insignia = JSON.parse(insignia);
-        if(insignia === ""){
-            insignia = [];
-        }
+        //insignia = JSON.parse(insignia);
+        //if(insignia === ""){
+        //    insignia = [];
+        //}
         //
 
         let nameList = ["id", "uuid", "thumbnail", "title", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt", 
