@@ -10,7 +10,7 @@ let getInsigniaShown = require('../utils/getinsigniashown');
 // 인기 게시판 통신
 // 인기 게시판 리스트 받는 통신
 router.get('/', async (req, res) => {
-    let articleid = req.query.articleId;
+    let offset = req.query.offset;
     let limit = req.query.limit; 
 
     let resultObject = new Object();
@@ -27,10 +27,10 @@ router.get('/', async (req, res) => {
     try{
         /// TODO : readPopular 이거 아티클 아래로 바꿔야 된다..
         // 너반꿀 게시판에서 내가 쓴 글 불러오기
-        let nurbanBoardResult = await nurbanBoardDao.readPopular(articleid, limit);
+        let nurbanBoardResult = await nurbanBoardDao.readPopular(offset, limit);
         console.log("nurbanBoardResult", nurbanBoardResult);
         // TODO 자유게시판 내가 쓴 글 불러오기
-        let freeBoardResult = await freeBoardDao.readPopular(articleid, limit);
+        let freeBoardResult = await freeBoardDao.readPopular(offset, limit);
         //console.log("freeBoardResult", freeBoardResult);
 
         let contentObjectList = [];
