@@ -4,9 +4,10 @@ const TotalBoard = require('../models').totalboard;
 const { Op } = require('sequelize');
 const { sequelize } = require('../models');
 
-exports.create = function create(content, articleId, userId){
+exports.create = function create(board, content, articleId, userId){
     return NurbanComment.create({
         id: 0,
+        board: board,
         content: content,
         articleId: articleId,
         userId: userId

@@ -9,12 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         comment: "id",
       },
-      board: {
-        type: DataTypes.INTEGER,
-        defaultValue: DataTypes.INTEGER,
-        allowNull: false,
-        comment: "보드 종류 0이면 너반꿀, 1이면 자유게시판",
-      },
     },{
       freezeTableName: true,
       charset: "utf8", // 한국어 설정
