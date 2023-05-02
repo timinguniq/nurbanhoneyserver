@@ -65,11 +65,22 @@ exports.readForUserId = function read(userId, offset = 0, limit = 10){
     })
 }
 
-/// TODO 여기까지만 함.
+// userId에 따라 갯수 확인하는 메소드
+exports.readCountForUserId = function read(userId){
+    return TotalBoard.findAll({
+        attributes: [
+            [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
+        ],
+        where: {
+            userId: userId
+        }
+    });
+}
 
+// NubanBoard
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
-exports.read = function read(articleId = -1, limit = 10){
-    return articleId == -1 ? NurbanBoard.findAll({
+exports.readNurban = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
@@ -80,10 +91,11 @@ exports.read = function read(articleId = -1, limit = 10){
         where: {
             id: {
               [Op.gte]: articleId // use greater than operator to select records with id > specificId
-            }
+            },
+            board: 0,
           },
     })
-    : NurbanBoard.findAll({
+    : TotalBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
@@ -94,26 +106,16 @@ exports.read = function read(articleId = -1, limit = 10){
         where: {
             id: {
               [Op.lte]: articleId // use greater than operator to select records with id > specificId
-            }
+            },
+            borad: 0,
           },
     });
 }
 
-// userId에 따라 갯수 확인하는 메소드
-exports.readCountForUserId = function read(userId){
-    return NurbanBoard.findAll({
-        attributes: [
-            [sequelize.fn('COUNT', sequelize.col('id')), 'n_ids']
-        ],
-        where: {
-            userId: userId
-        }
-    });
-}
-
+// Nurban
 // 조회수 순으로 데이터 가져오기
-exports.readCount = function read(articleId = -1, limit = 10){
-    return articleId == -1 ? NurbanBoard.findAll({
+exports.readCountNurban = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -127,12 +129,13 @@ exports.readCount = function read(articleId = -1, limit = 10){
             },
             id: {
                 [Op.gte]: articleId
-            }
+            },
+            board: 0,
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
     })
-    : NurbanBoard.findAll({
+    : TotalBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -146,16 +149,18 @@ exports.readCount = function read(articleId = -1, limit = 10){
             },
             id: {
                 [Op.lte]: articleId
-            }
+            },
+            board: 0,
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
     });
 }
 
+// Nurban
 // 좋아요 순으로 데이터 가져오기
-exports.readLikeCount = function read(articleId = -1, limit = 10){
-    return articleId == -1 ? NurbanBoard.findAll({
+exports.readLikeCountNurban = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -169,12 +174,13 @@ exports.readLikeCount = function read(articleId = -1, limit = 10){
             },
             id: {
                 [Op.gte]: articleId
-            }
+            },
+            board: 0,
         },
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
     })
-    : NurbanBoard.findAll({
+    : TotalBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -188,7 +194,133 @@ exports.readLikeCount = function read(articleId = -1, limit = 10){
             },
             id: {
                 [Op.lte]: articleId
-            }
+            },
+            board: 0,
+        },
+        limit: Number(limit),
+        order: [['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+}
+
+// FreeBoard
+// 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
+exports.readFree = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        limit: Number(limit),
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+              [Op.gte]: articleId // use greater than operator to select records with id > specificId
+            },
+            board: 1,
+          },
+    })
+    : TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        limit: Number(limit),
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+              [Op.lte]: articleId // use greater than operator to select records with id > specificId
+            },
+            borad: 1,
+          },
+    });
+}
+
+// Free
+// 조회수 순으로 데이터 가져오기
+exports.readCountFree = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.gte]: articleId
+            },
+            board: 1,
+        },
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['id', 'DESC']]
+    })
+    : TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            },
+            board: 1,
+        },
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['id', 'DESC']]
+    });
+}
+
+// Free
+// 좋아요 순으로 데이터 가져오기
+exports.readLikeCountFree = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.gte]: articleId
+            },
+            board: 1,
+        },
+        limit: Number(limit),
+        order: [['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+    : TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            },
+            board: 1,
         },
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
@@ -197,7 +329,7 @@ exports.readLikeCount = function read(articleId = -1, limit = 10){
 
 // 랭크 생성을 위한 데이터 가져오기
 exports.readForRank = function read(){
-    return NurbanBoard.findAll({
+    return TotalBoard.findAll({
         attributes: [[sequelize.fn('SUM', sequelize.col('lossCut')), 'sumLossCut'],
                     [sequelize.fn('SUM', sequelize.col('likeCount')), 'sumLikeCount'], 'userId'],
         where: {
@@ -208,7 +340,8 @@ exports.readForRank = function read(){
                 // createdAt < [timestamp] AND createdAt > [timestamp]
                 [Op.lte]: new Date(),
                 [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
-            }
+            },
+            board: 0,
         },
         offset: 0,
         limit: 5,
@@ -218,8 +351,8 @@ exports.readForRank = function read(){
 }
 
 // 인기게시판 검색 메소드 (조회수, 좋아요 순으로 데이터 가져오기)
-exports.readPopular = function read(offset = 0, limit = 10){
-    return NurbanBoard.findAll({
+exports.readPopular = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
         include: [
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
@@ -231,8 +364,29 @@ exports.readPopular = function read(offset = 0, limit = 10){
                 [Op.lte]: new Date(),
                 [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
             },
+            id: {
+                [Op.gte]: articleId
+            },
         },
-        offset: Number(offset),
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+    : TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'thumbnail', 'title', 'count', 'commentCount'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            },
+        },
         limit: Number(limit),
         order: [['count', 'DESC'], ['likeCount', 'DESC'], ['id', 'DESC']]
     });
@@ -240,44 +394,44 @@ exports.readPopular = function read(offset = 0, limit = 10){
 
 // uuid로 글 검색
 exports.readForUuid = function read(uuid){
-    return NurbanBoard.findOne({
+    return TotalBoard.findOne({
         where: {
-            uuid: uuid
+            uuid: uuid,
         }
     })
 }
 
-// NurbanBoard content 업데이트
+// TotalBoard content 업데이트
 exports.updateContent = function update(id, thumbnail, title, lossCut, content){
-    return NurbanBoard.update({thumbnail: thumbnail, title: title, lossCut: lossCut, content: content}, {where: {id: id}})
+    return TotalBoard.update({thumbnail: thumbnail, title: title, lossCut: lossCut, content: content}, {where: {id: id}})
 }
 
-// NurbanBoard count 업데이트
+// TotalBoard count 업데이트
 exports.updateCount = function update(id, count){
-    return NurbanBoard.update({count: count}, {where: {id: id}})
+    return TotalBoard.update({count: count}, {where: {id: id}})
 }
 
-// NurbanBoard commentCount 업데이트
+// TotalBoard commentCount 업데이트
 exports.updateCommentCount = function update(id, commentCount){
-    return NurbanBoard.update({commentCount: commentCount}, {where: {id: id}})
+    return TotalBoard.update({commentCount: commentCount}, {where: {id: id}})
 }
 
-// NurbanBoard likeCount 업데이트
+// TotalBoard likeCount 업데이트
 exports.updateLikeCount = function update(id, likeCount){
-    return NurbanBoard.update({likeCount: likeCount}, {where: {id: id}})
+    return TotalBoard.update({likeCount: likeCount}, {where: {id: id}})
 }
 
-// NurbanBoard dislikeCount 업데이트
+// TotalBoard dislikeCount 업데이트
 exports.updateDislikeCount = function update(id, dislikeCount){
-    return NurbanBoard.update({dislikeCount: dislikeCount}, {where: {id: id}})
+    return TotalBoard.update({dislikeCount: dislikeCount}, {where: {id: id}})
 }
 
-// NurbanBoard reflectLossCut 업데이트
+// TotalBoard reflectLossCut 업데이트
 exports.updateReflectLossCut = function update(id, reflectLossCut){
-    return NurbanBoard.update({reflectLossCut: reflectLossCut}, {where: {id: id}})
+    return TotalBoard.update({reflectLossCut: reflectLossCut}, {where: {id: id}})
 }
 
 // 글 삭제
 exports.destory = function destory(id){
-    return NurbanBoard.destroy({where: {id: id}})
+    return TotalBoard.destroy({where: {id: id}})
 }
