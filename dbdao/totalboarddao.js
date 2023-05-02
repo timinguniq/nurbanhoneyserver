@@ -15,29 +15,7 @@ exports.create = function create(uuid, board, thumbnail, title, lossCut, content
         content: content,
         userId: userId
     })
-/*
-    id: {
-      thumbanil: {
-      title: {
-      content: {
-      count: {
-      commentCount: {
-      likeCount: {
-      dislikeCount: {
-      userId: {    
-  }*/
 }
-
-// 글 id로 검색
-/* 예제 코드로 남겨놓음
-exports.readForId = function read(id){
-    return NurbanBoard.findOne({
-        where: {
-            id: id 
-        }
-    })
-}
-*/
 
 // 글 id로 검색
 exports.readForId = function read(id){
