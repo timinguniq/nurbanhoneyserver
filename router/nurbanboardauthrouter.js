@@ -17,6 +17,8 @@ let dropPoint = require('../utils/droppoint');
 let dropTotalLossCut = require('../utils/droptotallosscut');
 let isApproveLossCut = require('../utils/isapprovelosscut');
 
+const totalBoardDao = require('../dbdao/totalboarddao');
+
 // 토큰 있어야 가능한 통신
 
 // 글 생성 
@@ -57,7 +59,8 @@ router.post('/', async (req, res) => {
 
     // 너반꿀 게시판 글 작성
     try{
-        let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossCut, content, userId);
+        //let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossCut, content, userId);
+        let result = await totalBoardDao.create(uuid, 0, thumbnail, title, lossCut, content, userId);
         console.log(`create : ${result}`);
 
         // 포인트를 올리는 메소드
@@ -95,9 +98,10 @@ router.patch('/', async (req, res) => {
     }
 
     try{
-        let result = await nurbanBoardDao.updateContent(id, thumbnail, title, lossCut, content);
+        //let result = await nurbanBoardDao.updateContent(id, thumbnail, title, lossCut, content);
+        let result = await totalBoardDao.updateContent(id, thumbnail, title, lossCut, content);
         // result 1이면 성공 0이면 실패
-        console.log(`patch result : ${result}`)
+        console.log(`patch result : ${result}`);
         if(result[0] === 1){
             resultObject = createJson.result("nurbanboard_updated");
             res.status(200).json(resultObject);
@@ -141,7 +145,8 @@ router.delete('/', async (req, res) => {
 
     let deleteResult = null;
     try{
-        let readResult = await nurbanBoardDao.readForId(id);
+        //let readResult = await nurbanBoardDao.readForId(id);
+        let readResult = await totalBoardDao.readForId(id);
         console.log("readResult userId : ", readResult);
         let articleUserId = readResult.userId;
         console.log("readResult userId 2 : ", articleUserId);
@@ -150,7 +155,8 @@ router.delete('/', async (req, res) => {
             res.status(401).json(resultObject);
             return res.end();
         }else{
-            deleteResult = await nurbanBoardDao.destory(id);
+            //deleteResult = await nurbanBoardDao.destory(id);
+            deleteResult = await totalBoardDao.destory(id);
         }
                 
         // deleteResult 1이면 성공 0이면 실패
@@ -215,7 +221,8 @@ router.post('/upload/image', async (req, res) => {
     }
 
     // uuid인 아티클이 없으면 에러
-    let nurbanArticle = await nurbanBoardDao.readForUuid(uuid);
+    //let nurbanArticle = await nurbanBoardDao.readForUuid(uuid);
+    let nurbanArticle = await totalBoardDao.readForUuid(uuid);
     console.log('nurbanArticle : ', nurbanArticle);
 
     if(nurbanArticle === null){
