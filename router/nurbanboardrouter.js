@@ -12,6 +12,9 @@ var extractUserId = require('../utils/extractuserid');
 let createNurbanMyrating = require('../utils/createnurbanmyrating');
 let getInsigniaShown = require('../utils/getinsigniashown');
 
+const totalBoardDao = require('../dbdao/totalboarddao');
+
+
 // 토큰 없이 이용 가능한 통신들
 
 let preDate = 0;
@@ -44,7 +47,8 @@ router.get('/article', async (req, res) => {
     // id 값으로 데이터 읽기
     try{
         console.log('article detail id : ', id);
-        let result = await nurbanBoardDao.readForId(id);
+        //let result = await nurbanBoardDao.readForId(id);
+        let result = await totalBoardDao.readForId(id);
         console.log('article detail result : ', result);
         let articleId = result.id;
         let uuid = result.uuid;
@@ -90,7 +94,8 @@ router.get('/article', async (req, res) => {
     try{
         console.log(`curDate : ${curDate}, preDate : ${preDate}`);
         if(curDate - preDate >= constObj.countInterval){
-            let result = await nurbanBoardDao.updateCount(id, ++articleCount);
+            //let result = await nurbanBoardDao.updateCount(id, ++articleCount);
+            let result = await totalBoardDao.updateCount(id, ++artcielCount);
             console.log(`nurbanboard detail updateCount result : ${result}`);      
         }
     }catch(err){
@@ -122,11 +127,14 @@ router.get('/', async (req, res) => {
         let result;
         let iFlag = Number(flag);
         if(iFlag === constObj.defaultOrder){
-            result = await nurbanBoardDao.read(articleId, limit);
+            //result = await nurbanBoardDao.read(articleId, limit);
+            result = await totalBoardDao.readNurban(articleId, limit);
         }else if(iFlag === constObj.countOrder){
-            result = await nurbanBoardDao.readCount(articleId, limit);
+            //result = await nurbanBoardDao.readCount(articleId, limit);
+            result = await totalBoardDao.readCountNurban(articleId, limit);
         }else if(iFlag === constObj.likeCountOrder){
-            result = await nurbanBoardDao.readLikeCount(articleId, limit);
+            //result = await nurbanBoardDao.readLikeCount(articleId, limit);
+            result = await totalBoardDao.readLikeCountNurban(articleId, limit);
         }else{
             // 에러
             resultObject = createJson.error("flag is not correct");
@@ -188,7 +196,8 @@ router.get('/article/myrating', async (req, res) => {
 
     // id 값으로 데이터 읽기
     try{
-        let result = await nurbanBoardDao.readForId(articleId);
+        //let result = await nurbanBoardDao.readForId(articleId);
+        let result = await totalBoardDao.readForId(articleId);
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let myRating = null;
