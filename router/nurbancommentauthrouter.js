@@ -11,6 +11,9 @@ let raisePoint = require('../utils/raisepoint');
 let dropPoint = require('../utils/droppoint');
 let constObj = require('../config/const');
 
+const totalCommentDao = require('../dbdao/totalcommentdao');
+const totalBoardDao = require('../dbdao/totalboarddao');
+
 // 토큰이 있어야 가능한 통신
 
 // 댓글 생성
@@ -45,7 +48,8 @@ router.post('/', async (req, res) => {
 
     // commentCount 추출하기
     try{
-        let result = await nurbanBoardDao.readForId(articleId);
+        //let result = await nurbanBoardDao.readForId(articleId);
+        let result = await totalBoardDao.readForId(articleId);
         console.log(`post result nurbanBoardDao : ${JSON.stringify(result)}`);
         commentCount = result.commentCount;
     }catch(err){
@@ -54,7 +58,8 @@ router.post('/', async (req, res) => {
     
     // 댓글 생성하는 코드
     try{
-        let result = await nurbanCommentDao.create(content, articleId, userId);
+        //let result = await nurbanCommentDao.create(content, articleId, userId);
+        let result = await totalCommentDao.create(0, content, articleId, userId);
         console.log(`post create result : ${result}`);
 
         // 포인트를 올리는 메소드
@@ -74,7 +79,8 @@ router.post('/', async (req, res) => {
     // 너반꿀 게시판 테이블에 commentCount 증가하는 코드
     try{
         console.log(`commentCount : ${commentCount}`);
-        let result = await nurbanBoardDao.updateCommentCount(articleId, ++commentCount)
+        //let result = await nurbanBoardDao.updateCommentCount(articleId, ++commentCount);
+        let result = await totalBoardDao.updateCommentCount(articleId, ++commentCount);
         console.log(`commentCount result : ${result}`)    
     }catch(err){
         console.log(`post create comment update result err : ${err}`);
@@ -101,7 +107,8 @@ router.patch('/', async (req, res) => {
     }
 
     try{
-        let result = await nurbanCommentDao.updateContent(id, content);
+        //let result = await nurbanCommentDao.updateContent(id, content);
+        let result = await totalCommentDao.updateContent(id, content);
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         if(result[0] === 1){
@@ -143,7 +150,8 @@ router.delete('/', async (req, res) => {
 
     // commentCount 추출하기
     try{
-        let result = await nurbanBoardDao.readForId(articleId);
+        //let result = await nurbanBoardDao.readForId(articleId);
+        let result = await totalBoardDao.readForId(articleId);
         console.log(`post result nurbanBoardDao : ${JSON.stringify(result)}`);
         commentCount = result.commentCount;
     }catch(err){
@@ -154,7 +162,8 @@ router.delete('/', async (req, res) => {
     let authorId = null;
     let authorKey = null;
     try{
-        let result = await nurbanCommentDao.read(id);
+        //let result = await nurbanCommentDao.read(id);
+        let result = await totalCommentDao.read(id);
         console.log('nurbanCommentDao.read : ', result);
         if(result === null){
             resultObject = createJson.result('nurbancomment_not_exist');
@@ -185,7 +194,8 @@ router.delete('/', async (req, res) => {
     //
 
     try{
-       let result = await nurbanCommentDao.destory(id);
+       //let result = await nurbanCommentDao.destory(id);
+       let result = await totalCommentDao.destory(id);
         
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
@@ -214,7 +224,8 @@ router.delete('/', async (req, res) => {
         console.log(`commentCount : ${commentCount}`);
 
         if(commentCount >= 1){
-            let result = await nurbanBoardDao.updateCommentCount(articleId, --commentCount)
+            //let result = await nurbanBoardDao.updateCommentCount(articleId, --commentCount);
+            let result = await totalBoardDao.updateCommentCount(articleId, --commentCount);
             console.log(`commentCount result : ${result}`)     
         }           
     }catch(err){
