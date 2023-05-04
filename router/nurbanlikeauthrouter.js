@@ -17,6 +17,10 @@ let dropTotalLossCut = require('../utils/droptotallosscut');
 let settingNurbanDislikeCount = require('../utils/settingnurbandislikecount');
 let settingNurbanLikeCount = require('../utils/settingnurbanlikecount');
 
+const totalDislikeDao = require('../dbdao/totaldislikedao');
+const totalLikeDao = require('../dbdao/totallikedao');
+const totalBoardDao = require('../dbdao/totalboarddao');
+
 // 좋아요 생성
 router.post('/', async (req, res) => {
     let articleId = req.body.articleId;
@@ -49,14 +53,17 @@ router.post('/', async (req, res) => {
     let articleKey = await extractArticleKey(articleId);
 
     // 싫어요를 삭제하는 코드
-    await nurbanDislikeDao.destoryUserId(articleId, userId);
+    //await nurbanDislikeDao.destoryUserId(articleId, userId);
+    await totalDislikeDao.destoryUserId(articleId, userId);
     // 좋아요를 삭제하는 코드
-    await nurbanLikeDao.destoryUserId(articleId, userId);
+    //await nurbanLikeDao.destoryUserId(articleId, userId);
+    await totalLikeDao.destoryUserId(articleId, userId);
 
     let nurbanLikeResult;
     // 좋아요를 생성하는 코드
     try{
-        nurbanLikeResult = await nurbanLikeDao.create(articleId, userId);
+        //nurbanLikeResult = await nurbanLikeDao.create(articleId, userId);
+        nurbanLikeResult = await totalLikeDao.create(articleId, userId);
        
         // 좋아요 포인트를 추가하는 메소드
         if(!raisePoint(articleKey, constObj.likePoint)){
@@ -81,13 +88,15 @@ router.post('/', async (req, res) => {
             // 생성 성공
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-            let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
+            //let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
+            let nurbanBoardResult = await totalBoardDao.readForId(articleId);
             let likeCount = nurbanBoardResult.dataValues.likeCount;
 
             let reflectLossCut = nurbanBoardResult.reflectLossCut;
             if(!reflectLossCut){
                 if(isApproveLossCut(articleId)){
-                    await nurbanBoardDao.updateReflectLossCut(articleId, true);
+                    //await nurbanBoardDao.updateReflectLossCut(articleId, true);
+                    await totalBoardDao.updateReflectLossCut(articleId, true);
 
                     if(raiseTotalLossCut(articleKey, articleId)){
                         console.log("raiseTotalLossCut error");
@@ -142,7 +151,8 @@ router.delete('/', async (req, res) => {
 
     let nurbanLikeResult;
     try{
-        nurbanLikeResult = await nurbanLikeDao.destoryUserId(articleId, userId);
+        //nurbanLikeResult = await nurbanLikeDao.destoryUserId(articleId, userId);
+        nurbanLikeResult = await totalLikeDao.destoryUserId(articleId, userId);
         // result 1이면 성공 0이면 실패
 
         // 싫어요 포인트를 삭제하는 메소드
@@ -167,13 +177,15 @@ router.delete('/', async (req, res) => {
             // 좋아요 삭제 성공
 
             // 너반꿀 게시판 db에서 좋아요 싫어요 수 가져오기
-            let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
+            //let nurbanBoardResult = await nurbanBoardDao.readForId(articleId);
+            let nurbanBoardResult = await totalBoardDao.readForId(articleId);
             let likeCount = nurbanBoardResult.dataValues.likeCount;
 
             let reflectLossCut = nurbanBoardResult.reflectLossCut;
             if(reflectLossCut){
                 if(!isApproveLossCut(articleId)){
-                    await nurbanBoardDao.updateReflectLossCut(articleId, false);
+                    //await nurbanBoardDao.updateReflectLossCut(articleId, false);
+                    await totalBoardDao.updateReflectLossCut(articleId, false);
 
                     if(dropTotalLossCut(articleKey, articleId)){
                         console.log("dropTotalLossCut error");
