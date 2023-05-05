@@ -5,7 +5,7 @@ const { Op } = require('sequelize');
 const { sequelize } = require('../models');
 
 exports.create = function create(board, content, articleId, userId){
-    return NurbanComment.create({
+    return TotalComment.create({
         id: 0,
         board: board,
         content: content,
