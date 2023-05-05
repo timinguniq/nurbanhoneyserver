@@ -13,6 +13,9 @@ let constObj = require('../config/const');
 let settingFreeDislikeCount = require('../utils/settingfreedislikecount');
 let settingFreeLikeCount = require('../utils/settingfreelikecount');
 
+const totalDislikeDao = require('../dbdao/totaldislikedao');
+const totalLikeDao = require('../dbdao/totallikedao');
+
 // 좋아요 생성
 router.post('/', async (req, res) => {
     let articleId = req.body.articleId;
@@ -45,14 +48,17 @@ router.post('/', async (req, res) => {
     let articleKey = await extractArticleKey(articleId);
 
     // 싫어요를 삭제하는 코드
-    await freeDislikeDao.destoryUserId(articleId, userId);
+    //await freeDislikeDao.destoryUserId(articleId, userId);
+    await totalDislikeDao.destoryUserId(articleId, userId);
     // 좋아요를 삭제하는 코드
-    await freeLikeDao.destoryUserId(articleId, userId);
+    //await freeLikeDao.destoryUserId(articleId, userId);
+    await totalLikeDao.destoryUserId(articleId, userId);
 
     let freeLikeResult;
     // 좋아요를 생성하는 코드
     try{
-        freeLikeResult = await freeLikeDao.create(articleId, userId);
+        //freeLikeResult = await freeLikeDao.create(articleId, userId);
+        freeLikeResult = await totalLikeDao.create(articleId, userId);
        
         // 좋아요 포인트를 추가하는 메소드
         if(!raisePoint(articleKey, constObj.likePoint)){
@@ -122,7 +128,8 @@ router.delete('/', async (req, res) => {
 
     let freeLikeResult;
     try{
-        freeLikeResult = await freeLikeDao.destoryUserId(articleId, userId);
+        //freeLikeResult = await freeLikeDao.destoryUserId(articleId, userId);
+        freeLikeResult = await totalLikeDao.destoryUserId(articleId, userId);
         // result 1이면 성공 0이면 실패
 
         // 싫어요 포인트를 삭제하는 메소드
