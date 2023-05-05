@@ -85,7 +85,7 @@ exports.readNurban = function read(articleId = -1, limit = 10){
             id: {
               [Op.lte]: articleId // use greater than operator to select records with id > specificId
             },
-            borad: 0,
+            board: 0,
           },
     });
 }
