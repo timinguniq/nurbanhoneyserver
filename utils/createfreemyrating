@@ -1,12 +1,16 @@
 const freeDislikeDao = require('../dbdao/freedislikedao');
 const freeLikeDao = require('../dbdao/freelikedao');
 
+const totalDislikeDao = require('../dbdao/totaldislikedao');
+const totalLikeDao = require('../dbdao/totallikedao');
+
 // 자유 게시판 myrating을 만드는 통신
 module.exports = async (articleId, userId) => {
     let myRating = null;
     // 좋아요 데이터 받아오는 코드
     try{
-        let like = await freeLikeDao.read(articleId, userId);
+        //let like = await freeLikeDao.read(articleId, userId);
+        let like = await totalLikeDao.read(articleId, userId);
         console.log("like result", like);
         if(like !== null){
             myRating = 'like'; 
@@ -16,7 +20,8 @@ module.exports = async (articleId, userId) => {
     }
     // 싫어요 데이터 받아오는 코드
     try{
-        let dislike = await freeDislikeDao.read(articleId, userId);
+        //let dislike = await freeDislikeDao.read(articleId, userId);
+        let dislike = await totalDislikeDao.read(articleId, userId);
         console.log("dislike result", dislike);
         if(dislike !== null){
             myRating = 'dislike';
