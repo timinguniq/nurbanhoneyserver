@@ -10,6 +10,8 @@ let createFreeMyrating = require('../utils/createfreemyrating');
 let getInsigniaShown = require('../utils/getinsigniashown');
 
 
+const totalBoardDao = require('../dbdao/totalboarddao');
+
 // 토큰 없이 이용 가능한 통신들
 
 let preDate = 0;
@@ -41,7 +43,9 @@ router.get('/article', async (req, res) => {
     let articleCount = 0
     // id 값으로 데이터 읽기
     try{
-        let result = await freeBoardDao.readForId(id);
+        //let result = await freeBoardDao.readForId(id);
+        let result = await totalBoardDao.readForId(id);
+
         let articleId = result.id;
         let uuid = result.uuid;
         let thumbnail = result.thumbnail;
@@ -80,7 +84,8 @@ router.get('/article', async (req, res) => {
     try{
         console.log(`curDate : ${curDate}, preDate : ${preDate}`);
         if(curDate - preDate >= constObj.countInterval){
-            let result = await freeBoardDao.updateCount(id, ++articleCount);
+            //let result = await freeBoardDao.updateCount(id, ++articleCount);
+            let result = await totalBoardDao.updateCount(id, ++articleCount);
             console.log(`freeboard detail updateCount result : ${result}`);      
         }
     }catch(err){
@@ -112,11 +117,14 @@ router.get('/', async (req, res) => {
         let result;
         let iFlag = Number(flag);
         if(iFlag === constObj.defaultOrder){
-            result = await freeBoardDao.read(articleId, limit);
+            //result = await freeBoardDao.read(articleId, limit);
+            result = await totalBoardDao.readFree(articleId, limit);
         }else if(iFlag === constObj.countOrder){
-            result = await freeBoardDao.readCount(articleId, limit);
+            //result = await freeBoardDao.readCount(articleId, limit);
+            result = await totalBoardDao.readCountFree(articleId, limit);
         }else if(iFlag === constObj.likeCountOrder){
-            result = await freeBoardDao.readLikeCount(articleId, limit);
+            //result = await freeBoardDao.readLikeCount(articleId, limit);
+            result = await totalBoardDao.readLikeCountFree(articleId, limit);
         }else{
             // 에러
             resultObject = createJson.error("flag is not correct");
@@ -169,7 +177,9 @@ router.get('/article/myrating', async (req, res) => {
 
     // id 값으로 데이터 읽기
     try{
-        let result = await freeBoardDao.readForId(articleId);
+        //let result = await freeBoardDao.readForId(articleId);
+        let result = await totalBoardDao.readForId(articleId);
+
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let myRating = null;

@@ -13,6 +13,9 @@ let constObj = require('../config/const');
 let raisePoint = require('../utils/raisepoint');
 let dropPoint = require('../utils/droppoint');
 
+const totalBoardDao = require('../dbdao/totalboarddao');
+
+
 // 토큰 있어야 가능한 통신
 
 // 글 생성 
@@ -52,7 +55,8 @@ router.post('/', async (req, res) => {
 
     // 너반꿀 게시판 글 작성
     try{
-        let result = await freeBoardDao.create(uuid, thumbnail, title, content, userId);
+        //let result = await freeBoardDao.create(uuid, thumbnail, title, content, userId);
+        let result = await totalBoardDao.create(uuid, 1, thumbnail, title, content, userId);
         console.log(`create : ${result}`);
 
         // 포인트를 올리는 메소드
@@ -89,7 +93,9 @@ router.patch('/', async (req, res) => {
     }
 
     try{
-        let result = await freeBoardDao.updateContent(id, thumbnail, title, content);
+        //let result = await freeBoardDao.updateContent(id, thumbnail, title, content);
+        let result = await totalBoardDao.updateContent(id, thumbnail, title, content);
+        
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
         if(result[0] === 1){
@@ -135,7 +141,8 @@ router.delete('/', async (req, res) => {
 
     let deleteResult = null;
     try{
-        let readResult = await freeBoardDao.readForId(id);
+        //let readResult = await freeBoardDao.readForId(id);
+        let readResult = await totalBoardDao.readForId(id);
         console.log("readResult userId : ", readResult);
 
         if(readResult === null){
@@ -152,7 +159,8 @@ router.delete('/', async (req, res) => {
             res.status(401).json(resultObject);
             return res.end();
         }else{
-            deleteResult = await freeBoardDao.destory(id);
+            //deleteResult = await freeBoardDao.destory(id);
+            deleteResult = await totalBoardDao.destory(id);
         }
                 
         // deleteResult 1이면 성공 0이면 실패
