@@ -6,12 +6,16 @@ var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let getInsigniaShown = require('../utils/getinsigniashown');
 
+
+const totalCommentDao = require('../dbdao/totalcommentdao');
+const totalBoardDao = require('../dbdao/totalboarddao');
+
 // 토큰이 없어도 통신이 가능
 
 // 댓글 리스트 읽기
 router.get('/', async (req, res) => {
     let articleId = req.query.articleId
-    let offset = req.query.offset;
+    let commentId = req.query.commentId;
     let limit = req.query.limit;
 
     let contentObject = new Object();
@@ -27,7 +31,8 @@ router.get('/', async (req, res) => {
 
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
-        let result = await freeCommentDao.readCount(articleId, offset, limit);
+        //let result = await freeCommentDao.readCount(articleId, commentId, limit);
+        let result = await totalCommentDao.readCount(articleId, commentId, limit);
  
         let contentObjectList = [];
 
@@ -66,7 +71,8 @@ router.get('/count', async (req, res) => {
     }
 
     try{
-        let result = await freeBoardDao.readForId(articleId);
+        //let result = await freeBoardDao.readForId(articleId);
+        let result = await totalBoardDao.readForId(articleId);
         let commentCount = result.commentCount;
 
         resultObject = createJson.result(commentCount);
@@ -93,7 +99,8 @@ router.get('/detail', async (req, res) => {
 
     // 컨텐츠, 글id, userId, profile, nickname, insignia
     try{
-        let result = await freeCommentDao.read(commentId);
+        //let result = await freeCommentDao.read(commentId);
+        let result = await totalCommentDao.read(commentId);
         
         result.dataValues.user.dataValues.insignia = await getInsigniaShown(result.dataValues.user.dataValues.userId);
 
