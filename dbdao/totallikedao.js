@@ -1,4 +1,4 @@
-const TotalLike = require('../models').nurban_like;
+const TotalLike = require('../models').total_like;
 const { sequelize } = require('../models');
 
 // create
