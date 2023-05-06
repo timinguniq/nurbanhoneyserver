@@ -93,7 +93,7 @@ router.patch('/', async (req, res) => {
 
     try{
         //let result = await freeBoardDao.updateContent(id, thumbnail, title, content);
-        let result = await totalBoardDao.updateContent(id, thumbnail, title, content);
+        let result = await totalBoardDao.updateContent(id, thumbnail, title, null, content);
         
         // result 1이면 성공 0이면 실패
         console.log(`patch result : ${result}`)
