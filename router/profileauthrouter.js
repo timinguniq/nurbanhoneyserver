@@ -17,6 +17,9 @@ let settingInsigniaShown = require('../utils/settinginsigniashown');
 const constObj = require('../config/const');
 
 
+const totalBoardDao = require('../dbdao/totalboarddao');
+const totalCommentDao = require('../dbdao/totalcommentdao');
+
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
 router.get('/', async (req, res) => {
@@ -41,11 +44,18 @@ router.get('/', async (req, res) => {
         let point = result.point;
         let totalLossCut = result.totalLossCut;
 
-        let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);
-        let myArticleCount = nurbanBoardResult[0].dataValues.n_ids;
+        //let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);        
+        //let myArticleCount = nurbanBoardResult[0].dataValues.n_ids;
 
-        let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
-        let myCommentCount = nurbanCommentResult[0].dataValues.n_ids;
+        //let nurbanCommentResult = await nurbanCommentDao.readCountForUserId(id);
+        //let myCommentCount = nurbanCommentResult[0].dataValues.n_ids;
+
+        let totalBoardResult = await totalBoardDao.readCountForUserId(id);        
+        let myArticleCount = totalBoardResult[0].dataValues.n_ids;
+
+        let totalCommentResult = await totalCommentDao.readCountForUserId(id);
+        let myCommentCount = totalCommentResult[0].dataValues.n_ids;
+
 
         // point에 따른 badge 셋팅
         if(!await settingBadge(key, point)){
@@ -167,32 +177,41 @@ router.get('/myarticle', async (req, res) => {
     // 썸네일, 제목, 댓글 개수
     try{
         // 너반꿀 게시판에서 내가 쓴 글 불러오기
-        let nurbanBoardResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
-        console.log("nurbanBoardResult", nurbanBoardResult);
+        //let nurbanBoardResult = await nurbanBoardDao.readForUserId(userId, offset, limit);
+        //console.log("nurbanBoardResult", nurbanBoardResult);
         // TODO 자유게시판 내가 쓴 글 불러오기
-        let freeBoardResult = await freeBoardDao.readForUserId(userId, offset, limit);
-        console.log("freeBoardResult", freeBoardResult);
+        //let freeBoardResult = await freeBoardDao.readForUserId(userId, offset, limit);
+        //console.log("freeBoardResult", freeBoardResult);
+
+        let totalBoardResult = await totalBoardDao.readForUserId(userId, offset, limit);
+        console.log("totalBoardResult", totalBoardResult);
+
 
         let contentObjectList = [];
 
         // 너반꿀 게시판
-        for(var i = 0 ; i < nurbanBoardResult.length ; i++){
-            nurbanBoardResult[i].dataValues.board = constObj.nurbanboard;
-            contentObjectList.push(nurbanBoardResult[i].dataValues);
-        }
+        //for(var i = 0 ; i < nurbanBoardResult.length ; i++){
+        //    nurbanBoardResult[i].dataValues.board = constObj.nurbanboard;
+        //    contentObjectList.push(nurbanBoardResult[i].dataValues);
+        //}
 
         // 자유게시판
-        for(var i = 0 ; i < freeBoardResult.length ; i++){
-            freeBoardResult[i].dataValues.board = constObj.freeboard;
-            contentObjectList.push(freeBoardResult[i].dataValues);
+        //for(var i = 0 ; i < freeBoardResult.length ; i++){
+        //    freeBoardResult[i].dataValues.board = constObj.freeboard;
+        //    contentObjectList.push(freeBoardResult[i].dataValues);
+        //}
+
+        for(var i = 0 ; i < totalBoardResult.length ; i++){
+            //nurbanBoardResult[i].dataValues.board = constObj.nurbanboard;
+            contentObjectList.push(totalBoardResult[i].dataValues);
         }
 
         // array sort 내림차순(최신께 위로)
-        contentObjectList.sort((a, b) => {
-            if(a.createdAt > b.createdAt) return -1;
-            if(a.createdAt === b.createdAt) return 0;
-            if(a.createdAt < b.createdAt) return 1;
-        });
+        //contentObjectList.sort((a, b) => {
+        //    if(a.createdAt > b.createdAt) return -1;
+        //    if(a.createdAt === b.createdAt) return 0;
+        //    if(a.createdAt < b.createdAt) return 1;
+        //});
 
         console.log("contentObjectArrayList", contentObjectList);
 
