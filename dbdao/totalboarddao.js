@@ -210,7 +210,7 @@ exports.readFree = function read(articleId = -1, limit = 10){
             id: {
               [Op.lte]: articleId // use greater than operator to select records with id > specificId
             },
-            borad: 1,
+            board: 1,
           },
     });
 }
