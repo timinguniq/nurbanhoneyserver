@@ -249,32 +249,40 @@ router.get('/mycomment', async (req, res) => {
     // 썸네일, 제목, 댓글 개수
     try{
         // 너반꿀 게시판에서 내가 쓴 글 불러오기
-        let nurbanCommentResult = await nurbanCommentDao.readForUserId(userId, offset, limit);
-        console.log("nurbanCommentResult", nurbanCommentResult);
+        //let nurbanCommentResult = await nurbanCommentDao.readForUserId(userId, offset, limit);
+        //console.log("nurbanCommentResult", nurbanCommentResult);
         // TODO 자유게시판 내가 쓴 글 불러오기
-        let freeCommentResult = await freeCommentDao.readForUserId(userId, offset, limit);
-        console.log("freeCommentResult", freeCommentResult);
+        //let freeCommentResult = await freeCommentDao.readForUserId(userId, offset, limit);
+        //console.log("freeCommentResult", freeCommentResult);
  
+        let totalCommentResult = await totalCommentDao.readForUserId(userId, offset, limit);
+        console.log("totalCommentResult", totalCommentResult);
+
         let contentObjectList = [];
 
         // 너반꿀 게시판
-        for(var i = 0 ; i < nurbanCommentResult.length ; i++){
-            nurbanCommentResult[i].dataValues.board = constObj.nurbanboard;
-            contentObjectList.push(nurbanCommentResult[i].dataValues);
-        }
+        //for(var i = 0 ; i < nurbanCommentResult.length ; i++){
+        //    nurbanCommentResult[i].dataValues.board = constObj.nurbanboard;
+        //    contentObjectList.push(nurbanCommentResult[i].dataValues);
+        //}
 
         // 자유게시판 
-        for(var i = 0 ; i < freeCommentResult.length ; i++){
-            freeCommentResult[i].dataValues.board = constObj.freeboard;
-            contentObjectList.push(freeCommentResult[i].dataValues);
+        //for(var i = 0 ; i < freeCommentResult.length ; i++){
+        //    freeCommentResult[i].dataValues.board = constObj.freeboard;
+        //    contentObjectList.push(freeCommentResult[i].dataValues);
+        //}
+
+        for(var i = 0 ; i < totalCommentResult.length ; i++){
+            //nurbanCommentResult[i].dataValues.board = constObj.nurbanboard;
+            contentObjectList.push(totalCommentResult[i].dataValues);
         }
 
         // array sort 내림차순(최신께 위로)
-        contentObjectList.sort((a, b) => {
-            if(a.createdAt > b.createdAt) return -1;
-            if(a.createdAt === b.createdAt) return 0;
-            if(a.createdAt < b.createdAt) return 1;
-        });
+        //contentObjectList.sort((a, b) => {
+        //    if(a.createdAt > b.createdAt) return -1;
+        //    if(a.createdAt === b.createdAt) return 0;
+        //    if(a.createdAt < b.createdAt) return 1;
+        //});
 
         console.log("contentObjectArrayList", contentObjectList);
 
