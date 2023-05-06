@@ -335,7 +335,7 @@ exports.readPopular = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'count', 'commentCount'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'count', 'commentCount'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -354,7 +354,7 @@ exports.readPopular = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'count', 'commentCount'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'count', 'commentCount'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
