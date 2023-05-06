@@ -15,7 +15,6 @@ let dropPoint = require('../utils/droppoint');
 
 const totalBoardDao = require('../dbdao/totalboarddao');
 
-
 // 토큰 있어야 가능한 통신
 
 // 글 생성 
@@ -56,7 +55,7 @@ router.post('/', async (req, res) => {
     // 너반꿀 게시판 글 작성
     try{
         //let result = await freeBoardDao.create(uuid, thumbnail, title, content, userId);
-        let result = await totalBoardDao.create(uuid, 1, thumbnail, title, content, userId);
+        let result = await totalBoardDao.create(uuid, 1, thumbnail, title, null, content, userId);
         console.log(`create : ${result}`);
 
         // 포인트를 올리는 메소드
