@@ -1,6 +1,3 @@
-const freeLikeDao = require('../dbdao/freelikedao');
-const freeBoardDao = require('../dbdao/freeboarddao');
-
 const totalLikeDao = require('../dbdao/totallikedao');
 const totalBoardDao = require('../dbdao/totalboarddao');
 

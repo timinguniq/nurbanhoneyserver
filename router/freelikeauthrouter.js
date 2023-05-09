@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const freeDislikeDao = require('../dbdao/freedislikedao');
-const freeLikeDao = require('../dbdao/freelikedao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
