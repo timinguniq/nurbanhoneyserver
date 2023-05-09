@@ -83,21 +83,13 @@ module.exports = (sequelize, DataTypes) => {
       /**
        * User안에 있는 "id값"을 "userId라는 컬럼 이름"으로 NurbanBoard모델에 새로운 컬럼으로 추가한다.
        */      
-      user.hasOne(models.nurbanboard, {foreignKey: "userId", sourceKey: 'id'});
+      user.hasOne(models.totalboard, {foreignKey: "userId", sourceKey: 'id'});
+      
+      user.hasOne(models.total_comment, {foreignKey: "userId", sourceKey: 'id'});
 
-      user.hasOne(models.nurban_comment, {foreignKey: "userId", sourceKey: 'id'});
-
-      user.hasOne(models.nurban_like, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
-    
-      user.hasOne(models.nurban_dislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
-
-      user.hasOne(models.freeboard, {foreignKey: "userId", sourceKey: 'id'});
-
-      user.hasOne(models.free_comment, {foreignKey: "userId", sourceKey: 'id'});
-
-      user.hasOne(models.free_like, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
-    
-      user.hasOne(models.free_dislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+      user.hasOne(models.total_like, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
+   
+      user.hasOne(models.total_dislike, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'}); 
 
       user.hasOne(models.rank, {foreignKey: {name: "userId", allowNull: false}, sourceKey: 'id'});
 
