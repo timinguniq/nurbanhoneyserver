@@ -14,17 +14,6 @@ exports.create = function create(uuid, thumbnail, title, lossCut, content, userI
         content: content,
         userId: userId
     })
-/*
-    id: {
-      thumbanil: {
-      title: {
-      content: {
-      count: {
-      commentCount: {
-      likeCount: {
-      dislikeCount: {
-      userId: {    
-  }*/
 }
 
 // 글 id로 검색
