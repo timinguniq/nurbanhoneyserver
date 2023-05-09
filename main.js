@@ -33,7 +33,6 @@ var freeDislikeAuthRouter = require('./router/freedislikeauthrouter');
 
 let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
-const nurbanboardDao = require('./dbdao/nurbanboarddao');
 const { v4: uuidv4 } = require('uuid');
 
 // for parsing application/json
@@ -91,6 +90,7 @@ app.post('/token/error', (req, res) => {
 // 여기까지
 
 // 임의의 데이터 값 넣는 통신
+/*
 app.post('/nurbanboard/insertTempData', async (req, res) => {
   var dataList = [];
   for(let i = 1 ; i < 21 ; i++){
@@ -116,7 +116,7 @@ app.post('/nurbanboard/insertTempData', async (req, res) => {
   }
   res.end();
 })
-
+*/
 // appversion rounter
 app.use('/appversion', appversionRouter);
 // user router
