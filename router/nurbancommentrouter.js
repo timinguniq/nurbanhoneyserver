@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const nurbanCommentDao = require('../dbdao/nurbancommentdao');
-const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let getInsigniaShown = require('../utils/getinsigniashown');

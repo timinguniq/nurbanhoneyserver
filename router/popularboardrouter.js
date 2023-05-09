@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const nurbanBoardDao = require('../dbdao/nurbanboarddao');
-const freeBoardDao = require('../dbdao/freeboarddao');
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 const constObj = require('../config/const');
