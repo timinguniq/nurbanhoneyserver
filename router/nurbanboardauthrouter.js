@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
     // 너반꿀 게시판 글 작성
     try{
         //let result = await nurbanBoardDao.create(uuid, thumbnail, title, lossCut, content, userId);
-        let result = await totalBoardDao.create(uuid, 0, thumbnail, title, lossCut, content, userId);
+        let result = await totalBoardDao.create(uuid, constObj.nurban, thumbnail, title, lossCut, content, userId);
         console.log(`create : ${result}`);
 
         // 포인트를 올리는 메소드

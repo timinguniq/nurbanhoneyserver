@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
     // 댓글 생성하는 코드
     try{
         //let result = await freeCommentDao.create(content, articleId, userId);
-        let result = await totalCommentDao.create(1, content, articleId, userId);
+        let result = await totalCommentDao.create(constObj.free, content, articleId, userId);
         console.log(`post create result : ${result}`);
 
         // 포인트를 올리는 메소드

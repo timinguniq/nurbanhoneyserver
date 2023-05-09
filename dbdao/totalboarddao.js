@@ -70,7 +70,7 @@ exports.readNurban = function read(articleId = -1, limit = 10){
             id: {
               [Op.gte]: articleId // use greater than operator to select records with id > specificId
             },
-            board: 0,
+            board: constObj.nurban,
           },
     })
     : TotalBoard.findAll({
@@ -85,7 +85,7 @@ exports.readNurban = function read(articleId = -1, limit = 10){
             id: {
               [Op.lte]: articleId // use greater than operator to select records with id > specificId
             },
-            board: 0,
+            board: constObj.nurban,
           },
     });
 }
@@ -108,7 +108,7 @@ exports.readCountNurban = function read(articleId = -1, limit = 10){
             id: {
                 [Op.gte]: articleId
             },
-            board: 0,
+            board: constObj.nurban,
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
@@ -128,7 +128,7 @@ exports.readCountNurban = function read(articleId = -1, limit = 10){
             id: {
                 [Op.lte]: articleId
             },
-            board: 0,
+            board: constObj.nurban,
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
@@ -153,7 +153,7 @@ exports.readLikeCountNurban = function read(articleId = -1, limit = 10){
             id: {
                 [Op.gte]: articleId
             },
-            board: 0,
+            board: constObj.nurban,
         },
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
@@ -173,7 +173,7 @@ exports.readLikeCountNurban = function read(articleId = -1, limit = 10){
             id: {
                 [Op.lte]: articleId
             },
-            board: 0,
+            board: constObj.nurban,
         },
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
@@ -195,7 +195,7 @@ exports.readFree = function read(articleId = -1, limit = 10){
             id: {
               [Op.gte]: articleId // use greater than operator to select records with id > specificId
             },
-            board: 1,
+            board: constObj.free,
           },
     })
     : TotalBoard.findAll({
@@ -210,7 +210,7 @@ exports.readFree = function read(articleId = -1, limit = 10){
             id: {
               [Op.lte]: articleId // use greater than operator to select records with id > specificId
             },
-            board: 1,
+            board: constObj.free,
           },
     });
 }
@@ -233,7 +233,7 @@ exports.readCountFree = function read(articleId = -1, limit = 10){
             id: {
                 [Op.gte]: articleId
             },
-            board: 1,
+            board: constObj.free,
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
@@ -253,7 +253,7 @@ exports.readCountFree = function read(articleId = -1, limit = 10){
             id: {
                 [Op.lte]: articleId
             },
-            board: 1,
+            board: constObj.free,
         },
         limit: Number(limit),
         order: [['count', 'DESC'], ['id', 'DESC']]
@@ -278,7 +278,7 @@ exports.readLikeCountFree = function read(articleId = -1, limit = 10){
             id: {
                 [Op.gte]: articleId
             },
-            board: 1,
+            board: constObj.free,
         },
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
@@ -298,7 +298,7 @@ exports.readLikeCountFree = function read(articleId = -1, limit = 10){
             id: {
                 [Op.lte]: articleId
             },
-            board: 1,
+            board: constObj.free,
         },
         limit: Number(limit),
         order: [['likeCount', 'DESC'], ['id', 'DESC']]
@@ -319,7 +319,7 @@ exports.readForRank = function read(){
                 [Op.lte]: new Date(),
                 [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
             },
-            board: 0,
+            board: constObj.nurban,
         },
         offset: 0,
         limit: 5,

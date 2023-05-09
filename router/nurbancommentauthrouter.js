@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
     // 댓글 생성하는 코드
     try{
         //let result = await nurbanCommentDao.create(content, articleId, userId);
-        let result = await totalCommentDao.create(0, content, articleId, userId);
+        let result = await totalCommentDao.create(constObj.nurban, content, articleId, userId);
         console.log(`post create result : ${result}`);
 
         // 포인트를 올리는 메소드
