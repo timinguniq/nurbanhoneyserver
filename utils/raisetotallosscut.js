@@ -1,5 +1,7 @@
 const userDao = require('../dbdao/userdao');
-const nurbanBoardDao = require('../dbdao/nurbanboarddao');
+
+const totalBoardDao = require('../dbdao/totalboarddao');
+
 // totalLossCut 올리는 코드
 
 // unitPoint
@@ -7,7 +9,7 @@ module.exports = async (key, articleId) => {
     // totalLossCut 올리는 로직
     try{
         let userResult = await userDao.read(key)
-        let nurbnaBoardResult = await nurbanBoardDao.readForId(articleId);
+        let nurbnaBoardResult = await totalBoardDao.readForId(articleId);
         let lossCut = nurbnaBoardResult.lossCut;
         let totalLossCut = userResult.totalLossCut;
         totalLossCut += lossCut;

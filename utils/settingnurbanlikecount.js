@@ -1,6 +1,3 @@
-const nurbanLikeDao = require('../dbdao/nurbanlikedao');
-const nurbanBoardDao = require('../dbdao/nurbanboarddao');
-
 const totalLikeDao = require('../dbdao/totallikedao');
 const totalBoardDao = require('../dbdao/totalboarddao');
 

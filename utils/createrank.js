@@ -1,11 +1,12 @@
-const nurbanBoardDao = require('../dbdao/nurbanboarddao');
 const rankDao = require('../dbdao/rankdao');
+
+const totalBoardDao = require('../dbdao/totalboarddao');
 
 // 한달에 한번 rank 데이터를 만드는 메소드
 module.exports = async () => {    
     let contentObjectList = [];
     try{
-        let resultList = await nurbanBoardDao.readForRank();
+        let resultList = await totalBoardDao.readForRank();
 
         for(var i = 0 ; i < resultList.length ; i++){
             contentObjectList.push(resultList[i].dataValues);

@@ -1,4 +1,5 @@
-const nurbanBoradDao = require('../dbdao/nurbanboarddao');
+const totalBoardDao = require('../dbdao/totalboarddao');
+
 const totalBoardDao = require('../dbdao/totalboarddao');
 
 // articleId를 가지고 그 글을 작성 사용자의 key값을 추출한다.
