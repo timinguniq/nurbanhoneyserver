@@ -1,5 +1,4 @@
 const Insignia = require('../models').insignia;
-const { sequelize } = require('../models');
 
 // create
 exports.create = function create(insignia, userId){
