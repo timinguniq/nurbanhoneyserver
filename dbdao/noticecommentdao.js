@@ -1,6 +1,5 @@
 const NoticeComment = require('../models').notice_comment;
 const User = require('../models').user;
-const Notice = require('../models').notice;
 const { sequelize } = require('../models');
 
 exports.create = function create(content, noticeId, userId){
@@ -28,24 +27,7 @@ exports.readCount = function read(noticeId, offset = 0, limit = 10){
         order: [['id', 'DESC']]
     })
 }
-/*
-// 댓글을 userId로 검색
-exports.readForUserId = function read(userId, offset = 0, limit = 10){
-    return NoticeComment.findAll({
-        include: [
-            // ['id', 'aritcleId'] === id AS articleId
-            {model: NurbanBoard, as: 'Location', attributes: [['id', 'articleId'], 'title']}
-        ],
-        attributes: ['id', 'content', 'createdAt'],
-        offset: Number(offset),
-        limit: Number(limit),
-        where: {
-            userId: userId
-        },
-        order: [['id', 'DESC']]
-    })
-}
-*/
+
 // 글을 id로 comment 하나 데이터 가져오는 메소드
 exports.read = function read(id){
     return NoticeComment.findOne({
