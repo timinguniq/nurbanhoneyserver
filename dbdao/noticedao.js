@@ -7,14 +7,6 @@ exports.create = function create(title, content){
         title: title,
         content: content,
     })
-    /*
-    id:
-      title:
-      content:
-      count:
-      likeCount:
-      dislikeCount:
-      */
 }
 
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
