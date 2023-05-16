@@ -38,18 +38,4 @@ exports.readPopup = function read(offset = 0, limit = 3){
 exports.destoryAll = function destory() {
     // 전체 데이터 삭제
     return Rank.truncate();
-    /*
-    return Rank.destroy({
-        where: {},
-        truncate: true
-      })
-      .then(() => {
-        console.log('All records in MyModel have been deleted.');
-        return 1;
-      })
-      .catch(err => {
-        console.error('Error deleting records:', err);
-        return 0;
-      });
-      */
 } 
