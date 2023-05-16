@@ -53,6 +53,7 @@ sequelize.sync({ force: false })
   console.error(err);
 });
 
+// 이거 시간 기준 UTC+0
 /*
 *    *    *    *    *    *
 ┬    ┬    ┬    ┬    ┬    ┬
@@ -65,7 +66,7 @@ sequelize.sync({ force: false })
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 
-const job = schedule.scheduleJob('10 0 9 16 * *', createRank);
+const job = schedule.scheduleJob('5 0 0 1 * *', createRank);
 
 app.get('/', (req, res) => {
     res.send('Hello world1')
