@@ -21,3 +21,4 @@ exports.update = function update(id, version, update){
 exports.destory = function destory(id){
     return Appversion.destroy({where: {id: id}})
 }  
+
