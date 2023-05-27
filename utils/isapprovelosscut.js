@@ -23,4 +23,3 @@ module.exports = async (articleId) => {
         return false;
     }   
 }
-
