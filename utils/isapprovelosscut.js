@@ -21,6 +21,6 @@ module.exports = async (articleId) => {
         }      
     }catch(e){
         return false;
-    }
-    
+    }   
 }
+
