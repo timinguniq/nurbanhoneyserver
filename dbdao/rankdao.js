@@ -1,9 +1,10 @@
 const Rank = require('../models').rank;
 const User = require('../models').user;
 
-exports.create = function create(totalLossCut, totalLikeCount, userId){
+exports.create = function create(title, totalLossCut, totalLikeCount, userId){
     return Rank.create({
         id: 0,
+        title: title,
         totalLossCut: totalLossCut,
         totalLikeCount: totalLikeCount,
         userId: userId
@@ -17,7 +18,7 @@ exports.read = function read(){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'totalLossCut', 'totalLikeCount'],
+        attributes: ['id', 'title', 'totalLossCut', 'totalLikeCount'],
     })
 }
 
@@ -28,7 +29,7 @@ exports.readPopup = function read(offset = 0, limit = 3){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id'],
+        attributes: ['id', 'title', 'totalLossCut', 'totalLikeCount'],
         offset: Number(offset),
         limit: Number(limit)
     })
