@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         comment: "id",
       },
+      title: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
+        comment: "제목",
+      },
       totalLossCut: {
         type: DataTypes.BIGINT,
         allowNull: false,
