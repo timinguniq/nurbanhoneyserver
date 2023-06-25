@@ -5,6 +5,7 @@ var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let constObj = require('../config/const');
 
+const totalBoardDao = require('../dbdao/totalboarddao');
 
 // 공지사항 리스트 데이터 받아오는 메소드
 router.get('/', async (req, res) => {
