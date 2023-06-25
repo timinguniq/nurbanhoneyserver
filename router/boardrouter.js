@@ -4,6 +4,7 @@ const boardDao = require('../dbdao/boarddao');
 var createJson = require('../utils/createjson');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let constObj = require('../config/const');
+let getInsigniaShown = require('../utils/getinsigniashown');
 
 const totalBoardDao = require('../dbdao/totalboarddao');
 
