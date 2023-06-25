@@ -55,6 +55,125 @@ exports.readCountForUserId = function read(userId){
     });
 }
 
+// BoardAll
+// 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
+exports.readBoardAll = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
+        ],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        limit: Number(limit),
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+              [Op.gte]: articleId // use greater than operator to select records with id > specificId
+            },
+          },
+    })
+    : TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
+        ],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        limit: Number(limit),
+        order: [['id', 'DESC']],
+        where: {
+            id: {
+              [Op.lte]: articleId // use greater than operator to select records with id > specificId
+            },
+          },
+    });
+}
+
+// BoardAll
+// 조회수 순으로 데이터 가져오기
+exports.readCountBoardAll = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.gte]: articleId
+            },
+        },
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['id', 'DESC']]
+    })
+    : TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            },
+        },
+        limit: Number(limit),
+        order: [['count', 'DESC'], ['id', 'DESC']]
+    });
+}
+
+// BoardAll
+// 좋아요 순으로 데이터 가져오기
+exports.readLikeCountBoardAll = function read(articleId = -1, limit = 10){
+    return articleId == -1 ? TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.gte]: articleId
+            },
+        },
+        limit: Number(limit),
+        order: [['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+    : TotalBoard.findAll({
+        include: [
+            // ['id', 'userId] === id AS userId
+            {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
+        ],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        where: {
+            createdAt: {
+                // createdAt < [timestamp] AND createdAt > [timestamp]
+                [Op.lte]: new Date(),
+                [Op.gte]: new Date(new Date() - 1000 * 60 * 60 * 24 * 30)
+            },
+            id: {
+                [Op.lte]: articleId
+            },
+        },
+        limit: Number(limit),
+        order: [['likeCount', 'DESC'], ['id', 'DESC']]
+    })
+}
+
 // NubanBoard
 // 글을 id로 갯수 가져오기(썸네일, 제목, 댓글 개수)
 exports.readNurban = function read(articleId = -1, limit = 10){
