@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const boardDao = require('../dbdao/boarddao');
 var createJson = require('../utils/createjson');
+let inputErrorHandler = require('../utils/inputerrorhandler');
 
 // 공지사항 리스트 데이터 받아오는 메소드
 router.get('/', async (req, res) => {
