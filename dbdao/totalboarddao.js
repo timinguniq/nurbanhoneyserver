@@ -63,7 +63,7 @@ exports.readBoardAll = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
         ],
-        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'lossCut', 'content', 'commentCount', 'likeCount', 'createdAt'],
         limit: Number(limit),
         order: [['id', 'DESC']],
         where: {
@@ -77,7 +77,7 @@ exports.readBoardAll = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
         ],
-        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'lossCut', 'content', 'commentCount', 'likeCount', 'createdAt'],
         limit: Number(limit),
         order: [['id', 'DESC']],
         where: {
@@ -96,7 +96,7 @@ exports.readCountBoardAll = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'lossCut', 'content', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -115,7 +115,7 @@ exports.readCountBoardAll = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'lossCut', 'content', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -139,7 +139,7 @@ exports.readLikeCountBoardAll = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'lossCut', 'content', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -158,7 +158,7 @@ exports.readLikeCountBoardAll = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'board', 'thumbnail', 'title', 'content', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'board', 'thumbnail', 'title', 'lossCut', 'content', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
