@@ -92,7 +92,7 @@ router.get('/article', async (req, res) => {
         console.log(`curDate : ${curDate}, preDate : ${preDate}`);
         if(curDate - preDate >= constObj.countInterval){
             //let result = await nurbanBoardDao.updateCount(id, ++articleCount);
-            let result = await totalBoardDao.updateCount(id, ++artcielCount);
+            let result = await totalBoardDao.updateCount(id, ++articleCount);
             console.log(`nurbanboard detail updateCount result : ${result}`);      
         }
     }catch(err){
