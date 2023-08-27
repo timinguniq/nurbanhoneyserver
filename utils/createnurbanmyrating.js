@@ -6,8 +6,6 @@ module.exports = async (articleId, userId) => {
     let myRating = null;
     // 좋아요 데이터 받아오는 코드
     try{
-        console.log('like result articleId', articleId);
-        console.log('like result userId', userId);
         //let like = await nurbanLikeDao.read(articleId, userId);
         let like = await totalLikeDao.read(articleId, userId);
         console.log("like result", like);
