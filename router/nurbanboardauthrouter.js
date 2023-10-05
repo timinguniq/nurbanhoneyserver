@@ -206,6 +206,8 @@ router.post('/upload/image', async (req, res) => {
     let imageFiles = req.files;
     let uuid = req.body.uuid;
 
+    console.log('upload image imageFiles : ', imageFiles);
+    console.log('upload image uuid : ', uuid);
     let contentObject = new Object();
     let resultObject = new Object();
     
@@ -217,16 +219,16 @@ router.post('/upload/image', async (req, res) => {
         return res.end();
     }
 
-    // uuid인 아티클이 없으면 에러
+    // uuid인 아티클이 없으면 에러 -> 처음에 uuid 없어도 됨.
     //let nurbanArticle = await nurbanBoardDao.readForUuid(uuid);
-    let nurbanArticle = await totalBoardDao.readForUuid(uuid);
-    console.log('nurbanArticle : ', nurbanArticle);
+    //let nurbanArticle = await totalBoardDao.readForUuid(uuid);
+    //console.log('nurbanArticle : ', nurbanArticle);
 
-    if(nurbanArticle === null){
-        resultObject = createJson.error("article is not exist");
-        res.status(404).json(resultObject);
-        return res.end();
-    }
+    //if(nurbanArticle === null){
+    //    resultObject = createJson.error("article is not exist");
+    //    res.status(404).json(resultObject);
+    //    return res.end();
+    //}
     //
 
     let imageFileNameSize = JSON.stringify(imageFiles[0].originalname).split('\\').length;
@@ -259,6 +261,18 @@ router.delete('/upload/image', async (req, res) => {
         res.status(400).json(resultObject);
         return res.end();
     }
+
+    // uuid인 아티클이 없으면 에러 -> 처음에 uuid 없어도 됨.
+    //let nurbanArticle = await nurbanBoardDao.readForUuid(uuid);
+    let nurbanArticle = await totalBoardDao.readForUuid(uuid);
+    console.log('nurbanArticle : ', nurbanArticle);
+
+    if(nurbanArticle === null){
+        resultObject = createJson.error("article is not exist");
+        res.status(404).json(resultObject);
+        return res.end();
+    }
+    //
 
     try{
         // s3에 글 이미지 삭제하기
