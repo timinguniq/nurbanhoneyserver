@@ -19,7 +19,6 @@ const totalBoardDao = require('../dbdao/totalboarddao');
 // 글 생성 
 router.post('/', async (req, res) => {
     let uuid = req.body.uuid;
-    let thumbnail = req.body.thumbnail;
     let title = req.body.title;
     let content = req.body.content;
     let userId = '';
@@ -28,7 +27,7 @@ router.post('/', async (req, res) => {
     let resultObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
-    let inputArray = [uuid, thumbnail, title, content];
+    let inputArray = [uuid, title, content];
     if(await inputErrorHandler(inputArray)){
         resultObject = createJson.error("input is null");   
         res.status(400).json(resultObject);
@@ -54,7 +53,7 @@ router.post('/', async (req, res) => {
     // 너반꿀 게시판 글 작성
     try{
         //let result = await freeBoardDao.create(uuid, thumbnail, title, content, userId);
-        let result = await totalBoardDao.create(uuid, constObj.free, thumbnail, title, null, content, userId);
+        let result = await totalBoardDao.create(uuid, constObj.free, null, title, null, content, userId);
         console.log(`create : ${result}`);
 
         // 포인트를 올리는 메소드
