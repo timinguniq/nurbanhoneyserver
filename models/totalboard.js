@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       thumbnail: {
         type: DataTypes.STRING(256),
-        allowNull: false,
+        allowNull: true,
         defaultValue: "",
         comment: "썸네일 이미지 주소",
       },
