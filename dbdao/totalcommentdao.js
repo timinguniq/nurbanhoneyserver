@@ -29,7 +29,7 @@ exports.readCount = function read(articleId, commentId = -1, limit = 10){
                 [Op.gte]: commentId
             }
         },
-        order: [['id', 'DESC']]
+        order: [['id', 'ASC']]
     })
     : TotalComment.findAll({
         include: [
@@ -44,7 +44,7 @@ exports.readCount = function read(articleId, commentId = -1, limit = 10){
                 [Op.lte]: commentId
             }
         },
-        order: [['id', 'DESC']]
+        order: [['id', 'ASC']]
     })
 }
 
