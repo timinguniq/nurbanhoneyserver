@@ -182,7 +182,7 @@ exports.readNurban = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'lossCut', 'title', 'commentCount', 'likeCount', 'createdAt'],
         limit: Number(limit),
         order: [['id', 'DESC']],
         where: {
@@ -197,7 +197,7 @@ exports.readNurban = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']},
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'lossCut', 'title', 'commentCount', 'likeCount', 'createdAt'],
         limit: Number(limit),
         order: [['id', 'DESC']],
         where: {
@@ -217,7 +217,7 @@ exports.readCountNurban = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'lossCut', 'title', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -237,7 +237,7 @@ exports.readCountNurban = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'lossCut', 'title', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -262,7 +262,7 @@ exports.readLikeCountNurban = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'lossCut', 'title', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
@@ -282,7 +282,7 @@ exports.readLikeCountNurban = function read(articleId = -1, limit = 10){
             // ['id', 'userId] === id AS userId
             {model: User, attributes: [['id', 'userId'], 'badge', 'nickname']}
         ],
-        attributes: ['id', 'thumbnail', 'title', 'commentCount', 'likeCount', 'createdAt'],
+        attributes: ['id', 'thumbnail', 'lossCut', 'title', 'commentCount', 'likeCount', 'createdAt'],
         where: {
             createdAt: {
                 // createdAt < [timestamp] AND createdAt > [timestamp]
