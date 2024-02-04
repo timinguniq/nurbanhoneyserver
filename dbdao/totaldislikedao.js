@@ -37,20 +37,20 @@ exports.update = function update(id){
     return TotalDislike.update({where: {id: id}})
 }
 
-// destory
-exports.destory = function destory(id){
+// destroy
+exports.destroy = function destroy(id){
     return TotalDislike.destroy({where: {id: id}})
 }
 
 // destroy articleId userId
-exports.destoryUserId = function destroy(articleId, userId){
+exports.destroyUserId = function destroy(articleId, userId){
     return TotalDislike.destroy({where: {articleId: articleId, userId: userId}})
 }
 
 // userId로 글 삭제
-exports.destoryWithdrawalForUserId = function destory(userId){
-    return TotalDislike.destory({
+exports.destroyWithdrawalForUserId = function destroy(userId){
+    return TotalDislike.destroy({
         where: {userId: userId},
-        truncate: true
+        //truncate: true
     })
 }
