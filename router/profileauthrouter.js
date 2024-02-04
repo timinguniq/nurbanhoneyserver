@@ -310,7 +310,7 @@ router.delete('/withdrawal', async (req, res) => {
     }
 
     try{
-        let result = await userDao.destroy(id);
+        let result = await userDao.destroyForUserId(id);
         // result 1이면 성공 0이면 실패
         // TODO: 관련 글들 삭제 관련 댓글 삭제
         let articleDeleteResult = await totalBoardDao.destroyForUserId(id);
