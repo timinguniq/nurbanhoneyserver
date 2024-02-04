@@ -319,11 +319,11 @@ router.delete('/withdrawal', async (req, res) => {
         let dislikeDeleteResult = await totalDislikeDao.destoryWithdrawalForUserId(id);
         let rankDeleteResult = await rankDao.destoryForUserId(id);        
 
-        console.log('delete articleDeleteResult', articleDeleteResult);
-        console.log('delete commentDeleteResult', commentDeleteResult);
-        console.log('delete likeDeleteResult', likeDeleteResult);
-        console.log('delete dislikeDeleteResult', dislikeDeleteResult);
-        console.log('delete rnakDeleteResult', rankDeleteResult);
+        console.log('delete123 articleDeleteResult', articleDeleteResult);
+        console.log('delete123 commentDeleteResult', commentDeleteResult);
+        console.log('delete123 likeDeleteResult', likeDeleteResult);
+        console.log('delete123 dislikeDeleteResult', dislikeDeleteResult);
+        console.log('delete123 rnakDeleteResult', rankDeleteResult);
 
         if(result === 1){
             resultObject = createJson.result("profile_withdrawal");
