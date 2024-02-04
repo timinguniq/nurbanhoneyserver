@@ -71,6 +71,7 @@ exports.updateLastTime = function update(id){
     return User.update({lastLoginAt: Date.now()}, {where: {id: id}})
 }
 
-exports.destory = function destory(id){
+exports.destroyForUserId = function destroy(id){
     return User.destroy({where: {id: id}})
 }
+
