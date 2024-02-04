@@ -532,3 +532,8 @@ exports.updateReflectLossCut = function update(id, reflectLossCut){
 exports.destory = function destory(id){
     return TotalBoard.destroy({where: {id: id}})
 }
+
+// userId로 글 삭제
+exports.destoryForUserId = function desotry(userId){
+    return TotalBoard.desotry({while: {userId: userId}})
+}
