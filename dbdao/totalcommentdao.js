@@ -98,14 +98,14 @@ exports.updateContent = function update(id, content){
 }
 
 // 댓글 삭제
-exports.destory = function destory(id){
+exports.destroy = function destroy(id){
     return TotalComment.destroy({where: {id: id}})
 }
 
 // userId로 글 삭제
-exports.destoryForUserId = function destory(userId){
-    return TotalComment.destory({
+exports.destroyForUserId = function destroy(userId){
+    return TotalComment.destroy({
         where: {userId: userId},
-        truncate: true,
+       //truncate: true,
     })
 }

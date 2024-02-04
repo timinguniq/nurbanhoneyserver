@@ -35,15 +35,15 @@ exports.readPopup = function read(offset = 0, limit = 3){
 }
 
 // 모든 데이터 삭제
-exports.destoryAll = function destory() {
+exports.destroyAll = function destroy() {
     // 전체 데이터 삭제
     return Rank.truncate();
 }
 
 // 랭크 데이터 유저 아이디로 삭제
-exports.destoryForUserId = function destory(userId){
-    return Rank.destory({
+exports.destroyForUserId = function destroy(userId){
+    return Rank.destroy({
         where: {userId: userId},
-        truncate: true
+        //truncate: true
     })
 }

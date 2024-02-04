@@ -51,6 +51,6 @@ exports.destroyUserId = function destroy(articleId, userId){
 exports.destroyWithdrawalForUserId = function destroy(userId){
     return TotalLike.destroy({
         where: {userId: userId},
-        truncate: true
+        //truncate: true
     })
 }
