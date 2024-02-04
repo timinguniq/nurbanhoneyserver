@@ -101,3 +101,8 @@ exports.updateContent = function update(id, content){
 exports.destory = function destory(id){
     return TotalComment.destroy({where: {id: id}})
 }
+
+// userId로 글 삭제
+exports.destoryForUserId = function desotry(userId){
+    return TotalComment.desotry({while: {userId: userId}})
+}
