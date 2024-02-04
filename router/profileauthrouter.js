@@ -310,6 +310,8 @@ router.delete('/withdrawal', async (req, res) => {
     try{
         let result = await userDao.destory(id);
         // result 1이면 성공 0이면 실패
+        // TODO: 관련 글들 삭제 관련 댓글 삭제
+            
         if(result === 1){
             resultObject = createJson.result("profile_withdrawal");
             res.status(200).json(resultObject);
