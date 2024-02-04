@@ -68,7 +68,7 @@ router.post('/', async (req, res) => {
         inputKey = "E-" + inputKey;
     }
 
-    inputKey = inputKey + uuidv4().toString();
+    //inputKey = inputKey + uuidv4().toString();
     
     // token 만드는 코드
     let token = createJwtToken(inputKey);
@@ -113,7 +113,6 @@ router.post('/', async (req, res) => {
         let userCount = 0;
         try{
             let result = await userDao.readCount();
-            console.log('create result.readCount', result[0].dataValues.n_ids);
             console.log(result[0].dataValues.n_ids)
             userCount = result[0].dataValues.n_ids;
         }catch(err){
