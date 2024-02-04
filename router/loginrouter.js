@@ -7,6 +7,8 @@ const kakaoauth = require('../utils/kakaoauth');
 const naverauth = require('../utils/naverauth');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 const constObj = require('../config/const');
+const { v4: uuidv4 } = require('uuid');
+
 
 router.post('/', async (req, res) => {
     let inputLoginType = req.body.loginType;
@@ -65,6 +67,8 @@ router.post('/', async (req, res) => {
 
         inputKey = "E-" + inputKey;
     }
+
+    inputKey = inputKey + uuidv4();
     
     // token 만드는 코드
     let token = createJwtToken(inputKey);
