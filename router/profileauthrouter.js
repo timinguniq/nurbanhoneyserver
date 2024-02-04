@@ -12,9 +12,11 @@ let settingInsigniaOwn = require('../utils/settinginsigniaown');
 let settingInsigniaShown = require('../utils/settinginsigniashown');
 const constObj = require('../config/const');
 
-
 const totalBoardDao = require('../dbdao/totalboarddao');
 const totalCommentDao = require('../dbdao/totalcommentdao');
+const totalLikeDao = require('../dbdao/totallikedao');
+const totalDislikeDao = require('../dbdao/totaldislikedao');
+
 
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
@@ -312,8 +314,11 @@ router.delete('/withdrawal', async (req, res) => {
         // result 1이면 성공 0이면 실패
         // TODO: 관련 글들 삭제 관련 댓글 삭제
         let articleDeleteResult = await totalBoardDao.destoryForUserId(id);
-            
+        let commentDeleteResult = await totalCommentDao.destoryForUserId(id);
+        let likeDeleteResult = await totalLikeDao.destoryWithdrawalForUserId(id);
+        let dislikeDeleteResult = await totalDislikeDao.destoryWithdrawalForUserId(id);
         
+
         if(result === 1){
             resultObject = createJson.result("profile_withdrawal");
             res.status(200).json(resultObject);
