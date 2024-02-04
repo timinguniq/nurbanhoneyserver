@@ -48,6 +48,9 @@ exports.destoryUserId = function destroy(articleId, userId){
 }
 
 // userId로 글 삭제
-exports.destoryWithdrawalForUserId = function desotry(userId){
-    return TotalDislike.desotry({while: {userId: userId}})
+exports.destoryWithdrawalForUserId = function destory(userId){
+    return TotalDislike.destory({
+        where: {userId: userId},
+        truncate: true
+    })
 }

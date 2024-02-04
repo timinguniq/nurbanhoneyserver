@@ -49,5 +49,8 @@ exports.destoryUserId = function destroy(articleId, userId){
 
 // userId로 글 삭제
 exports.destoryWithdrawalForUserId = function destory(userId){
-    return TotalLike.destory({while: {userId: userId}})
+    return TotalLike.destory({
+        where: {userId: userId},
+        truncate: true
+    })
 }

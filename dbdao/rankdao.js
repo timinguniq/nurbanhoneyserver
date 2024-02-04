@@ -41,6 +41,9 @@ exports.destoryAll = function destory() {
 }
 
 // 랭크 데이터 유저 아이디로 삭제
-exports.destoryForUserId = function desotry(userId){
-    return Rank.desotry({while: {userId: userId}})
+exports.destoryForUserId = function destory(userId){
+    return Rank.destory({
+        where: {userId: userId},
+        truncate: true
+    })
 }
