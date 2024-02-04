@@ -40,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
       nickname: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true,
         comment: "닉네임",
       },
       description: {
