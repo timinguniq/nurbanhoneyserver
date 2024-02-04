@@ -529,14 +529,13 @@ exports.updateReflectLossCut = function update(id, reflectLossCut){
 }
 
 // 글 삭제
-exports.destory = function destory(id){
+exports.destroy = function destroy(id){
     return TotalBoard.destroy({where: {id: id}})
 }
 
 // userId로 글 삭제
-exports.destoryForUserId = function destroy(userId){
+exports.destroyForUserId = function destroy(userId){
     return TotalBoard.destroy({
         where: {userId: userId},
-        truncate: true,
     })
 }
