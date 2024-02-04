@@ -534,8 +534,8 @@ exports.destory = function destory(id){
 }
 
 // userId로 글 삭제
-exports.destoryForUserId = function destory(userId){
-    return TotalBoard.destory({
+exports.destoryForUserId = function destroy(userId){
+    return TotalBoard.destroy({
         where: {userId: userId},
         truncate: true,
     })
