@@ -26,7 +26,7 @@ module.exports = async () => {
             }
         }else{
             console.log('rankResult not empty');
-            let deleteResult = await rankDao.destoryAll();
+            let deleteResult = await rankDao.destroyAll();
             console.log("delete Result : ", deleteResult);
             
             if(deleteResult === 1){

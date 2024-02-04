@@ -192,8 +192,8 @@ router.delete('/', async (req, res) => {
     //
 
     try{
-       //let result = await nurbanCommentDao.destory(id);
-       let result = await totalCommentDao.destory(id);
+       //let result = await nurbanCommentDao.destroy(id);
+       let result = await totalCommentDao.destroy(id);
         
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)

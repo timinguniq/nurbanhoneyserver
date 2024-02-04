@@ -310,14 +310,14 @@ router.delete('/withdrawal', async (req, res) => {
     }
 
     try{
-        let result = await userDao.destory(id);
+        let result = await userDao.destroy(id);
         // result 1이면 성공 0이면 실패
         // TODO: 관련 글들 삭제 관련 댓글 삭제
-        let articleDeleteResult = await totalBoardDao.destoryForUserId(id);
-        let commentDeleteResult = await totalCommentDao.destoryForUserId(id);
-        let likeDeleteResult = await totalLikeDao.destoryWithdrawalForUserId(id);
-        let dislikeDeleteResult = await totalDislikeDao.destoryWithdrawalForUserId(id);
-        let rankDeleteResult = await rankDao.destoryForUserId(id);        
+        let articleDeleteResult = await totalBoardDao.destroyForUserId(id);
+        let commentDeleteResult = await totalCommentDao.destroyForUserId(id);
+        let likeDeleteResult = await totalLikeDao.destroyWithdrawalForUserId(id);
+        let dislikeDeleteResult = await totalDislikeDao.destroyWithdrawalForUserId(id);
+        let rankDeleteResult = await rankDao.destroyForUserId(id);        
 
         console.log('delete123 articleDeleteResult', articleDeleteResult);
         console.log('delete123 commentDeleteResult', commentDeleteResult);

@@ -50,11 +50,11 @@ router.post('/', async (req, res) => {
     let articleKey = await extractArticleKey(articleId);
 
     // 싫어요를 삭제하는 코드
-    //await nurbanDislikeDao.destoryUserId(articleId, userId);
-    await totalDislikeDao.destoryUserId(articleId, userId);
+    //await nurbanDislikeDao.destroyUserId(articleId, userId);
+    await totalDislikeDao.destroyUserId(articleId, userId);
     // 좋아요를 삭제하는 코드
-    //await nurbanLikeDao.destoryUserId(articleId, userId);
-    await totalLikeDao.destoryUserId(articleId, userId);
+    //await nurbanLikeDao.destroyUserId(articleId, userId);
+    await totalLikeDao.destroyUserId(articleId, userId);
 
     let nurbanLikeResult;
     // 좋아요를 생성하는 코드
@@ -148,8 +148,8 @@ router.delete('/', async (req, res) => {
 
     let nurbanLikeResult;
     try{
-        //nurbanLikeResult = await nurbanLikeDao.destoryUserId(articleId, userId);
-        nurbanLikeResult = await totalLikeDao.destoryUserId(articleId, userId);
+        //nurbanLikeResult = await nurbanLikeDao.destroyUserId(articleId, userId);
+        nurbanLikeResult = await totalLikeDao.destroyUserId(articleId, userId);
         // result 1이면 성공 0이면 실패
 
         // 싫어요 포인트를 삭제하는 메소드

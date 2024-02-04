@@ -39,9 +39,9 @@ router.post('/', async (req, res) => {
     }
         
     // 싫어요를 삭제하는 코드
-    await noticeDislikeDao.destoryUserId(noticeId, userId);
+    await noticeDislikeDao.destroyUserId(noticeId, userId);
     // 좋아요를 삭제하는 코드
-    await noticeLikeDao.destoryUserId(noticeId, userId);
+    await noticeLikeDao.destroyUserId(noticeId, userId);
 
     let noticeLikeResult;
     // 좋아요를 생성하는 코드
@@ -107,7 +107,7 @@ router.delete('/', async (req, res) => {
 
     let noticeLikeResult;
     try{
-        noticeLikeResult = await noticeLikeDao.destoryUserId(noticeId, userId);
+        noticeLikeResult = await noticeLikeDao.destroyUserId(noticeId, userId);
         // result 1이면 성공 0이면 실패
 
     }catch(err){
