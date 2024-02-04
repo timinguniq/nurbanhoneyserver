@@ -113,6 +113,7 @@ router.post('/', async (req, res) => {
         let userCount = 0;
         try{
             let result = await userDao.readCount();
+            log('')
             console.log(result.dataValues.n_ids)
             userCount = result.dataValues.n_ids;
         }catch(err){
