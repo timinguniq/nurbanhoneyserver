@@ -38,4 +38,9 @@ exports.readPopup = function read(offset = 0, limit = 3){
 exports.destoryAll = function destory() {
     // 전체 데이터 삭제
     return Rank.truncate();
-} 
+}
+
+// 랭크 데이터 유저 아이디로 삭제
+exports.destoryForUserId = function desotry(userId){
+    return Rank.desotry({while: {userId: userId}})
+}

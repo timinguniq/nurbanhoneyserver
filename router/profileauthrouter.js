@@ -16,7 +16,7 @@ const totalBoardDao = require('../dbdao/totalboarddao');
 const totalCommentDao = require('../dbdao/totalcommentdao');
 const totalLikeDao = require('../dbdao/totallikedao');
 const totalDislikeDao = require('../dbdao/totaldislikedao');
-
+const rankDao = require('../dbdao/rankdao');
 
 // 프로필 관련 통신
 // 유저 데이터 받아오는 통신
@@ -317,7 +317,13 @@ router.delete('/withdrawal', async (req, res) => {
         let commentDeleteResult = await totalCommentDao.destoryForUserId(id);
         let likeDeleteResult = await totalLikeDao.destoryWithdrawalForUserId(id);
         let dislikeDeleteResult = await totalDislikeDao.destoryWithdrawalForUserId(id);
-        
+        let rankDeleteResult = await rankDao.destoryForUserId(id);        
+
+        console.log('delete articleDeleteResult', articleDeleteResult);
+        console.log('delete commentDeleteResult', commentDeleteResult);
+        console.log('delete likeDeleteResult', likeDeleteResult);
+        console.log('delete dislikeDeleteResult', dislikeDeleteResult);
+        console.log('delete rnakDeleteResult', rankDeleteResult);
 
         if(result === 1){
             resultObject = createJson.result("profile_withdrawal");
