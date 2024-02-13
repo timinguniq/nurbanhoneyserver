@@ -57,6 +57,6 @@ exports.updateDislikeCount = function update(id, dislikeCount){
 }
 
 // 공지 삭제
-exports.destory = function destory(id){
+exports.destroy = function destroy(id){
     return Notice.destroy({where: {id: id}})
 } 

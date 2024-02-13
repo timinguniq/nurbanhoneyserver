@@ -194,7 +194,7 @@ router.delete('/', async (req, res) => {
             res.status(700).json("comment is not exist");
         }
 
-        let result = await noticeCommentDao.destory(id);
+        let result = await noticeCommentDao.destroy(id);
         // result 1이면 성공 0이면 실패
         console.log(`delete result : ${result}`)
 

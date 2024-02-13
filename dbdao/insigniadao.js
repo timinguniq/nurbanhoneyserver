@@ -46,7 +46,7 @@ exports.updateSetUnShown = function update(insignia, userId){
     return Insignia.update({isShown: false}, {where: {insignia: insignia, userId: userId}})
 }
 
-// destory
-exports.destory = function destory(insignia, userId){
+// destroy
+exports.destroy = function destroy(insignia, userId){
     return Insignia.destroy({where: {insignia: insignia, userId: userId}})
 }

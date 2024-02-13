@@ -37,12 +37,12 @@ exports.update = function update(id){
     return NoticeDislike.update({where: {id: id}})
 }
 
-// destory
-exports.destory = function destory(id){
+// destroy
+exports.destroy = function destroy(id){
     return NoticeDislike.destroy({where: {id: id}})
 }
 
 // destroy noticeId userId
-exports.destoryUserId = function destroy(noticeId, userId){
+exports.destroyUserId = function destroy(noticeId, userId){
     return NoticeDislike.destroy({where: {noticeId: noticeId, userId: userId}})
 }
