@@ -61,6 +61,6 @@ exports.updateContent = function update(id, content){
 }
 
 // 댓글 삭제
-exports.destory = function destory(id){
+exports.destroy = function destroy(id){
     return NoticeComment.destroy({where: {id: id}})
 }

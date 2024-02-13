@@ -156,8 +156,8 @@ router.delete('/', async (req, res) => {
             res.status(401).json(resultObject);
             return res.end();
         }else{
-            //deleteResult = await freeBoardDao.destory(id);
-            deleteResult = await totalBoardDao.destory(id);
+            //deleteResult = await freeBoardDao.destroy(id);
+            deleteResult = await totalBoardDao.destroy(id);
         }
                 
         // deleteResult 1이면 성공 0이면 실패
