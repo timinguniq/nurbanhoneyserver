@@ -68,7 +68,8 @@ router.post('/', async (req, res) => {
         inputKey = "E-" + inputKey;
     }
 
-    inputKey = inputKey + "u" + uuidv4().toString();
+    // TODO: 애초에 이걸 왜 만들었는지 모르겟는데. 일단 주석 처리 해놓음.
+    //inputKey = inputKey + "u" + uuidv4().toString();
     
     // token 만드는 코드
     let token = createJwtToken(inputKey);
