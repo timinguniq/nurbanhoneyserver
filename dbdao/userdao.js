@@ -79,4 +79,3 @@ exports.destroyForUserId = function destroy(id){
         force: true
     });
 }
-
