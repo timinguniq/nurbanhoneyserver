@@ -72,6 +72,11 @@ exports.updateLastTime = function update(id){
 }
 
 exports.destroyForUserId = function destroy(id){
-    return User.destroy({where: {id: id}})
+    return User.destroy({
+        where: {
+            id: id
+        },
+        force: true
+    });
 }
 
