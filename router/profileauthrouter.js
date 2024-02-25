@@ -310,7 +310,7 @@ router.delete('/withdrawal', async (req, res) => {
     }
 
     try{
-        let result = await userDao.destroyForUserId(id);
+        // TODO: 여기 생각해보니까. 하나 실패하면 되돌려야되네.
         // result 1이면 성공 0이면 실패
         // TODO: 관련 글들 삭제 관련 댓글 삭제
         let articleDeleteResult = await totalBoardDao.destroyForUserId(id);
@@ -324,6 +324,8 @@ router.delete('/withdrawal', async (req, res) => {
         console.log('delete123 likeDeleteResult', likeDeleteResult);
         console.log('delete123 dislikeDeleteResult', dislikeDeleteResult);
         console.log('delete123 rnakDeleteResult', rankDeleteResult);
+
+        let result = await userDao.destroyForUserId(id);
 
         if(result === 1){
             resultObject = createJson.result("profile_withdrawal");
