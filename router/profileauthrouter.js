@@ -91,7 +91,7 @@ router.patch('/edit', async (req, res) => {
     // 지금은 '['A', 'B']' 이런 배열 형태의 스트링을 인풋을 받는 것으로 처리하고 있다.
     console.log('insigniaShow : ', insigniaShow);
     let insigniaArray = [];
-    insigniaArray = insigniaShow.replace('[', '').replace(']', '').split(',');
+    insigniaArray = insigniaShow.replace('{', '').replace('}', '').split(',');
     insigniaArray = insigniaArray.map(element => {
         return element.replaceAll('"', '').trim();
     });
