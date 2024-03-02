@@ -86,10 +86,13 @@ router.patch('/edit', async (req, res) => {
     let nickname = req.body.nickname;
     let description = req.body.description;
     let insigniaShow = req.body.insignia;
+    let insigniaShowLength = insigniaShow.length;
 
     // TODO : 나중에 어플에서 어떤 형식으로 오는지 확인하고 변환해야 될듯 
     // 지금은 '['A', 'B']' 이런 배열 형태의 스트링을 인풋을 받는 것으로 처리하고 있다.
     console.log('insigniaShow : ', insigniaShow);
+    console.log('insigniaShow length: ', insigniaShow.length);
+
     let insigniaArray = [];
     insigniaArray = insigniaShow.replace('{', '').replace('}', '').split(',');
     insigniaArray = insigniaArray.map(element => {
