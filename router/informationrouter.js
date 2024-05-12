@@ -27,7 +27,7 @@ router.get('/terms', async (req, res) => {
         //console.log(`result.rows : ${result.rows}`);
         
         resultObject = createJson.one("result", contentObjectList);
-        res.status(200).json(contentObjectList);
+        res.status(200).json(resultObject);
     }catch(err){
         console.log(`err : ${err}`);
         resultObject = createJson.error(err);
