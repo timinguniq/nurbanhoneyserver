@@ -5,7 +5,7 @@ exports.readForFlag = function read(flag){
     return Information.findOne({
         attributes: ['content'],
         where: {
-            id: id 
+            flag: flag,
         }
     })
 }

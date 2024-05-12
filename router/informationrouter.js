@@ -9,7 +9,7 @@ let getInsigniaShown = require('../utils/getinsigniashown');
 // 이용약관 가져오는 데이터 받는 통신
 router.get('/terms', async (req, res) => {
     let resultObject = new Object();
-
+    console.log('/terms');
     try{
         let result = await informationDao.readForFlag(0);
         console.log("result", result);
