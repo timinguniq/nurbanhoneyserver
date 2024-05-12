@@ -30,6 +30,7 @@ var freeCommentRouter = require('./router/freecommentrouter');
 var freeCommentAuthRouter = require('./router/freecommentauthrouter');
 var freeLikeAuthRouter = require('./router/freelikeauthrouter');
 var freeDislikeAuthRouter = require('./router/freedislikeauthrouter');
+var informationRouter = require('./router/informationrouter')
 
 let createRank = require('./utils/createrank');
 let schedule = require('node-schedule');
@@ -140,6 +141,8 @@ app.use('/board', boardRouter);
 app.use('/board/free', freeBoardRouter);
 // freeboard router
 app.use('/board/free/article/comment', freeCommentRouter);
+// information router
+app.use('/information', informationRouter);
 
 // token router
 app.use('/token', tokenRouter);
