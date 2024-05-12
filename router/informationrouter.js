@@ -16,14 +16,17 @@ router.get('/terms', async (req, res) => {
 
         let contentObjectList = [];
 
+        contentObjectList.push(result[0].dataValues.content);
+/*
         for(var i = 0 ; i < result.length ; i++){
-            contentObjectList.push(result[i].dataValues);
+            contentObjectList.push(result[i].dataValues.content);
         }
-
+*/
         console.log("contentObjectArrayList", contentObjectList);
 
         //console.log(`result.rows : ${result.rows}`);
-        //resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
+        
+        resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
         res.status(200).json(contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
