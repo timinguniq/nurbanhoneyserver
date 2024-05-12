@@ -16,7 +16,7 @@ router.get('/terms', async (req, res) => {
 
         let contentObjectList = [];
 
-        contentObjectList.push(result[0].dataValues.content);
+        contentObjectList.push(result[0].content);
 /*
         for(var i = 0 ; i < result.length ; i++){
             contentObjectList.push(result[i].dataValues.content);
