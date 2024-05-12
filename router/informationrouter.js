@@ -26,7 +26,7 @@ router.get('/terms', async (req, res) => {
 
         //console.log(`result.rows : ${result.rows}`);
         
-        resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
+        resultObject = createJson.one("result", contentObjectList);
         res.status(200).json(contentObjectList);
     }catch(err){
         console.log(`err : ${err}`);
