@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: "타입형, 0이면 이용약관, 1이면 개인정보 처리방침",
       },
       content: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         comment: "내용",
       },
