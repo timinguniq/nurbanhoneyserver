@@ -17,14 +17,34 @@ module.exports = async (key, point) => {
         badge = constObj.badge4;
     }else if(point <= 300){
         badge = constObj.badge5;    
-    }else if(point <= 400){
+    }else if(point <= 350){
         badge = constObj.badge6;    
-    }else if(point <= 500){
+    }else if(point <= 400){
         badge = constObj.badge7;
-    }else if(point <= 600){
+    }else if(point <= 450){
         badge = constObj.badge8;
-    }else{
+    }else if(point <= 500){
         badge = constObj.badge9;
+    }else if(point <= 550){
+        badge = constObj.badge10;
+    }else if(point <= 600){
+        badge = constObj.badge11;
+    }else if(point <= 650){
+        badge = constObj.badge12;
+    }else if(point <= 700){
+        badge = constObj.badge13;
+    }else if(point <= 750){
+        badge = constObj.badge14;
+    }else if(point <= 800){
+        badge = constObj.badge15;
+    }else if(point <= 850){
+        badge = constObj.badge16;
+    }else if(point <= 900){
+        badge = constObj.badge17;
+    }else if(point <= 950){
+        badge = constObj.badge18;
+    }else{
+        badge = constObj.badge19;
     }
     
     try{        
