@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       badge: {
         type: DataTypes.STRING(256),
         allowNull: false,
-        defaultValue: "https://nurbanhoneyprofile.s3.ap-northeast-2.amazonaws.com/badge/0.png",
+        defaultValue: "https://nurbanhoneyprofile3.s3.ap-northeast-2.amazonaws.com/badge/0.png",
         comment: "배지 이미지 주소(URL)"
       },
       nickname: {
