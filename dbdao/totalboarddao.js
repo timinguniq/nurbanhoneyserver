@@ -82,7 +82,7 @@ exports.readBoardAll = function read(articleId = -1, limit = 10){
         order: [['id', 'DESC']],
         where: {
             id: {
-              [Op.lte]: articleId // use greater than operator to select records with id > specificId
+              [Op.lt]: articleId // use greater than operator to select records with id > specificId
             },
           },
     });
@@ -202,7 +202,7 @@ exports.readNurban = function read(articleId = -1, limit = 10){
         order: [['id', 'DESC']],
         where: {
             id: {
-              [Op.lte]: articleId // use greater than operator to select records with id > specificId
+              [Op.lt]: articleId // use greater than operator to select records with id > specificId
             },
             board: constObj.nurban,
           },
@@ -327,7 +327,7 @@ exports.readFree = function read(articleId = -1, limit = 10){
         order: [['id', 'DESC']],
         where: {
             id: {
-              [Op.lte]: articleId // use greater than operator to select records with id > specificId
+              [Op.lt]: articleId // use greater than operator to select records with id > specificId
             },
             board: constObj.free,
           },
