@@ -119,6 +119,17 @@ router.get('/', async (req, res) => {
         return res.end();
     }
 
+    let token = req.headers.authorization?.replace('Bearer ', '');
+    let userId = null;
+
+    if(token !== null && token !== undefined){
+        // 토큰에서 키 값 추출
+        let key = extractKey(token);
+
+        // 키값으로 userId값 가져오기
+        userId = await extractUserId(key);
+    }
+
     // 썸네일, 제목, 댓글 개수
     try{
         let result;
@@ -143,13 +154,22 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
         let insigniaList = [];
 
+        let myRating = null;
+
+        if(userId !== null && userId !== undefined){
+            // 좋아요 데이터 받아오는 코드
+            myRating = await createNurbanMyrating(articleId, userId);
+        }
+
         for(var i = 0 ; i < result.length ; i++){
             console.log("result user ", result[i].dataValues.user.dataValues);
 
             insigniaList = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
-
+            // 휘장
             result[i].dataValues.user.dataValues.insignia = insigniaList
-            //
+            // 유저 myRating
+            result[i].dataValues.user.dataValues.insignia = myRating;
+
             contentObjectList.push(result[i].dataValues);
             
             insigniaList = [];
