@@ -111,6 +111,17 @@ router.get('/', async (req, res) => {
         return res.end();
     }
 
+    let token = req.headers.authorization?.replace('Bearer ', '');
+    let userId = null;
+
+    if(token !== null && token !== undefined){
+        // 토큰에서 키 값 추출
+        let key = extractKey(token);
+
+        // 키값으로 userId값 가져오기
+        userId = await extractUserId(key);
+    }
+
     // 썸네일, 제목, 댓글 개수
     try{
         let result;
@@ -132,10 +143,19 @@ router.get('/', async (req, res) => {
         }
         console.log("result", result);
 
+        let myRating = null;
+
+        if(userId !== null && userId !== undefined){
+            // 좋아요 데이터 받아오는 코드
+            myRating = await createFreeMyrating(articleId, userId);
+        }
+
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
             result[i].dataValues.user.dataValues.insignia = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
+
+            result[i].dataValues.user.dataValues.myRating = myRating;
 
             contentObjectList.push(result[i].dataValues);
         }
