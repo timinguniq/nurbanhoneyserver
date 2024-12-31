@@ -145,15 +145,15 @@ router.get('/', async (req, res) => {
 
         let myRatingValue = null;
 
-        if(userId !== null && userId !== undefined){
-            // 좋아요 데이터 받아오는 코드
-            myRatingValue = await createFreeMyrating(articleId, userId);
-        }
-
         let contentObjectList = [];
 
         for(var i = 0 ; i < result.length ; i++){
             result[i].dataValues.user.dataValues.insignia = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
+
+            if(userId !== null && userId !== undefined){
+                // 좋아요 데이터 받아오는 코드
+                myRatingValue = await createNurbanMyrating(result[i].dataValues.id, userId);
+            }
 
             result[i].dataValues.myRating = myRatingValue;
 
