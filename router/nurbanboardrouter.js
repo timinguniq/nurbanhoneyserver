@@ -163,12 +163,13 @@ router.get('/', async (req, res) => {
 
         for(var i = 0 ; i < result.length ; i++){
             console.log("result user ", result[i].dataValues.user.dataValues);
+            console.log("result user myRatingValue: ", myRatingValue);
 
             insigniaList = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
             // 휘장
             result[i].dataValues.user.dataValues.insignia = insigniaList
             // 유저 myRating
-            result[i].dataValues.user.dataValues.myRating = myRatingValue;
+            result[i].dataValues.myRating = myRatingValue;
 
             contentObjectList.push(result[i].dataValues);
             
