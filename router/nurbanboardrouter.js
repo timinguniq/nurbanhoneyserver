@@ -156,6 +156,7 @@ router.get('/', async (req, res) => {
 
         let myRatingValue = null;
 
+        console.log("result userId ", userId);
         if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
             myRatingValue = await createNurbanMyrating(articleId, userId);
