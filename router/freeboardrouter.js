@@ -143,11 +143,11 @@ router.get('/', async (req, res) => {
         }
         console.log("result", result);
 
-        let myRating = null;
+        let myRatingValue = null;
 
         if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
-            myRating = await createFreeMyrating(articleId, userId);
+            myRatingValue = await createFreeMyrating(articleId, userId);
         }
 
         let contentObjectList = [];
@@ -155,7 +155,7 @@ router.get('/', async (req, res) => {
         for(var i = 0 ; i < result.length ; i++){
             result[i].dataValues.user.dataValues.insignia = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
 
-            result[i].dataValues.myRating = myRating;
+            result[i].dataValues.myRating = myRatingValue;
 
             contentObjectList.push(result[i].dataValues);
         }

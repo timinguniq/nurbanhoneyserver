@@ -154,11 +154,11 @@ router.get('/', async (req, res) => {
         let contentObjectList = [];
         let insigniaList = [];
 
-        let myRating = null;
+        let myRatingValue = null;
 
         if(userId !== null && userId !== undefined){
             // 좋아요 데이터 받아오는 코드
-            myRating = await createNurbanMyrating(articleId, userId);
+            myRatingValue = await createNurbanMyrating(articleId, userId);
         }
 
         for(var i = 0 ; i < result.length ; i++){
@@ -168,7 +168,7 @@ router.get('/', async (req, res) => {
             // 휘장
             result[i].dataValues.user.dataValues.insignia = insigniaList
             // 유저 myRating
-            result[i].dataValues.myRating = myRating;
+            result[i].dataValues.myRating = myRatingValue;
 
             contentObjectList.push(result[i].dataValues);
             
