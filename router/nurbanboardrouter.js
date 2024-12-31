@@ -168,7 +168,7 @@ router.get('/', async (req, res) => {
             // 휘장
             result[i].dataValues.user.dataValues.insignia = insigniaList
             // 유저 myRating
-            result[i].dataValues.myRating.dataValues = myRatingValue;
+            result[i].dataValues.myRating = myRatingValue;
 
             contentObjectList.push(result[i].dataValues);
             

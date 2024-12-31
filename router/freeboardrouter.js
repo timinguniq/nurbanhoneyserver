@@ -155,7 +155,7 @@ router.get('/', async (req, res) => {
         for(var i = 0 ; i < result.length ; i++){
             result[i].dataValues.user.dataValues.insignia = await getInsigniaShown(result[i].dataValues.user.dataValues.userId);
 
-            result[i].dataValues.myRating.dataValues = myRatingValue;
+            result[i].dataValues.myRating = myRatingValue;
 
             contentObjectList.push(result[i].dataValues);
         }
