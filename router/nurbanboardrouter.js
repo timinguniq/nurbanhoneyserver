@@ -83,7 +83,7 @@ router.get('/article', async (req, res) => {
     }catch(err){
         console.log('article detail err : ', err);
         resultObject = createJson.error("article is not exist");
-        res.status(500).json(resultObject);
+        res.status(404).json(resultObject);
     }
   
     let curDate = new Date();
