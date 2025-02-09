@@ -20,7 +20,9 @@ const totalBoardDao = require('../dbdao/totalboarddao');
 router.post('/', async (req, res) => {
     let uuid = req.body.uuid;
     let title = req.body.title;
+    let thumbnail = req.body.thumbnail;
     let content = req.body.content;
+    let lossCut = req.body.lossCut;
     let userId = '';
 
     let contentObject = new Object();
@@ -53,7 +55,8 @@ router.post('/', async (req, res) => {
     // 너반꿀 게시판 글 작성
     try{
         //let result = await freeBoardDao.create(uuid, thumbnail, title, content, userId);
-        let result = await totalBoardDao.create(uuid, constObj.free, null, title, null, content, userId);
+        /// create(uuid, board, thumbnail, title, lossCut, content, userId)
+        let result = await totalBoardDao.create(uuid, constObj.free, thumbnail, title, lossCut, content, userId);
         console.log(`create : ${result}`);
 
         // 포인트를 올리는 메소드
