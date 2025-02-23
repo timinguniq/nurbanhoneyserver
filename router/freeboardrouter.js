@@ -8,7 +8,6 @@ var extractUserId = require('../utils/extractuserid');
 let createFreeMyrating = require('../utils/createfreemyrating');
 let getInsigniaShown = require('../utils/getinsigniashown');
 
-
 const totalBoardDao = require('../dbdao/totalboarddao');
 
 // 토큰 없이 이용 가능한 통신들
@@ -152,7 +151,7 @@ router.get('/', async (req, res) => {
 
             if(userId !== null && userId !== undefined){
                 // 좋아요 데이터 받아오는 코드
-                myRatingValue = await createNurbanMyrating(result[i].dataValues.id, userId);
+                myRatingValue = await createFreeMyrating(result[i].dataValues.id, userId);
             }
 
             result[i].dataValues.myRating = myRatingValue;
