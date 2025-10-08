@@ -73,7 +73,7 @@ router.post('/', async (req, res) => {
     
     // token 만드는 코드
     let token = createJwtToken(inputKey);
-
+    console.log(`token : ${token}`);
     let isRead = false
     let userId = 0
     // 이메일이 있는지 DB에서 확인하는 코드
