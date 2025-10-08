@@ -24,9 +24,11 @@ router.post('/', async (req, res) => {
         return res.end();
     }
 
-    if(!inputKey.includes("@")){
-        inputPassword = "1111";
-    }
+    //if(!inputKey.includes("@")){
+    //    inputPassword = "1111";
+    //}
+    /// TODO: 나중에 이메일 로그인 만들면 수정하기
+    inputPassword = "1111";
 
     // 로그인 타입 확인하는 코드
     if(inputLoginType !== "kakao" && inputLoginType !== "google" && inputLoginType !== "naver" && inputLoginType !== "email"){
