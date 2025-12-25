@@ -28,7 +28,7 @@
     "multer": "^1.4.4",
     "mysql2": "^2.3.3",
     "node-schedule": "^2.1.0",
-    "sequelize": "^6.34.0",
+    "sequelize": "^6.37.7",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.12"
   }
