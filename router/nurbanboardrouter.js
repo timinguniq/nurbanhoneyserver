@@ -15,13 +15,13 @@ const totalBoardDao = require('../dbdao/totalboarddao');
 // 토큰 없이 이용 가능한 통신들
 
 let preDate = 0;
-// 글 상세 데이터 받아오는 메소드
+// 글 상세 데이터 받아오는 메소드 
 router.get('/article', async (req, res) => {
     let id = req.query.id;
     let token = req.headers.authorization?.replace('Bearer ', '');
     let userId = null;
 
-    if(token !== null && token !== undefined){
+    if (token !== null && token !== undefined) {
         // 토큰에서 키 값 추출
         let key = extractKey(token);
 
@@ -34,7 +34,7 @@ router.get('/article', async (req, res) => {
 
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [id];
-    if(await inputErrorHandler(inputArray)){
+    if (await inputErrorHandler(inputArray)) {
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
         return res.end();
@@ -42,7 +42,7 @@ router.get('/article', async (req, res) => {
 
     let articleCount = 0
     // id 값으로 데이터 읽기
-    try{
+    try {
         console.log('article detail id : ', id);
         //let result = await nurbanBoardDao.readForId(id);
         let result = await totalBoardDao.readForId(id);
@@ -69,33 +69,33 @@ router.get('/article', async (req, res) => {
 
         console.log('article detail insignia : ', insignia);
 
-        if(userId !== null && userId !== undefined){
+        if (userId !== null && userId !== undefined) {
             // 좋아요 데이터 받아오는 코드
             myRating = await createNurbanMyrating(articleId, userId);
         }
 
-        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt", 
-                "userId", "badge", "nickname", "insignia", "myRating"];
-        let valueList = [articleId, uuid, thumbnail, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt, 
+        let nameList = ["id", "uuid", "thumbnail", "title", "lossCut", "content", "count", "commentCount", "likeCount", "dislikeCount", "updatedAt",
+            "userId", "badge", "nickname", "insignia", "myRating"];
+        let valueList = [articleId, uuid, thumbnail, title, lossCut, content, count, commentCount, likeCount, dislikeCount, updatedAt,
             authorUserId, badge, nickname, insignia, myRating];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
-    }catch(err){
+    } catch (err) {
         console.log('article detail err : ', err);
         resultObject = createJson.error("article is not exist");
         res.status(404).json(resultObject);
     }
-  
+
     let curDate = new Date();
     // 조회수 카운트 플러스하는 코드
-    try{
+    try {
         console.log(`curDate : ${curDate}, preDate : ${preDate}`);
-        if(curDate - preDate >= constObj.countInterval){
+        if (curDate - preDate >= constObj.countInterval) {
             //let result = await nurbanBoardDao.updateCount(id, ++articleCount);
             let result = await totalBoardDao.updateCount(id, ++articleCount);
-            console.log(`nurbanboard detail updateCount result : ${result}`);      
+            console.log(`nurbanboard detail updateCount result : ${result}`);
         }
-    }catch(err){
+    } catch (err) {
         console.log(`nurbanboard detail updateCount err : ${err}`);
     }
 
@@ -106,14 +106,14 @@ router.get('/article', async (req, res) => {
 router.get('/', async (req, res) => {
     let articleId = req.query.articleId;
     let flag = req.query.flag;
-    let limit = req.query.limit;    
+    let limit = req.query.limit;
 
     let contentObject = new Object();
     let resultObject = new Object();
 
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [flag];
-    if(await inputErrorHandler(inputArray)){
+    if (await inputErrorHandler(inputArray)) {
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
         return res.end();
@@ -121,8 +121,7 @@ router.get('/', async (req, res) => {
 
     let token = req.headers.authorization?.replace('Bearer ', '');
     let userId = null;
-
-    if(token !== null && token !== undefined){
+    if (token !== '__empty__' && token !== 'null' && token !== null && token !== undefined) {
         // 토큰에서 키 값 추출
         let key = extractKey(token);
 
@@ -131,19 +130,19 @@ router.get('/', async (req, res) => {
     }
 
     // 썸네일, 제목, 댓글 개수
-    try{
+    try {
         let result;
         let iFlag = Number(flag);
-        if(iFlag === constObj.defaultOrder){
+        if (iFlag === constObj.defaultOrder) {
             //result = await nurbanBoardDao.read(articleId, limit);
             result = await totalBoardDao.readNurban(articleId, limit);
-        }else if(iFlag === constObj.countOrder){
+        } else if (iFlag === constObj.countOrder) {
             //result = await nurbanBoardDao.readCount(articleId, limit);
             result = await totalBoardDao.readCountNurban(articleId, limit);
-        }else if(iFlag === constObj.likeCountOrder){
+        } else if (iFlag === constObj.likeCountOrder) {
             //result = await nurbanBoardDao.readLikeCount(articleId, limit);
             result = await totalBoardDao.readLikeCountNurban(articleId, limit);
-        }else{
+        } else {
             // 에러
             resultObject = createJson.error("flag is not correct");
             res.status(400).json(resultObject);
@@ -158,7 +157,7 @@ router.get('/', async (req, res) => {
 
         console.log("result userId ", userId);
 
-        for(var i = 0 ; i < result.length ; i++){
+        for (var i = 0; i < result.length; i++) {
             console.log("result user ", result[i].dataValues.user.dataValues);
             console.log("result user myRatingValue: ", myRatingValue);
 
@@ -166,7 +165,7 @@ router.get('/', async (req, res) => {
             // 휘장
             result[i].dataValues.user.dataValues.insignia = insigniaList
 
-            if(userId !== null && userId !== undefined){
+            if (userId !== null && userId !== undefined) {
                 // 좋아요 데이터 받아오는 코드
                 myRatingValue = await createNurbanMyrating(result[i].dataValues.id, userId);
             }
@@ -174,16 +173,16 @@ router.get('/', async (req, res) => {
             result[i].dataValues.myRating = myRatingValue;
 
             contentObjectList.push(result[i].dataValues);
-            
+
             insigniaList = [];
-        }      
+        }
 
         console.log("contentObjectArrayList", contentObjectList);
 
         //console.log(`result.rows : ${result.rows}`);
         //resultObject = createJson.one("nurbanboard_list_result", contentObjectList);
         res.status(200).json(contentObjectList);
-    }catch(err){
+    } catch (err) {
         console.log(`err : ${err}`);
         resultObject = createJson.error(err);
         res.status(500).json(resultObject);
@@ -196,7 +195,8 @@ router.get('/article/myrating', async (req, res) => {
     let token = req.headers.authorization?.replace('Bearer ', '');
     let userId = null;
 
-    if(token !== null && token !== undefined){
+    if (token !== '__empty__' && token !== 'null' && token !== null && token !== undefined) {
+        console.log('token is not null');
         // 토큰에서 키 값 추출
         let key = extractKey(token);
 
@@ -205,24 +205,24 @@ router.get('/article/myrating', async (req, res) => {
     }
 
     let resultObject = new Object();
-    
+
     // 필수 input 값이 null이거나 undefined면 에러
     let inputArray = [articleId];
-    if(await inputErrorHandler(inputArray)){
+    if (await inputErrorHandler(inputArray)) {
         resultObject = createJson.error("input is null");
         res.status(400).json(resultObject);
         return res.end();
     }
 
     // id 값으로 데이터 읽기
-    try{
+    try {
         //let result = await nurbanBoardDao.readForId(articleId);
         let result = await totalBoardDao.readForId(articleId);
         let likeCount = result.likeCount;
         let dislikeCount = result.dislikeCount;
         let myRating = null;
 
-        if(userId !== null && userId !== undefined){
+        if (userId !== null && userId !== undefined) {
             myRating = await createNurbanMyrating(articleId, userId);
         }
 
@@ -230,10 +230,10 @@ router.get('/article/myrating', async (req, res) => {
         let valueList = [articleId, likeCount, dislikeCount, myRating];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
-    }catch(err){
+    } catch (err) {
         resultObject = createJson.error("article is not exist");
         res.status(500).json(resultObject);
-    }  
+    }
 });
 
 
