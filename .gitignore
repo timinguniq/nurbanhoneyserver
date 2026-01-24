@@ -105,3 +105,6 @@ dist
 
 # config directory
 /config/*
+
+# public directory
+/public/*
