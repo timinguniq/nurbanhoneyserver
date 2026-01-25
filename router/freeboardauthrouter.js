@@ -4,8 +4,8 @@ const userDao = require('../dbdao/userdao');
 var createJson = require('../utils/createjson');
 var extractKey = require('../utils/extractkey');
 var extractUserId = require('../utils/extractuserid');
-var s3upload = require('../utils/localupload');
-var s3delete = require('../utils/localdelete');
+var localUpload = require('../utils/localupload');
+var localDelete = require('../utils/localdelete');
 let inputErrorHandler = require('../utils/inputerrorhandler');
 let awsObj = require('../config/aws');
 let constObj = require('../config/const');
@@ -195,8 +195,8 @@ router.delete('/', async (req, res) => {
     }
 
     if (deleteResult === 1) {
-        // s3에 글 이미지 삭제하기
-        s3delete(awsObj.s3freeboardname, uuid);
+        // 로컬에 글 이미지 삭제하기
+        localDelete(awsObj.s3freeboardname, uuid);
     }
 });
 
@@ -223,7 +223,7 @@ router.post('/upload/image', async (req, res) => {
     let bodyBuffer = new Buffer.from(bufferObj.data);
 
     // 로컬 파일 업로드 하는 메소드
-    s3upload(awsObj.s3freeboardname, uuid, imageFileName, bodyBuffer, (resultObject) => {
+    localUpload(awsObj.s3freeboardname, uuid, imageFileName, bodyBuffer, (resultObject) => {
         if (resultObject.result !== null && resultObject.result !== undefined) {
             res.status(200).json(resultObject);
         } else {
@@ -249,7 +249,7 @@ router.delete('/upload/image', async (req, res) => {
 
     try {
         // 로컬 글 이미지 삭제하기
-        let result = await s3delete(awsObj.s3freeboardname, uuid);
+        let result = await localDelete(awsObj.s3freeboardname, uuid);
 
         resultObject = createJson.result("freeboard_image_deleted");
         res.status(200).json(resultObject);

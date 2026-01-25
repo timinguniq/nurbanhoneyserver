@@ -196,8 +196,8 @@ router.delete('/', async (req, res) => {
     }
 
     if (deleteResult === 1) {
-        // s3에 글 이미지 삭제하기
-        s3delete(awsObj.s3nurbanboardname, uuid);
+        // 로컬에 글 이미지 삭제하기
+        localDelete(awsObj.s3nurbanboardname, uuid);
     }
 });
 
