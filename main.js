@@ -3,6 +3,7 @@ const app = express();
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer();
+const path = require('path');
 const { sequelize } = require('./models');
 var createJson = require('./utils/createjson');
 var appversionRouter = require('./router/appversionrouter');
@@ -40,19 +41,19 @@ const { v4: uuidv4 } = require('uuid');
 app.use(express.json());
 // x-www-form-urlencoded를 파싱하기 위해서 아래를 확장해야 한다.
 app.use(express.urlencoded({
-    extended: true
+  extended: true
 }));
 // for parsing multipart/form-data
 app.use(upload.array('image'));
 app.use(express.static('public'));
 
 sequelize.sync({ force: false })
-.then(() => {
-  console.log('데이터베이스 연결 성공');
-})
-.catch((err) => {
-  console.error(err);
-});
+  .then(() => {
+    console.log('데이터베이스 연결 성공');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 // 이거 시간 기준 UTC+0
 /*
@@ -70,7 +71,7 @@ sequelize.sync({ force: false })
 const job = schedule.scheduleJob('5 0 0 1 * *', createRank);
 
 app.get('/', (req, res) => {
-    res.send('Hello world1')
+  res.send('Hello world1')
 });
 
 // token_expire 테스트 코드
@@ -143,6 +144,10 @@ app.use('/board/free', freeBoardRouter);
 app.use('/board/free/article/comment', freeCommentRouter);
 // information router
 app.use('/information', informationRouter);
+// 'uploads' 폴더 안에 있는 파일들을 외부에서 접근 가능하게 설정
+// 예: http://서버IP:3000/images/cat.jpg 로 접근 가능
+app.use('/images', express.static(path.join(__dirname, 'public/uploads')));
+
 
 // token router
 app.use('/token', tokenRouter);
@@ -175,6 +180,8 @@ app.use('/board/free/article/like', freeLikeAuthRouter);
 app.use('/board/free/article/dislike', freeDislikeAuthRouter);
 
 
-app.listen(8128, function(){
-    console.log('Example app listening on port 8128!')
+
+
+app.listen(8128, function () {
+  console.log('Example app listening on port 8128!')
 });

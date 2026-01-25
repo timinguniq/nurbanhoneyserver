@@ -24,7 +24,7 @@ module.exports = async (bucketName, folderName, imageFileName, bodyBuffer, callb
         } else {
             // 웹 접근 가능한 상대 경로 반환 (예: /uploads/uuid/filename.png)
             // bucketName이 URL에 포함되어야 한다면 조정 필요. 현재는 folderName/imageFileName 구조
-            const publicUrl = `/uploads/${folderName}/${imageFileName}`;
+            const publicUrl = `/images/${folderName}/${imageFileName}`;
             let resultObject = createJson.result(publicUrl);
             return callback(resultObject);
         }

@@ -232,8 +232,8 @@ router.post('/upload/image', async (req, res) => {
     //
 
     let imageFileNameSize = JSON.stringify(imageFiles[0].originalname).split('\\').length;
-    let imageFileName = JSON.stringify(imageFiles[0].originalname).split('\\')[imageFileNameSize - 1];
-
+    let imageFileName = JSON.stringify(imageFiles[0].originalname).split('\\')[imageFileNameSize - 1].replace(/"/g, '');
+    console.log('upload image imageFileName : ', imageFileName);
     let bufferObj = JSON.parse(JSON.stringify(imageFiles[0].buffer));
     let bodyBuffer = new Buffer.from(bufferObj.data);
 
