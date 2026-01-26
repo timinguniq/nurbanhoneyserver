@@ -147,7 +147,8 @@ app.use('/information', informationRouter);
 // 'uploads' 폴더 안에 있는 파일들을 외부에서 접근 가능하게 설정
 // 예: http://서버IP:3000/images/cat.jpg 로 접근 가능
 app.use('/images', express.static(path.join(__dirname, 'public/uploads')));
-
+app.use('/badge', express.static(path.join(__dirname, 'public/badge')));
+app.use('/insignia', express.static(path.join(__dirname, 'public/insignia')));
 
 // token router
 app.use('/token', tokenRouter);
