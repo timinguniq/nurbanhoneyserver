@@ -206,8 +206,6 @@ router.post('/upload/image', async (req, res) => {
     let imageFiles = req.files;
     let uuid = req.body.uuid;
 
-    console.log('upload image imageFiles : ', imageFiles);
-    console.log('upload image uuid : ', uuid);
     let contentObject = new Object();
     let resultObject = new Object();
 
