@@ -41,6 +41,7 @@ router.get('/', async (req, res) => {
         let description = result.description;
         let point = result.point;
         let totalLossCut = result.totalLossCut;
+        let createdAt = result.createdAt;
 
         //let nurbanBoardResult = await nurbanBoardDao.readCountForUserId(id);        
         //let myArticleCount = nurbanBoardResult[0].dataValues.n_ids;
@@ -69,9 +70,9 @@ router.get('/', async (req, res) => {
         var insigniaShownList = await settingInsigniaShown(id);       
         
         let nameList = ["id", "loginType", "badge", "nickname", "description", "point",
-         "insigniaShow", "insigniaOwn", "myArticleCount", "myCommentCount"];
+         "insigniaShow", "insigniaOwn", "myArticleCount", "myCommentCount", "createdAt"];
         let valueList = [id, loginType, badge, nickname, description, point, 
-            insigniaShownList, insigniaOwnList ,myArticleCount, myCommentCount];
+            insigniaShownList, insigniaOwnList ,myArticleCount, myCommentCount, createdAt];
         resultObject = createJson.multi(nameList, valueList);
         res.status(200).json(resultObject);
     }catch(err){
